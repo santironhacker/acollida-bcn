@@ -1,31 +1,54 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <header class="sticky-top">
+      <AppHeader></AppHeader>
+    </header>
+    <router-view></router-view>
+    <!-- <pre>{{ $data }}</pre> -->
+    <footer>
+      <!-- class="fixed-bottom" -->
+      <AppFooter></AppFooter>
+    </footer>
   </div>
 </template>
 
+<script>
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
+export default {
+  components: {
+    AppHeader,
+    AppFooter
+  },
+  data: function() {
+    return {
+      ex: 'youpi'
+    };
+  }
+};
+</script>
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: Ubuntu, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: justify;
+  color: rgba(20, 19, 19, 0.842);
+}
+
+#back-color {
+  background-color: #f38148;
+}
+
+.title {
+  font-weight: 750;
+}
+
+.text-center {
   text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.error {
+  color: red;
 }
 </style>
