@@ -34,28 +34,41 @@ export default {
       openCampaigns: [
         {
           title: 'Setmana Santa 2020',
-          startDate: '16/04/2020',
-          endDate: '16/04/2020'
+          // startDate: '16/04/2020',
+          startDate: '1586995200000',
+          // endDate: '16/04/2020'
+          endDate: '1587340799000',
+          status: 1
         }
       ],
       closedCampaigns: [
         {
           title: 'Bus Núvol',
           startDate: '',
-          endDate: ''
+          endDate: '',
+          status: 4
         },
         {
           title: 'Estiu 2019',
-          startDate: '',
-          endDate: ''
+          startDate: '1562018400000',
+          endDate: '1567375200000',
+          status: 3
+        },
+        {
+          title: 'Setmana Santa 2019',
+          startDate: '1555531200000',
+          endDate: '1555891199000',
+          status: 2
         },
         {
           title: 'Trobada Europea 2019 - Madrid',
-          startDate: '',
-          endDate: ''
+          startDate: '1545949800000',
+          endDate: '1546416000000',
+          status: 4
         }
       ]
     };
   }
 };
 </script>
+

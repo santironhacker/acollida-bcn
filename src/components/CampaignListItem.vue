@@ -1,7 +1,11 @@
 <template>
   <div class="card mb-2">
     <div class="card-title pt-2 pl-2 mb-0">{{ item.title }}</div>
-    <div class="pt-2 pl-2">Del {{ item.startDate }} al {{ item.endDate }}</div>
+    <div class="pt-1 pl-2">Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}</div>
+    <div class="pt-1 pl-2 text-success" v-if="item.status === 1">Places disponibles</div>
+    <div class="pt-1 pl-2 text-info" v-if="item.status === 2">Poques places disponibles</div>
+    <div class="pt-1 pl-2 text-warning" v-if="item.status === 3">Amb llista d'espera</div>
+    <div class="pt-1 pl-2 text-danger" v-if="item.status === 4">Inscripcions tancades</div>
   </div>
 </template>
 

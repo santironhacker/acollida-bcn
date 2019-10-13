@@ -29,6 +29,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+/* ICONS */
 Vue.use(BootstrapVue, Vuelidate, {
   // This is the default
   inject: true,
@@ -46,10 +47,35 @@ library.add(
   faTwitter
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
-dom.watch();
 
+/* FILTERS */
+Vue.filter('formatDate', function(timestamp) {
+  if (!timestamp) {
+    return '?-?-?';
+  } else {
+    // Create a new JavaScript Date object based on the timestamp
+    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+    const date = new Date(timestamp * 1);
+    // Will display time in 10:30:23 format
+    // const hours = date.getHours();
+    // const minutes = '0' + date.getMinutes();
+    // const seconds = '0' + date.getSeconds();
+    // const formattedTime =
+    //  hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    // return formattedTime;
+    // Will display date in dd-MM-YYYY format
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return day + '-' + month + '-' + year;
+  }
+});
+
+/* OTHERS */
+dom.watch();
 Vue.config.productionTip = false;
 
+/* FIREBASE */
 // const firebaseConfig = {};
 const firebaseConfig = {
   apiKey: 'api-key',

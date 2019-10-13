@@ -5,7 +5,8 @@
     </header>
     <router-view></router-view>
     <!-- <pre>{{ $data }}</pre> -->
-    <footer class="fixed-bottom">
+    <!-- class="fixed-bottom" -->
+    <footer>
       <AppFooter></AppFooter>
     </footer>
   </div>
