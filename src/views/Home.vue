@@ -3,7 +3,9 @@
     <b-container fluid style="max-width: 100%">
       <b-row>
         <b-col>
-          <div class="pt-2 pb-2 title">Punt de trobada entre Taizé i Barcelona</div>
+          <div class="pt-2 pb-2 title">
+            Punt de trobada entre Taizé i Barcelona
+          </div>
         </b-col>
       </b-row>
       <b-row>
@@ -20,15 +22,18 @@
         <b-col>
           <div class="pt-2 pb-2 pl-0">
             <ol style="padding-inline-start:1rem">
-              <li
-                type="circle"
-              >Informa't de les nostres campanyes per viatjar acompanyat fins a Taizé.</li>
-              <li
-                type="circle"
-              >Assabenta't de les pregàries celebrades a l'area metropolitana de Barcelona.</li>
-              <li
-                type="circle"
-              >Escriu-nos per conèixer més sobre la comunitat i la rebuda que fan als joves.</li>
+              <li type="circle">
+                Informa't de les nostres campanyes per viatjar acompanyat fins a
+                Taizé.
+              </li>
+              <li type="circle">
+                Assabenta't de les pregàries celebrades a l'area metropolitana
+                de Barcelona.
+              </li>
+              <li type="circle">
+                Escriu-nos per conèixer més sobre la comunitat i la rebuda que
+                fan als joves.
+              </li>
             </ol>
           </div>
         </b-col>
@@ -43,8 +48,8 @@
       </b-row>
       <b-row>
         <b-col cols="12">
-          Vols saber quan marxa el proper bus a Taizé?
-          Subscriu-te al butlleti i rebràs els avisos d'inici de campanya.
+          Vols saber quan marxa el proper bus a Taizé? Subscriu-te al butlleti i
+          rebràs els avisos d'inici de campanya.
         </b-col>
       </b-row>
       <b-row>
@@ -53,11 +58,24 @@
             <div class="form-group">
               <label
                 class="control-label"
-                :class="$v.form.name.$error ? 'text-danger' : $v.form.name.$dirty ? 'text-success' : ''"
-              >Nom: *</label>
+                :class="
+                  $v.form.name.$error
+                    ? 'text-danger'
+                    : $v.form.name.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Nom: *</label
+              >
               <input
                 class="form-control"
-                :class="$v.form.name.$error ? 'is-invalid ': $v.form.name.$dirty ? 'is-valid' : ''"
+                :class="
+                  $v.form.name.$error
+                    ? 'is-invalid '
+                    : $v.form.name.$dirty
+                    ? 'is-valid'
+                    : ''
+                "
                 v-model.lazy.trim="$v.form.name.$model"
                 type="text"
                 id="name"
@@ -65,22 +83,40 @@
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.name.required && $v.form.name.$error"
-              >Camp obligatori</div>
+              >
+                Camp obligatori
+              </div>
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.name.minLength && $v.form.name.$error"
-              >El nom ha de tenir com a mínim {{$v.form.name.$params.minLength.min}} lletres.</div>
+              >
+                El nom ha de tenir com a mínim
+                {{ $v.form.name.$params.minLength.min }} lletres.
+              </div>
             </div>
 
             <div class="form-group mt-2">
               <label
                 for="surname"
                 class="control-label"
-                :class="$v.form.surname.$error ? 'text-danger' : $v.form.surname.$dirty ? 'text-success' : '' "
-              >Cognoms: *</label>
+                :class="
+                  $v.form.surname.$error
+                    ? 'text-danger'
+                    : $v.form.surname.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Cognoms: *</label
+              >
               <input
                 class="form-control"
-                :class="$v.form.surname.$error ? 'is-invalid ': $v.form.surname.$dirty ? 'is-valid' : ''"
+                :class="
+                  $v.form.surname.$error
+                    ? 'is-invalid '
+                    : $v.form.surname.$dirty
+                    ? 'is-valid'
+                    : ''
+                "
                 v-model.lazy.trim="$v.form.surname.$model"
                 type="text"
                 id="surname"
@@ -88,22 +124,40 @@
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.surname.required && $v.form.surname.$error"
-              >Camp obligatori</div>
+              >
+                Camp obligatori
+              </div>
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.surname.minLength && $v.form.surname.$error"
-              >Els cognoms han de tenir com a mínim {{$v.form.name.$params.minLength.min}} lletres.</div>
+              >
+                Els cognoms han de tenir com a mínim
+                {{ $v.form.name.$params.minLength.min }} lletres.
+              </div>
             </div>
 
             <div class="form-group mt-2">
               <label
                 for="email"
                 class="control-label"
-                :class="$v.form.email.$error ? 'text-danger' : $v.form.email.$dirty ? 'text-success' : '' "
-              >Correu electrònic: *</label>
+                :class="
+                  $v.form.email.$error
+                    ? 'text-danger'
+                    : $v.form.email.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Correu electrònic: *</label
+              >
               <input
                 class="form-control"
-                :class="$v.form.email.$error ? 'is-invalid ': $v.form.email.$dirty ? 'is-valid' : ''"
+                :class="
+                  $v.form.email.$error
+                    ? 'is-invalid '
+                    : $v.form.email.$dirty
+                    ? 'is-valid'
+                    : ''
+                "
                 v-model.lazy.trim="$v.form.email.$model"
                 type="email"
                 id="email"
@@ -111,7 +165,9 @@
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.email.required && $v.form.email.$error"
-              >Camp obligatori</div>
+              >
+                Camp obligatori
+              </div>
             </div>
 
             <!-- <div>
@@ -123,13 +179,20 @@
             </div>-->
 
             <div class="form-group mt-3">
-              <label class="control-label" for="hearFromUs">Com ens has conegut?</label>
-              <select class="form-control" id="hearFromUs" v-model="form.hearFromUs">
+              <label class="control-label" for="hearFromUs"
+                >Com ens has conegut?</label
+              >
+              <select
+                class="form-control"
+                id="hearFromUs"
+                v-model="form.hearFromUs"
+              >
                 <option
                   v-for="option in hearFromUsOptions"
                   v-bind:value="option"
                   style="font-family: Ubuntu, font-size: 10px, overflow: none"
-                >{{ option }}</option>
+                  >{{ option }}</option
+                >
               </select>
             </div>
 
@@ -137,9 +200,20 @@
               <label
                 class="control-label mr-2"
                 for="accept"
-                :class="$v.form.accept.$dirty ? $v.form.accept.$model ? 'text-success' : 'text-danger' : ''"
-              >Accepto les condicions</label>
-              <input type="checkbox" id="accept" v-model="$v.form.accept.$model" />
+                :class="
+                  $v.form.accept.$dirty
+                    ? $v.form.accept.$model
+                      ? 'text-success'
+                      : 'text-danger'
+                    : ''
+                "
+                >Accepto les condicions</label
+              >
+              <input
+                type="checkbox"
+                id="accept"
+                v-model="$v.form.accept.$model"
+              />
             </div>
 
             <b-button class="submit" id="back-color" @click.prevent="submit">
@@ -150,14 +224,16 @@
                 El formulari conté errors,
                 <br />siusplau dona-li un cop d'ull.
               </p>
-              <p v-else-if="formTouched && uiState === 'submit clicked'" class="text-warning">
+              <p
+                v-else-if="formTouched && uiState === 'submit clicked'"
+                class="text-warning"
+              >
                 El formulari és buit,
                 <br />siusplau omple el formulari per suscriure't!
               </p>
-              <p
-                v-else-if="uiState === 'form submitted'"
-                class="text-success"
-              >Formulari enviat correctament!</p>
+              <p v-else-if="uiState === 'form submitted'" class="text-success">
+                Formulari enviat correctament!
+              </p>
             </div>
           </form>
         </b-col>
@@ -175,7 +251,7 @@
 </template>
 
 <script>
-import { required, minLength, email, between } from 'vuelidate/lib/validators';
+import { required, minLength, email } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
 // @ is an alias to /src
 
@@ -203,9 +279,6 @@ export default {
         'Amics o familiars',
         'Xarxes Socials (Instagram, Twitter...)',
         'Cerca al google/web'
-        /* { text: 'Amics o familiars', value: 'Option 1' },
-        { text: 'Xarxes Socials (Instagram, Twitter...)', value: 'Option 2' },
-        { text: 'Cerca al google/web', value: 'Option 3' } */
       ]
     };
   },
@@ -229,23 +302,22 @@ export default {
     }
   },
   methods: {
-    submit(e) {
+    submit() {
       this.formTouched = !this.$v.form.$anyDirty;
       this.errors = this.$v.form.$anyError;
       this.uiState = 'submit clicked';
+
       if (
         this.errors === false &&
         this.formTouched === false &&
-        $v.form.accept.$model === true
+        this.form.accept === true
       ) {
         //this is where you send the responses
         this.uiState = 'form submitted';
-      } else {
       }
     }
   }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -15,7 +15,11 @@
     <b-row>
       <b-col>
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar class="nav-dropdown-items float-right" toggleable="lg" type="light">
+          <b-navbar
+            class="nav-dropdown-items float-right"
+            toggleable="lg"
+            type="light"
+          >
             <b-img
               class="m-2"
               :src="require('../assets/img/logo-acollida.png')"

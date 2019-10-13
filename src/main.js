@@ -17,6 +17,13 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
+// Firebase App (the core Firebase SDK) is always required and
+// must be listed before other Firebase SDKs
+import * as firebase from 'firebase/app';
+// Add the Firebase services that you want to use
+import 'firebase/auth';
+import 'firebase/firestore';
+
 Vue.use(BootstrapVue, Vuelidate, {
   // This is the default
   inject: true,
@@ -37,6 +44,20 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
+
+// const firebaseConfig = {};
+const firebaseConfig = {
+  apiKey: 'api-key',
+  authDomain: 'project-id.firebaseapp.com',
+  databaseURL: 'https://project-id.firebaseio.com',
+  projectId: 'project-id',
+  storageBucket: 'project-id.appspot.com',
+  messagingSenderId: 'sender-id',
+  appID: 'app-id'
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 new Vue({
   router,
