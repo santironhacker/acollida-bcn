@@ -13,7 +13,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 /* ICONS */
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
-import { faGlobe, faBars, faBullhorn } from '@fortawesome/free-solid-svg-icons';
+import {
+  faGlobe,
+  faBars,
+  faBullhorn,
+  faLongArrowAltRight,
+  faLongArrowAltLeft,
+  faBus,
+  faMapMarkerAlt
+} from '@fortawesome/free-solid-svg-icons';
+import { faClock, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
 import {
   faInstagram,
   faFacebookSquare,
@@ -44,7 +53,13 @@ library.add(
   faBullhorn,
   faInstagram,
   faFacebookSquare,
-  faTwitter
+  faTwitter,
+  faLongArrowAltRight,
+  faLongArrowAltLeft,
+  faBus,
+  faClock,
+  faMapMarkerAlt,
+  faCalendarAlt
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

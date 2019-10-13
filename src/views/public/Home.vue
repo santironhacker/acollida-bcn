@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <b-container fluid style="max-width: 100%">
       <b-row>
         <b-col>
