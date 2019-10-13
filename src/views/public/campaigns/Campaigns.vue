@@ -25,6 +25,7 @@
 
 <script>
 import CampaignListItem from '@/components/CampaignListItem.vue';
+
 export default {
   name: 'campaigns',
   components: { CampaignListItem },

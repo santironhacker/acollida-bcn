@@ -5,17 +5,15 @@
       class="card-title pt-2 pl-2 mb-0"
     >{{ item.title }}</router-link>
     <div class="pt-1 pl-2">Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}</div>
-    <div class="pt-1 pl-2 text-success" v-if="item.status === 1">Places disponibles</div>
-    <div class="pt-1 pl-2 text-info" v-if="item.status === 2">Poques places disponibles</div>
-    <div class="pt-1 pl-2 text-warning" v-if="item.status === 3">Amb llista d'espera</div>
-    <div class="pt-1 pl-2 text-danger" v-if="item.status === 4">Inscripcions tancades</div>
+    <campaign-status :status="item.status"></campaign-status>
   </div>
 </template>
 
 <script>
-import CampaignListItem from '@/components/CampaignListItem.vue';
+import CampaignStatus from '@/components/CampaignStatus.vue';
 export default {
   name: 'campaign-list-item',
+  components: { CampaignStatus },
   props: ['item'],
   data() {
     return {};

@@ -4,7 +4,8 @@
       <b-row>
         <b-col>
           <div class="pt-2 pb-2">
-            <span class="title">{{ campaign.title }}</span>
+            <span class="title">{{ campaign.title }} -</span>
+            <campaign-status :status="campaign.status"></campaign-status>
             <!-- <span>{{ campaign.status }}</span> -->
           </div>
           <div class="card p-3">
@@ -51,7 +52,7 @@
           </div>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="mt-2">
         <b-col>
           <p>
             <strong>El preu d’anada i tornada és de 100 €.</strong> Si només desitgeu realitzar un dels trajectes (anada o tornada), el preu serà de
@@ -97,8 +98,10 @@
 </template>
 
 <script>
+import CampaignStatus from '@/components/CampaignStatus.vue';
 export default {
   name: 'campaign',
+  components: { CampaignStatus },
   data() {
     return {
       campaign: {
