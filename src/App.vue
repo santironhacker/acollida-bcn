@@ -41,6 +41,10 @@ export default {
   background-color: #f38148;
 }
 
+#orange-text-color {
+  color: #c0470b !important;
+}
+
 .title {
   font-weight: 750;
 }
