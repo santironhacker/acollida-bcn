@@ -57,7 +57,14 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+/* const db = firebase.database();
+const storage = firebase.storage();
+
+export { firebase, storage, db }; */
 
 new Vue({
   router,
