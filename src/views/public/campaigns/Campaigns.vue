@@ -33,6 +33,7 @@ export default {
     return {
       openCampaigns: [
         {
+          id: 5,
           title: 'Setmana Santa 2020',
           // startDate: '16/04/2020',
           startDate: '1586995200000',
@@ -43,24 +44,28 @@ export default {
       ],
       closedCampaigns: [
         {
+          id: 4,
           title: 'Bus Núvol',
           startDate: '',
           endDate: '',
           status: 4
         },
         {
+          id: 3,
           title: 'Estiu 2019',
           startDate: '1562018400000',
           endDate: '1567375200000',
           status: 3
         },
         {
+          id: 2,
           title: 'Setmana Santa 2019',
           startDate: '1555531200000',
           endDate: '1555891199000',
           status: 2
         },
         {
+          id: 1,
           title: 'Trobada Europea 2019 - Madrid',
           startDate: '1545949800000',
           endDate: '1546416000000',
