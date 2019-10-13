@@ -1,13 +1,17 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
+
+/* FORMS */
 import { Vuelidate } from 'vuelidate';
 
+/* BOOTSTRAP */
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+/* ICONS */
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import { faGlobe, faBars, faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -17,6 +21,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
+/* FIREBASE */
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 import * as firebase from 'firebase/app';
@@ -32,7 +37,6 @@ Vue.use(BootstrapVue, Vuelidate, {
   // This is not required but avoids possible naming conflicts
   errorBagName: 'veeErrors'
 });
-dom.watch();
 library.add(
   faGlobe,
   faBars,
@@ -42,6 +46,7 @@ library.add(
   faTwitter
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+dom.watch();
 
 Vue.config.productionTip = false;
 
