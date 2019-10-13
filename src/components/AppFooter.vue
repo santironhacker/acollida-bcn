@@ -1,5 +1,5 @@
 <template>
-  <b-container class="p-2" id="back-color">
+  <b-container class="p-2" id="back-color" style="max-width: 100%">
     <b-row class="text-center">
       <b-col>
         <span>Segueix-nos a:</span>
