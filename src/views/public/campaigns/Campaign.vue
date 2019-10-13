@@ -6,8 +6,11 @@
           <div class="pt-2 pb-2">
             <span class="title">{{ campaign.title }} -</span>
             <campaign-status :status="campaign.status"></campaign-status>
-            <!-- <span>{{ campaign.status }}</span> -->
           </div>
+          <p>{{ campaign.introText }}</p>
+          <p v-if="campaign.busText">{{ campaign.busText }}</p>
+          <p v-else>{{ campaign.busesText }}</p>
+
           <div class="card p-3">
             <div>
               <font-awesome-icon class="mr-2" :icon="['fa', 'bus']" />
@@ -52,7 +55,7 @@
           </div>
         </b-col>
       </b-row>
-      <b-row class="mt-2">
+      <b-row class="mt-4">
         <b-col>
           <p>
             <strong>El preu d’anada i tornada és de 100 €.</strong> Si només desitgeu realitzar un dels trajectes (anada o tornada), el preu serà de
