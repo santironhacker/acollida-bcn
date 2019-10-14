@@ -8,14 +8,20 @@
     >
       <font-awesome-icon class="mr-2" :icon="['fa', 'location-arrow']" />
       <span id="orange-text-color">
-        <strong>Del {{ bus.oneWayDepartureDate | formatDate }} al {{ bus.returnArrivalDate | formatDate }}</strong>
+        <strong
+          >Del {{ bus.oneWayDepartureDate | formatDate }} al
+          {{ bus.returnArrivalDate | formatDate }}</strong
+        >
       </span>
     </div>
     <b-collapse id="collapse-4" class="mt-2" v-model="bus.showCollapse">
       <b-card>
         <div>
           <font-awesome-icon class="mr-2" :icon="['fa', 'bus']" />
-          <font-awesome-icon class="mr-2" :icon="['fa', 'long-arrow-alt-right']" />
+          <font-awesome-icon
+            class="mr-2"
+            :icon="['fa', 'long-arrow-alt-right']"
+          />
           <span>Anada</span>
         </div>
         <div>
@@ -27,13 +33,19 @@
           <span>{{ bus.oneWayDepartureTime }}</span>
         </div>
         <div>
-          <font-awesome-icon class="mr-2 ml-1" :icon="['fa', 'map-marker-alt']" />
+          <font-awesome-icon
+            class="mr-2 ml-1"
+            :icon="['fa', 'map-marker-alt']"
+          />
           <span>{{ bus.oneWayDeparturePlace }}</span>
         </div>
       </b-card>
       <b-card>
         <div>
-          <font-awesome-icon class="mr-2" :icon="['fa', 'long-arrow-alt-left']" />
+          <font-awesome-icon
+            class="mr-2"
+            :icon="['fa', 'long-arrow-alt-left']"
+          />
           <font-awesome-icon class="mr-2" :icon="['fa', 'bus']" />
           <span>Tornada</span>
         </div>
@@ -46,7 +58,10 @@
           <span>{{ bus.returnArrivalTime }}</span>
         </div>
         <div>
-          <font-awesome-icon class="mr-2 ml-1" :icon="['fa', 'map-marker-alt']" />
+          <font-awesome-icon
+            class="mr-2 ml-1"
+            :icon="['fa', 'map-marker-alt']"
+          />
           <span>{{ bus.returnArrivalPlace }}</span>
         </div>
       </b-card>

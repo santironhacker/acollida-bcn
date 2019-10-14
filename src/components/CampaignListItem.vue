@@ -1,10 +1,13 @@
 <template>
   <div class="card mb-2">
     <router-link
-      :to="{ name: 'campaign', params: { campaignId: item.id }}"
+      :to="{ name: 'campaign', params: { campaignId: item.id } }"
       class="card-title pt-2 pl-2 mb-0"
-    >{{ item.title }}</router-link>
-    <div class="pt-1 pl-2">Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}</div>
+      >{{ item.title }}</router-link
+    >
+    <div class="pt-1 pl-2">
+      Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}
+    </div>
     <campaign-status :status="item.status"></campaign-status>
   </div>
 </template>

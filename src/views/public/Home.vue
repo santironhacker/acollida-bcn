@@ -3,7 +3,9 @@
     <b-container fluid style="max-width: 100%">
       <b-row>
         <b-col>
-          <div class="pt-2 pb-2 title">Punt de trobada entre Taizé i Barcelona</div>
+          <div class="pt-2 pb-2 title">
+            Punt de trobada entre Taizé i Barcelona
+          </div>
         </b-col>
       </b-row>
       <b-row>
@@ -63,7 +65,8 @@
                     ? 'text-success'
                     : ''
                 "
-              >Nom: *</label>
+                >Nom: *</label
+              >
               <input
                 class="form-control"
                 :class="
@@ -80,7 +83,9 @@
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.name.required && $v.form.name.$error"
-              >Camp obligatori</div>
+              >
+                Camp obligatori
+              </div>
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.name.minLength && $v.form.name.$error"
@@ -101,7 +106,8 @@
                     ? 'text-success'
                     : ''
                 "
-              >Cognoms: *</label>
+                >Cognoms: *</label
+              >
               <input
                 class="form-control"
                 :class="
@@ -118,7 +124,9 @@
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.surname.required && $v.form.surname.$error"
-              >Camp obligatori</div>
+              >
+                Camp obligatori
+              </div>
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.surname.minLength && $v.form.surname.$error"
@@ -139,7 +147,8 @@
                     ? 'text-success'
                     : ''
                 "
-              >Correu electrònic: *</label>
+                >Correu electrònic: *</label
+              >
               <input
                 class="form-control"
                 :class="
@@ -156,7 +165,9 @@
               <div
                 class="help-block error mt-1"
                 v-if="!$v.form.email.required && $v.form.email.$error"
-              >Camp obligatori</div>
+              >
+                Camp obligatori
+              </div>
             </div>
 
             <!-- <div>
@@ -168,13 +179,20 @@
             </div>-->
 
             <div class="form-group mt-3">
-              <label class="control-label" for="hearFromUs">Com ens has conegut?</label>
-              <select class="form-control" id="hearFromUs" v-model="form.hearFromUs">
+              <label class="control-label" for="hearFromUs"
+                >Com ens has conegut?</label
+              >
+              <select
+                class="form-control"
+                id="hearFromUs"
+                v-model="form.hearFromUs"
+              >
                 <option
                   v-for="option in hearFromUsOptions"
                   v-bind:value="option"
                   style="font-family: Ubuntu, font-size: 10px, overflow: none"
-                >{{ option }}</option>
+                  >{{ option }}</option
+                >
               </select>
             </div>
 
@@ -189,8 +207,13 @@
                       : 'text-danger'
                     : ''
                 "
-              >Accepto les condicions</label>
-              <input type="checkbox" id="accept" v-model="$v.form.accept.$model" />
+                >Accepto les condicions</label
+              >
+              <input
+                type="checkbox"
+                id="accept"
+                v-model="$v.form.accept.$model"
+              />
             </div>
 
             <b-button class="submit" id="back-color" @click.prevent="submit">
@@ -201,14 +224,16 @@
                 El formulari conté errors,
                 <br />siusplau dona-li un cop d'ull.
               </p>
-              <p v-else-if="formTouched && uiState === 'submit clicked'" class="text-warning">
+              <p
+                v-else-if="formTouched && uiState === 'submit clicked'"
+                class="text-warning"
+              >
                 El formulari és buit,
                 <br />siusplau omple el formulari per suscriure't!
               </p>
-              <p
-                v-else-if="uiState === 'form submitted'"
-                class="text-success"
-              >Formulari enviat correctament!</p>
+              <p v-else-if="uiState === 'form submitted'" class="text-success">
+                Formulari enviat correctament!
+              </p>
             </div>
           </form>
         </b-col>
