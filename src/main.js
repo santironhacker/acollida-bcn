@@ -36,6 +36,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 // must be listed before other Firebase SDKs
 import * as firebase from 'firebase/app';
 // Add the Firebase services that you want to use
+import 'firebase/database';
 import 'firebase/auth';
 import 'firebase/firestore';
 
@@ -88,31 +89,25 @@ Vue.filter('formatDate', function(timestamp) {
   }
 });
 
-/* OTHERS */
-dom.watch();
-Vue.config.productionTip = false;
-
 /* FIREBASE */
-// const firebaseConfig = {};
 const firebaseConfig = {
-  apiKey: 'api-key',
-  authDomain: 'project-id.firebaseapp.com',
-  databaseURL: 'https://project-id.firebaseio.com',
-  projectId: 'project-id',
-  storageBucket: 'project-id.appspot.com',
-  messagingSenderId: 'sender-id',
-  appID: 'app-id'
+  apiKey: 'AIzaSyAw7bgvk3QmVo4PlRqA9qUAdwbex-QFDLk',
+  authDomain: 'acollida-bcn.firebaseapp.com',
+  databaseURL: 'https://acollida-bcn.firebaseio.com',
+  projectId: 'acollida-bcn',
+  storageBucket: 'acollida-bcn.appspot.com',
+  messagingSenderId: '431739286993',
+  appId: '1:431739286993:web:7d2820d78f001fb3dbdcf0',
+  measurementId: 'G-WE8BLZWE0N'
 };
 
 // Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+export const firebaseApp = firebase.initializeApp(firebaseConfig);
+export const db = firebaseApp.database();
 
-/* const db = firebase.database();
-const storage = firebase.storage();
-
-export { firebase, storage, db }; */
+/* OTHERS */
+dom.watch();
+Vue.config.productionTip = false;
 
 new Vue({
   router,
