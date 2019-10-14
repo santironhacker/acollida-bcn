@@ -10,49 +10,12 @@
           <p>{{ campaign.introText }}</p>
           <p v-if="campaign.busText">{{ campaign.busText }}</p>
           <p v-else>{{ campaign.busesText }}</p>
-
-          <div class="card p-3">
-            <div>
-              <font-awesome-icon class="mr-2" :icon="['fa', 'bus']" />
-              <font-awesome-icon class="mr-2" :icon="['fa', 'long-arrow-alt-right']" />
-              <span>Anada</span>
-            </div>
-            <div>
-              <font-awesome-icon class="mr-2" :icon="['far', 'calendar-alt']" />
-              <span>{{ campaign.startDate | formatDate }}</span>
-            </div>
-            <div>
-              <font-awesome-icon class="mr-2" :icon="['far', 'clock']" />
-              <span>{{ campaign.oneWayDepartureTime }}</span>
-            </div>
-            <div>
-              <font-awesome-icon class="mr-2 ml-1" :icon="['fa', 'map-marker-alt']" />
-              <span>{{ campaign.oneWayDeparturePlace }}</span>
-            </div>
-          </div>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
-          <div class="card p-3 mt-3">
-            <div>
-              <font-awesome-icon class="mr-2" :icon="['fa', 'long-arrow-alt-left']" />
-              <font-awesome-icon class="mr-2" :icon="['fa', 'bus']" />
-              <span>Tornada</span>
-            </div>
-            <div>
-              <font-awesome-icon class="mr-2" :icon="['far', 'calendar-alt']" />
-              <span>{{ campaign.endDate | formatDate }}</span>
-            </div>
-            <div>
-              <font-awesome-icon class="mr-2" :icon="['far', 'clock']" />
-              <span>{{ campaign.returnArrivalTime }}</span>
-            </div>
-            <div>
-              <font-awesome-icon class="mr-2 ml-1" :icon="['fa', 'map-marker-alt']" />
-              <span>{{ campaign.returnArrivalPlace }}</span>
-            </div>
-          </div>
+          <bus-details v-for="(item, index) in buses" :key="index" :bus="item"></bus-details>
+          <!-- :v-on:show="item.showCollapse = $event" -->
         </b-col>
       </b-row>
       <b-row class="mt-4">
@@ -101,28 +64,38 @@
 </template>
 
 <script>
+import BusDetails from '@/components/BusDetails.vue';
 import CampaignStatus from '@/components/CampaignStatus.vue';
 export default {
   name: 'campaign',
-  components: { CampaignStatus },
+  components: { CampaignStatus, BusDetails },
   data() {
     return {
       campaign: {
         introText:
           'L’estiu ja s’acosta i com cada any organitzem busos per anar a gaudir d’una experiència increible a Taizé.',
-        busText: '',
+        busText: 'El bus sortirà en la següent data:',
         busesText: 'Les dates en que hi haurà bus són les següents:',
         title: 'Setmana Santa 2020',
         startDate: '1586995200000',
         endDate: '1587340799000',
-        status: 1,
-        oneWayDepartureTime: '22h00',
-        oneWayDeparturePlace: 'Estació de Busos Fabra i Puig (L1)',
-        oneWayArrivalTime: '8h00',
-        returnDepartureTime: '11h15',
-        returnArrivalTime: '22h00',
-        returnArrivalPlace: 'Estació de Busos Fabra i Puig (L1)'
-      }
+        status: 1
+      },
+      showCollapse: true,
+      buses: [
+        {
+          status: '2',
+          showCollapse: false,
+          oneWayDepartureTime: '22h00',
+          oneWayDeparturePlace: 'Estació de Busos Fabra i Puig (L1)',
+          oneWayArrivalTime: '8h00',
+          oneWayDepartureDate: '1586995200000',
+          returnArrivalDate: '1587340799000',
+          returnDepartureTime: '11h15',
+          returnArrivalTime: '22h00',
+          returnArrivalPlace: 'Estació de Busos Fabra i Puig (L1)'
+        }
+      ]
     };
   }
 };
