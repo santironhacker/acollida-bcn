@@ -104,8 +104,14 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const firebaseApp = firebase.initializeApp(firebaseConfig);
-export const db = firebaseApp.database();
+// export const firebaseApp = firebase.initializeApp(firebaseConfig);
+// export const db = firebaseApp.database();
+const admin = require('firebase-admin');
+const functions = require('firebase-functions');
+
+admin.initializeApp(functions.config().firebase);
+
+export const db = admin.firestore();
 
 /* OTHERS */
 dom.watch();

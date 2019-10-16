@@ -14,11 +14,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <bus-details
-            v-for="(item, index) in buses"
-            :key="index"
-            :bus="item"
-          ></bus-details>
+          <bus-details v-for="(item, index) in buses" :key="index" :bus="item"></bus-details>
           <!-- :v-on:show="item.showCollapse = $event" -->
         </b-col>
       </b-row>
@@ -27,9 +23,11 @@
           <p>
             <strong>El preu d’anada i tornada és de 100 €.</strong> Si només
             desitgeu realitzar un dels trajectes (anada o tornada), el preu serà
-            de <strong>60€</strong>. Però no us encanteu! Per aquells que
+            de
+            <strong>60€</strong>. Però no us encanteu! Per aquells que
             s’inscriguin dins dels 15 dies previs a la sortida del bus el preu
-            serà de <strong>110€ per anada i tornada</strong> i de
+            serà de
+            <strong>110€ per anada i tornada</strong> i de
             <strong>65€ per un sol trajecte</strong>.
           </p>
           <p>
@@ -40,21 +38,20 @@
                 id="orange-text-color"
                 target="_blank"
                 href="http://www.taize.fr/es_article5484.html"
-                >a la web</a
-              >.**
+              >a la web</a>.**
             </strong>
           </p>
           <p>
-            <strong
-              >**IMPORTANT: els adults (majors de 29 anys), us heu d’inscriure
-              el més aviat possible, és a dir, ja!**</strong
-            >
+            <strong>
+              **IMPORTANT: els adults (majors de 29 anys), us heu d’inscriure
+              el més aviat possible, és a dir, ja!**
+            </strong>
           </p>
           <p>
-            <strong
-              >Un cop feta la inscripció de l’estada a TAIZÉ, la part del viatge
-              en autocar la gestionem nosaltres</strong
-            >
+            <strong>
+              Un cop feta la inscripció de l’estada a TAIZÉ, la part del viatge
+              en autocar la gestionem nosaltres
+            </strong>
             i heu de seguir les següents passes:
           </p>
           <ol class="pl-3">
@@ -117,13 +114,14 @@ export default {
         {
           status: '2',
           showCollapse: false,
+          oneWayDepartureDate: '1586995200000',
           oneWayDepartureTime: '22h00',
           oneWayDeparturePlace: 'Estació de Busos Fabra i Puig (L1)',
-          oneWayArrivalTime: '8h00',
-          oneWayDepartureDate: '1586995200000',
-          returnArrivalDate: '1587340799000',
-          returnDepartureTime: '11h15',
+          /* oneWayArrivalTime: '8h00',
+          oneWayArrivalDate: '', */
           returnArrivalTime: '22h00',
+          returnDepartureTime: '11h15',
+          returnArrivalDate: '1587340799000',
           returnArrivalPlace: 'Estació de Busos Fabra i Puig (L1)'
         }
       ]
