@@ -158,6 +158,8 @@
                 >El document d'identitat ha de tenir com a mínim una lletra.</div>
               </div>
 
+              <v-calendar />
+
               <div class="form-group mt-2">
                 <label
                   for="birthdate"
@@ -257,6 +259,7 @@
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
+
 const mustBeNineLength = value => value.length === 9;
 const mustContainAtLeastOneLetter = value =>
   value.match(/^[A-Za-z]+$/) ? true : false;

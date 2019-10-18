@@ -11,6 +11,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+/* CALENDAR */
+import VCalendar from 'v-calendar';
+Vue.use(VCalendar, {});
+
 /* ICONS */
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -33,16 +37,6 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-/* FIREBASE */
-// Firebase App (the core Firebase SDK) is always required and
-// must be listed before other Firebase SDKs
-import * as firebase from 'firebase/app';
-// Add the Firebase services that you want to use
-import 'firebase/database';
-import 'firebase/auth';
-import 'firebase/firestore';
-
-/* ICONS */
 Vue.use(BootstrapVue, Vuelidate, {
   // This is the default
   inject: true,
@@ -94,6 +88,14 @@ Vue.filter('formatDate', function(timestamp) {
 });
 
 /* FIREBASE */
+// Firebase App (the core Firebase SDK) is always required and
+// must be listed before other Firebase SDKs
+import * as firebase from 'firebase/app';
+// Add the Firebase services that you want to use
+import 'firebase/database';
+import 'firebase/auth';
+import 'firebase/firestore';
+
 const firebaseConfig = {
   apiKey: 'AIzaSyAw7bgvk3QmVo4PlRqA9qUAdwbex-QFDLk',
   authDomain: 'acollida-bcn.firebaseapp.com',
