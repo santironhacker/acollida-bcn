@@ -257,7 +257,7 @@ export default {
       },
       hearFromUsOptions: [
         'Amics o familiars',
-        'Xarxes Socials (Instagram, Twitter...)',
+        'Xarxes Socials (Instagram, Twitter, Facebook...)',
         'Cerca al google/web'
       ]
     };
@@ -282,7 +282,7 @@ export default {
     }
   },
   methods: {
-    submit: function(event) {
+    submit: function() {
       this.formTouched = !this.$v.form.$anyDirty;
       this.errors = this.$v.form.$anyError;
       this.uiState = 'submit clicked';
@@ -311,7 +311,7 @@ export default {
               this.uiState = 'form submitted';
               this.$v.form.$reset();
               const self = this;
-              Object.keys(this.form).forEach(function(key, index) {
+              Object.keys(this.form).forEach(function(key) {
                 self.form[key] = '';
               });
             },
