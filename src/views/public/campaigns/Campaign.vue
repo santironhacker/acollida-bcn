@@ -14,11 +14,11 @@
       </b-row>
       <b-row>
         <b-col>
-          <bus-details v-for="(item, index) in buses" :key="index" :bus="item"></bus-details>
+          <bus-details class="mb-3" v-for="(item, index) in buses" :key="index" :bus="item"></bus-details>
           <!-- :v-on:show="item.showCollapse = $event" -->
         </b-col>
       </b-row>
-      <b-row class="mt-4">
+      <b-row class="mt-1">
         <b-col>
           <p>
             <strong>El preu d’anada i tornada és de 100 €.</strong> Si només
@@ -112,6 +112,7 @@ export default {
       showCollapse: true,
       buses: [
         {
+          id: 8,
           status: '2',
           showCollapse: false,
           oneWayDepartureDate: '1586995200000',
@@ -123,6 +124,20 @@ export default {
           returnDepartureTime: '11h15',
           returnArrivalDate: '1587340799000',
           returnArrivalPlace: 'Estació de Busos Fabra i Puig (L1)'
+        },
+        {
+          id: 9,
+          status: '3',
+          showCollapse: false,
+          oneWayDepartureDate: '1586995200000',
+          oneWayDepartureTime: '08h00',
+          oneWayDeparturePlace: 'E.S. Vallès',
+          /* oneWayArrivalTime: '8h00',
+          oneWayArrivalDate: '', */
+          returnArrivalTime: '19h00',
+          returnDepartureTime: '11h15',
+          returnArrivalDate: '1587340799000',
+          returnArrivalPlace: 'E.S. Sant Cugat'
         }
       ]
     };

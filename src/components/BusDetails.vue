@@ -1,18 +1,24 @@
 <template>
   <div>
     <!-- :class="bus.showCollapse ? 'collapsed' : null" -->
-    <div
-      aria-controls="collapse-4"
-      :aria-expanded="bus.showCollapse ? 'true' : 'false'"
-      v-on:click="bus.showCollapse = !bus.showCollapse"
-    >
-      <font-awesome-icon v-if="bus.showCollapse" class="mr-2" :icon="['fa', 'angle-double-down']" />
-      <font-awesome-icon v-else class="mr-2" :icon="['fa', 'location-arrow']" />
-      <span id="orange-text-color">
-        <strong>
-          Del {{ bus.oneWayDepartureDate | formatDate }} al
-          {{ bus.returnArrivalDate | formatDate }}
-        </strong>
+    <div>
+      <span
+        aria-controls="collapse-4"
+        :aria-expanded="bus.showCollapse ? 'true' : 'false'"
+        v-on:click="bus.showCollapse = !bus.showCollapse"
+      >
+        <font-awesome-icon
+          v-if="bus.showCollapse"
+          class="mr-1"
+          :icon="['fa', 'angle-double-down']"
+        />
+        <font-awesome-icon v-else class="mr-1" :icon="['fa', 'location-arrow']" />
+        <span id="orange-text-color">
+          <strong>
+            Del {{ bus.oneWayDepartureDate | formatDate }} al
+            {{ bus.returnArrivalDate | formatDate }}
+          </strong>
+        </span>
       </span>
     </div>
     <b-collapse id="collapse-4" class="mt-2" v-model="bus.showCollapse">
@@ -23,16 +29,18 @@
           <span>Anada</span>
         </div>
         <div>
-          <font-awesome-icon class="mr-2" :icon="['far', 'calendar-alt']" />
-          <span>{{ bus.oneWayDepartureDate | formatDate }}</span>
-        </div>
-        <div>
-          <font-awesome-icon class="mr-2" :icon="['far', 'clock']" />
-          <span>{{ bus.oneWayDepartureTime }}</span>
-        </div>
-        <div>
-          <font-awesome-icon class="mr-2 ml-1" :icon="['fa', 'map-marker-alt']" />
-          <span>{{ bus.oneWayDeparturePlace }}</span>
+          <div>
+            <font-awesome-icon class="mr-2" :icon="['far', 'calendar-alt']" />
+            <span>{{ bus.oneWayDepartureDate | formatDate }}</span>
+          </div>
+          <div>
+            <font-awesome-icon class="mr-2" :icon="['far', 'clock']" />
+            <span>{{ bus.oneWayDepartureTime }}</span>
+          </div>
+          <div>
+            <font-awesome-icon class="mr-2 ml-1" :icon="['fa', 'map-marker-alt']" />
+            <span>{{ bus.oneWayDeparturePlace }}</span>
+          </div>
         </div>
       </b-card>
       <b-card>
@@ -54,6 +62,14 @@
           <span>{{ bus.returnArrivalPlace }}</span>
         </div>
       </b-card>
+      <div class="mt-3 mb-3 text-center">
+        <b-button class="p-2 default-button">
+          <router-link :to="{ name: 'bus-registration-form', params: { busId: bus.id } }">
+            <span>Inscriure'm al bus</span>
+            <font-awesome-icon class="ml-2" :icon="['fa', 'user-plus']" />
+          </router-link>
+        </b-button>
+      </div>
     </b-collapse>
   </div>
 </template>
@@ -67,3 +83,6 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+</style>

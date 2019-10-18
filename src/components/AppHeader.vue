@@ -5,7 +5,7 @@
         <span>Acollida de Barcelona</span>
       </b-col>
       <b-navbar-toggle target="nav-collapse">
-        <b-button class="p-1,5 header-button">
+        <b-button class="p-1,5 default-button">
           <font-awesome-icon class="mr-2" icon="bars" />
           <span>MENÚ</span>
         </b-button>
@@ -15,11 +15,7 @@
     <b-row>
       <b-col>
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar
-            class="nav-dropdown-items float-right"
-            toggleable="lg"
-            type="light"
-          >
+          <b-navbar class="nav-dropdown-items float-right" toggleable="lg" type="light">
             <b-img
               class="m-2"
               :src="require('../assets/img/logo-acollida.png')"
@@ -79,11 +75,5 @@ export default {
 .header-title {
   text-transform: uppercase;
   color: white;
-}
-
-.header-button {
-  color: #c0470b !important;
-  background: white !important;
-  font-weight: 600;
 }
 </style>

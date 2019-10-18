@@ -22,7 +22,8 @@ import {
   faBus,
   faMapMarkerAlt,
   faLocationArrow,
-  faAngleDoubleDown
+  faAngleDoubleDown,
+  faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
 import { faClock, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -64,7 +65,8 @@ library.add(
   faMapMarkerAlt,
   faCalendarAlt,
   faLocationArrow,
-  faAngleDoubleDown
+  faAngleDoubleDown,
+  faUserPlus
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

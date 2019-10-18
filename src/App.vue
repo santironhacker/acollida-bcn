@@ -28,6 +28,7 @@ export default {
   }
 };
 </script>
+
 <style>
 #app {
   font-family: Ubuntu, Helvetica, sans-serif;
@@ -43,6 +44,12 @@ export default {
 
 #orange-text-color {
   color: #c0470b !important;
+}
+
+.default-button {
+  color: #c0470b !important;
+  background: white !important;
+  font-weight: 600;
 }
 
 .title {
