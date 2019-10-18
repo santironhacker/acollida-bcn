@@ -158,8 +158,6 @@
                 >El document d'identitat ha de tenir com a mínim una lletra.</div>
               </div>
 
-              <v-calendar />
-
               <div class="form-group mt-2">
                 <label
                   for="birthdate"
@@ -172,8 +170,9 @@
                     : ''
                 "
                 >Data de naixement: *</label>
-                <input
-                  class="form-control"
+                <v-date-picker
+                  v-model.lazy="$v.form.birthdate.$model"
+                  id="birthdate"
                   :class="
                   $v.form.birthdate.$error
                     ? 'is-invalid '
@@ -181,14 +180,9 @@
                     ? 'is-valid'
                     : ''
                 "
-                  v-model.lazy.trim="$v.form.birthdate.$model"
-                  type="text"
-                  id="birthdate"
                 />
-                <div
-                  class="help-block error mt-1"
-                  v-if="!$v.form.birthdate.required && $v.form.birthdate.$error"
-                >Camp obligatori</div>
+                <!-- class="form-control"
+                -->
               </div>
 
               <div class="form-group mt-2">
