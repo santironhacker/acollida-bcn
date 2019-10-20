@@ -184,6 +184,7 @@
                     ? 'is-valid'
                     : ''
                 "
+                  type="date"
                 />
                 <div
                   class="help-block error mt-1"
@@ -306,7 +307,7 @@
                       ? 'is-valid'
                       : ''
                   "
-                  type="text"
+                  type="date"
                   id="selectedDepartureDate"
                 ></v-date-picker>
 
@@ -388,6 +389,16 @@
                     : ''
                 "
                 >Participants: *</label>
+                <div v-for="(item, index) in mainForm.participants" :key="index" class="form-group">
+                  <ul>
+                    <li>
+                      {{ item.name}} {{ item.surname }}
+                      <button
+                        @click="deleteParticipant(index)"
+                      >delete</button>
+                    </li>
+                  </ul>
+                </div>
                 <!-- PARTICIPANTS LIST -->
                 <div>
                   <label
@@ -414,6 +425,10 @@
                     type="text"
                     id="participantName"
                   />
+                  <div
+                    class="help-block error mt-1"
+                    v-if="!$v.participantForm.name.required && $v.participantForm.name.$error"
+                  >Camp obligatori</div>
                   <label
                     for="participantSurname"
                     class="control-label"
@@ -438,15 +453,40 @@
                     type="text"
                     id="participantSurname"
                   />
+                  <div
+                    class="help-block error mt-1"
+                    v-if="!$v.participantForm.surname.required && $v.participantForm.surname.$error"
+                  >Camp obligatori</div>
+                  <label
+                    for="participantBirthdate"
+                    class="control-label"
+                    :class="
+                  $v.participantForm.birthdate.$error
+                    ? 'text-danger'
+                    : $v.participantForm.birthdate.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                  >Data de naixement: *</label>
+                  <v-date-picker
+                    v-model.lazy.trim="$v.participantForm.birthdate.$model"
+                    :class="
+                    $v.participantForm.birthdate.$error
+                      ? 'is-invalid '
+                      : $v.participantForm.birthdate.$dirty
+                      ? 'is-valid'
+                      : ''
+                  "
+                    type="date"
+                    id="participantBirthdate"
+                  ></v-date-picker>
+
+                  <div
+                    class="help-block error mt-1"
+                    v-if="!$v.participantForm.birthdate.required && $v.participantForm.birthdate.$error"
+                  >Camp obligatori</div>
                 </div>
-                <div v-for="(item, index) in mainForm.participants" :key="index" class="form-group">
-                  <ul>
-                    <li>{{ item.name}} {{ item.surname }}</li>
-                  </ul>
-                </div>
-                <!-- <div class="">
-                  <b-button ></b-button>
-                </div>-->
+
                 <div class="mt-3 mb-3 text-center">
                   <b-button @click="addParticipant" class="p-2 default-button">
                     <span>Afegir participant</span>
@@ -531,7 +571,8 @@ export default {
         touched: null,
         // Form fields
         name: '',
-        surname: ''
+        surname: '',
+        birthdate: ''
       },
       attributes: [
         {
@@ -570,30 +611,30 @@ export default {
   validations: {
     mainForm: {
       name: {
-        /* required,
-        minLength: minLength(2) */
+        required,
+        minLength: minLength(2)
       },
       surname: {
-        /* required,
-        minLength: minLength(2) */
+        required,
+        minLength: minLength(2)
       },
       dni: {
-        /* required,
+        required,
         mustBeNineLength,
-        mustContainAtLeastOneLetter */
+        mustContainAtLeastOneLetter
       },
       birthdate: {
-        // required
+        required
       },
       email: {
-        /* required,
-        email */
+        required,
+        email
       },
       cellphone: {
-        // isCellphone
+        isCellphone
       },
       taizeRegistrationCode: {
-        // required
+        required
       },
       selectedDepartureDate: {},
       selectedReturnDate: {},
@@ -601,8 +642,15 @@ export default {
       participants: {}
     },
     participantForm: {
-      name: {},
-      surname: {}
+      name: {
+        required
+      },
+      surname: {
+        required
+      },
+      birthdate: {
+        required
+      }
     }
   },
   methods: {
@@ -626,6 +674,9 @@ export default {
         });
         // this.$v.participantForm.$reset();
       }
+    },
+    deleteParticipant: function(index) {
+      this.mainForm.participants.splice(index, 1);
     },
     submit: function() {
       this.mainForm.touched = !this.$v.mainForm.$anyDirty;
