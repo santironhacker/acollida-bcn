@@ -35,10 +35,14 @@
                   class="control-label"
                   for="contactLanguage"
                 >Idioma de comunicació amb l'Acollida Barcelona</label>
-                <select class="form-control" id="contactLanguage" v-model="form.contactLanguage">
+                <select
+                  class="form-control"
+                  id="contactLanguage"
+                  v-model="mainForm.contactLanguage"
+                >
                   <option
-                    v-for="option in contactLanguageOptions"
-                    v-bind:value="option"
+                    v-for="(option, index) in mainForm.contactLanguageOptions"
+                    :key="index"
                     style="font-family: Ubuntu, font-size: 10px, overflow: none"
                   >{{ option }}</option>
                 </select>
@@ -48,9 +52,9 @@
                 <label
                   class="control-label"
                   :class="
-                  $v.form.name.$error
+                  $v.mainForm.name.$error
                     ? 'text-danger'
-                    : $v.form.name.$dirty
+                    : $v.mainForm.name.$dirty
                     ? 'text-success'
                     : ''
                 "
@@ -58,26 +62,26 @@
                 <input
                   class="form-control"
                   :class="
-                  $v.form.name.$error
+                  $v.mainForm.name.$error
                     ? 'is-invalid '
-                    : $v.form.name.$dirty
+                    : $v.mainForm.name.$dirty
                     ? 'is-valid'
                     : ''
                 "
-                  v-model.lazy.trim="$v.form.name.$model"
+                  v-model.lazy.trim="$v.mainForm.name.$model"
                   type="text"
                   id="name"
                 />
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.name.required && $v.form.name.$error"
+                  v-if="!$v.mainForm.name.required && $v.mainForm.name.$error"
                 >Camp obligatori</div>
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.name.minLength && $v.form.name.$error"
+                  v-if="!$v.mainForm.name.minLength && $v.mainForm.name.$error"
                 >
                   El nom ha de tenir com a mínim
-                  {{ $v.form.name.$params.minLength.min }} lletres.
+                  {{ $v.mainForm.name.$params.minLength.min }} lletres.
                 </div>
               </div>
 
@@ -86,9 +90,9 @@
                   for="surname"
                   class="control-label"
                   :class="
-                  $v.form.surname.$error
+                  $v.mainForm.surname.$error
                     ? 'text-danger'
-                    : $v.form.surname.$dirty
+                    : $v.mainForm.surname.$dirty
                     ? 'text-success'
                     : ''
                 "
@@ -96,26 +100,26 @@
                 <input
                   class="form-control"
                   :class="
-                  $v.form.surname.$error
+                  $v.mainForm.surname.$error
                     ? 'is-invalid '
-                    : $v.form.surname.$dirty
+                    : $v.mainForm.surname.$dirty
                     ? 'is-valid'
                     : ''
                 "
-                  v-model.lazy.trim="$v.form.surname.$model"
+                  v-model.lazy.trim="$v.mainForm.surname.$model"
                   type="text"
                   id="surname"
                 />
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.surname.required && $v.form.surname.$error"
+                  v-if="!$v.mainForm.surname.required && $v.mainForm.surname.$error"
                 >Camp obligatori</div>
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.surname.minLength && $v.form.surname.$error"
+                  v-if="!$v.mainForm.surname.minLength && $v.mainForm.surname.$error"
                 >
                   Els cognoms han de tenir com a mínim
-                  {{ $v.form.surname.$params.minLength.min }} lletres.
+                  {{ $v.mainForm.surname.$params.minLength.min }} lletres.
                 </div>
               </div>
 
@@ -124,9 +128,9 @@
                   for="dni"
                   class="control-label"
                   :class="
-                  $v.form.dni.$error
+                  $v.mainForm.dni.$error
                     ? 'text-danger'
-                    : $v.form.dni.$dirty
+                    : $v.mainForm.dni.$dirty
                     ? 'text-success'
                     : ''
                 "
@@ -134,27 +138,27 @@
                 <input
                   class="form-control"
                   :class="
-                  $v.form.dni.$error
+                  $v.mainForm.dni.$error
                     ? 'is-invalid '
-                    : $v.form.dni.$dirty
+                    : $v.mainForm.dni.$dirty
                     ? 'is-valid'
                     : ''
                 "
-                  v-model.lazy.trim="$v.form.dni.$model"
+                  v-model.lazy.trim="$v.mainForm.dni.$model"
                   type="text"
                   id="dni"
                 />
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.dni.required && $v.form.dni.$error"
+                  v-if="!$v.mainForm.dni.required && $v.mainForm.dni.$error"
                 >Camp obligatori</div>
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.dni.mustBeNineLength && $v.form.dni.$error"
+                  v-if="!$v.mainForm.dni.mustBeNineLength && $v.mainForm.dni.$error"
                 >El document d'identitat ha d'estar composat per 9 caràcters.</div>
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.dni.mustContainAtLeastOneLetter && $v.form.dni.$error"
+                  v-if="!$v.mainForm.dni.mustContainAtLeastOneLetter && $v.mainForm.dni.$error"
                 >El document d'identitat ha de tenir com a mínim una lletra.</div>
               </div>
 
@@ -163,27 +167,27 @@
                   for="birthdate"
                   class="control-label"
                   :class="
-                  $v.form.birthdate.$error
+                  $v.mainForm.birthdate.$error
                     ? 'text-danger'
-                    : $v.form.birthdate.$dirty
+                    : $v.mainForm.birthdate.$dirty
                     ? 'text-success'
                     : ''
                 "
                 >Data de naixement: *</label>
                 <v-date-picker
-                  v-model.lazy="$v.form.birthdate.$model"
+                  v-model.lazy="$v.mainForm.birthdate.$model"
                   id="birthdate"
                   :class="
-                  $v.form.birthdate.$error
+                  $v.mainForm.birthdate.$error
                     ? 'is-invalid '
-                    : $v.form.birthdate.$dirty
+                    : $v.mainForm.birthdate.$dirty
                     ? 'is-valid'
                     : ''
                 "
                 />
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.birthdate.required && $v.form.birthdate.$error"
+                  v-if="!$v.mainForm.birthdate.required && $v.mainForm.birthdate.$error"
                 >Camp obligatori</div>
               </div>
 
@@ -192,9 +196,9 @@
                   for="email"
                   class="control-label"
                   :class="
-                  $v.form.email.$error
+                  $v.mainForm.email.$error
                     ? 'text-danger'
-                    : $v.form.email.$dirty
+                    : $v.mainForm.email.$dirty
                     ? 'text-success'
                     : ''
                 "
@@ -202,19 +206,19 @@
                 <input
                   class="form-control"
                   :class="
-                  $v.form.email.$error
+                  $v.mainForm.email.$error
                     ? 'is-invalid '
-                    : $v.form.email.$dirty
+                    : $v.mainForm.email.$dirty
                     ? 'is-valid'
                     : ''
                 "
-                  v-model.lazy.trim="$v.form.email.$model"
+                  v-model.lazy.trim="$v.mainForm.email.$model"
                   type="email"
                   id="email"
                 />
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.email.required && $v.form.email.$error"
+                  v-if="!$v.mainForm.email.required && $v.mainForm.email.$error"
                 >Camp obligatori</div>
               </div>
 
@@ -223,9 +227,9 @@
                   for="cellphone"
                   class="control-label"
                   :class="
-                  $v.form.cellphone.$error
+                  $v.mainForm.cellphone.$error
                     ? 'text-danger'
-                    : $v.form.cellphone.$dirty
+                    : $v.mainForm.cellphone.$dirty
                     ? 'text-success'
                     : ''
                 "
@@ -233,19 +237,19 @@
                 <input
                   class="form-control"
                   :class="
-                  $v.form.cellphone.$error
+                  $v.mainForm.cellphone.$error
                     ? 'is-invalid '
-                    : $v.form.cellphone.$dirty
+                    : $v.mainForm.cellphone.$dirty
                     ? 'is-valid'
                     : ''
                 "
-                  v-model.lazy.trim="$v.form.cellphone.$model"
+                  v-model.lazy.trim="$v.mainForm.cellphone.$model"
                   type="text"
                   id="cellphone"
                 />
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.email.required && $v.form.email.$error"
+                  v-if="!$v.mainForm.email.required && $v.mainForm.email.$error"
                 >Camp obligatori</div>
               </div>
 
@@ -254,9 +258,9 @@
                   for="taizeRegistrationCode"
                   class="control-label"
                   :class="
-                  $v.form.taizeRegistrationCode.$error
+                  $v.mainForm.taizeRegistrationCode.$error
                     ? 'text-danger'
-                    : $v.form.taizeRegistrationCode.$dirty
+                    : $v.mainForm.taizeRegistrationCode.$dirty
                     ? 'text-success'
                     : ''
                 "
@@ -264,19 +268,19 @@
                 <input
                   class="form-control"
                   :class="
-                  $v.form.taizeRegistrationCode.$error
+                  $v.mainForm.taizeRegistrationCode.$error
                     ? 'is-invalid '
-                    : $v.form.taizeRegistrationCode.$dirty
+                    : $v.mainForm.taizeRegistrationCode.$dirty
                     ? 'is-valid'
                     : ''
                 "
-                  v-model.lazy.trim="$v.form.taizeRegistrationCode.$model"
+                  v-model.lazy.trim="$v.mainForm.taizeRegistrationCode.$model"
                   type="text"
                   id="taizeRegistrationCode"
                 />
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.taizeRegistrationCode.required && $v.form.taizeRegistrationCode.$error"
+                  v-if="!$v.mainForm.taizeRegistrationCode.required && $v.mainForm.taizeRegistrationCode.$error"
                 >Camp obligatori</div>
               </div>
 
@@ -285,20 +289,20 @@
                   for="selectedDepartureDate"
                   class="control-label"
                   :class="
-                  $v.form.selectedDepartureDate.$error
+                  $v.mainForm.selectedDepartureDate.$error
                     ? 'text-danger'
-                    : $v.form.selectedDepartureDate.$dirty
+                    : $v.mainForm.selectedDepartureDate.$dirty
                     ? 'text-success'
                     : ''
                 "
                 >Trajecte d'anada:</label>
                 <v-date-picker
-                  v-model.lazy.trim="$v.form.selectedDepartureDate.$model"
+                  v-model.lazy.trim="$v.mainForm.selectedDepartureDate.$model"
                   :available-dates="departureAvailableDates"
                   :class="
-                    $v.form.selectedDepartureDate.$error
+                    $v.mainForm.selectedDepartureDate.$error
                       ? 'is-invalid '
-                      : $v.form.selectedDepartureDate.$dirty
+                      : $v.mainForm.selectedDepartureDate.$dirty
                       ? 'is-valid'
                       : ''
                   "
@@ -308,7 +312,7 @@
 
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.selectedDepartureDate.required && $v.form.selectedDepartureDate.$error"
+                  v-if="!$v.mainForm.selectedDepartureDate.required && $v.mainForm.selectedDepartureDate.$error"
                 >Camp obligatori</div>
               </div>
 
@@ -317,30 +321,30 @@
                   for="selectedReturnDate"
                   class="control-label"
                   :class="
-                  $v.form.selectedReturnDate.$error
+                  $v.mainForm.selectedReturnDate.$error
                     ? 'text-danger'
-                    : $v.form.selectedReturnDate.$dirty
+                    : $v.mainForm.selectedReturnDate.$dirty
                     ? 'text-success'
                     : ''
                 "
                 >Trajecte de tornada:</label>
                 <v-date-picker
                   :class="
-                  $v.form.selectedReturnDate.$error
+                  $v.mainForm.selectedReturnDate.$error
                     ? 'is-invalid '
-                    : $v.form.selectedReturnDate.$dirty
+                    : $v.mainForm.selectedReturnDate.$dirty
                     ? 'is-valid'
                     : ''
                 "
                   :available-dates="returnAvailableDates"
-                  v-model.lazy.trim="$v.form.selectedReturnDate.$model"
+                  v-model.lazy.trim="$v.mainForm.selectedReturnDate.$model"
                   type="text"
                   id="selectedReturnDate"
                 />
 
                 <div
                   class="help-block error mt-1"
-                  v-if="!$v.form.selectedReturnDate.required && $v.form.selectedReturnDate.$error"
+                  v-if="!$v.mainForm.selectedReturnDate.required && $v.mainForm.selectedReturnDate.$error"
                 >Camp obligatori</div>
               </div>
 
@@ -349,9 +353,9 @@
                   for="remarks"
                   class="control-label"
                   :class="
-                  $v.form.remarks.$error
+                  $v.mainForm.remarks.$error
                     ? 'text-danger'
-                    : $v.form.remarks.$dirty
+                    : $v.mainForm.remarks.$dirty
                     ? 'text-success'
                     : ''
                 "
@@ -359,36 +363,119 @@
                 <input
                   class="form-control"
                   :class="
-                  $v.form.remarks.$error
+                  $v.mainForm.remarks.$error
                     ? 'is-invalid '
-                    : $v.form.remarks.$dirty
+                    : $v.mainForm.remarks.$dirty
                     ? 'is-valid'
                     : ''
                 "
-                  v-model.lazy.trim="$v.form.remarks.$model"
+                  v-model.lazy.trim="$v.mainForm.remarks.$model"
                   type="text"
                   id="remarks"
                 />
+              </div>
+
+              <!-- PARTICIPANTS -->
+              <div class="form-group mt-2">
+                <label
+                  for="participants"
+                  class="control-label"
+                  :class="
+                  $v.mainForm.participants.$error
+                    ? 'text-danger'
+                    : $v.mainForm.participants.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Participants: *</label>
+                <!-- PARTICIPANTS LIST -->
+                <div>
+                  <label
+                    for="participantName"
+                    class="control-label"
+                    :class="
+                  $v.participantForm.name.$error
+                    ? 'text-danger'
+                    : $v.participantForm.name.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                  >Nom: *</label>
+                  <input
+                    v-model.lazy.trim="$v.participantForm.name.$model"
+                    class="form-control"
+                    :class="
+                    $v.participantForm.name.$error
+                      ? 'is-invalid '
+                      : $v.participantForm.name.$dirty
+                      ? 'is-valid'
+                      : ''
+                  "
+                    type="text"
+                    id="participantName"
+                  />
+                  <label
+                    for="participantSurname"
+                    class="control-label"
+                    :class="
+                  $v.participantForm.surname.$error
+                    ? 'text-danger'
+                    : $v.participantForm.surname.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                  >Cognoms: *</label>
+                  <input
+                    v-model.lazy.trim="$v.participantForm.surname.$model"
+                    class="form-control"
+                    :class="
+                    $v.participantForm.surname.$error
+                      ? 'is-invalid '
+                      : $v.participantForm.surname.$dirty
+                      ? 'is-valid'
+                      : ''
+                  "
+                    type="text"
+                    id="participantSurname"
+                  />
+                </div>
+                <div v-for="(item, index) in mainForm.participants" :key="index" class="form-group">
+                  <ul>
+                    <li>{{ item.name}} {{ item.surname }}</li>
+                  </ul>
+                </div>
+                <!-- <div class="">
+                  <b-button ></b-button>
+                </div>-->
+                <div class="mt-3 mb-3 text-center">
+                  <b-button @click="addParticipant" class="p-2 default-button">
+                    <span>Afegir participant</span>
+                    <font-awesome-icon class="ml-2" :icon="['fa', 'user-plus']" />
+                  </b-button>
+                </div>
               </div>
 
               <b-button class="submit" id="back-color" @click.prevent="submit">
                 <span>Envia</span>
               </b-button>
               <div class="mt-2">
-                <p v-if="errors" class="error">
+                <p v-if="mainForm.errors" class="error">
                   El formulari conté errors,
                   <br />siusplau dona-li un cop d'ull.
                 </p>
-                <p v-else-if="formTouched && uiState === 'submit clicked'" class="text-warning">
+                <p
+                  v-else-if="mainForm.formTouched && mainForm.uiState === 'submit clicked'"
+                  class="text-warning"
+                >
                   El formulari és buit,
                   <br />siusplau omple el formulari per suscriure't!
                 </p>
                 <p
-                  v-else-if="uiState === 'form submitted'"
+                  v-else-if="mainForm.uiState === 'form submitted'"
                   class="text-success"
                 >Formulari enviat correctament!</p>
                 <p
-                  v-else-if="uiState === 'form returns error'"
+                  v-else-if="mainForm.uiState === 'form returns error'"
                   class="text-warning"
                 >Error en processar la petició. Provi més tard.</p>
               </div>
@@ -415,23 +502,37 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
-      uiState: 'submit not clicked',
-      errors: false,
-      empty: true,
-      formTouched: null,
       busRegistrationForm: {
         campaignTitle: 'Setmana Santa 2020'
       },
-      form: {
+      mainForm: {
+        // Submit controls
+        uiState: 'submit not clicked',
+        errors: false,
+        empty: true,
+        touched: null,
+        // Form fields
         contactLanguage: 'Català',
         name: '',
         surname: '',
         dni: '',
         birthdate: '',
         email: '',
-        cellphone: ''
+        cellphone: '',
+        participants: [],
+        // Form options
+        contactLanguageOptions: ['Català', 'Castellà', 'Anglès']
       },
-      contactLanguageOptions: ['Català', 'Castellà', 'Anglès'],
+      participantForm: {
+        // Submit controls
+        uiState: 'submit not clicked',
+        errors: false,
+        empty: true,
+        touched: null,
+        // Form fields
+        name: '',
+        surname: ''
+      },
       attributes: [
         {
           /* key: 'today',
@@ -467,7 +568,7 @@ export default {
     };
   },
   validations: {
-    form: {
+    mainForm: {
       name: {
         /* required,
         minLength: minLength(2) */
@@ -496,16 +597,42 @@ export default {
       },
       selectedDepartureDate: {},
       selectedReturnDate: {},
-      remarks: {}
+      remarks: {},
+      participants: {}
+    },
+    participantForm: {
+      name: {},
+      surname: {}
     }
   },
   methods: {
+    addParticipant: function() {
+      this.participantForm.touched = !this.$v.participantForm.$anyDirty;
+      this.participantForm.errors = this.$v.participantForm.$anyError;
+      this.participantForm.uiState = 'submit clicked';
+      if (
+        this.participantForm.errors === false &&
+        this.participantForm.touched === false
+      ) {
+        console.log(this.participantForm);
+        this.mainForm.participants.push({
+          name: this.participantForm.name,
+          surname: this.participantForm.surname
+        });
+        console.log('participants ', this.mainForm.participants);
+        const self = this;
+        Object.keys(this.participantForm).forEach(function(key) {
+          self.participantForm[key] = '';
+        });
+        // this.$v.participantForm.$reset();
+      }
+    },
     submit: function() {
-      this.formTouched = !this.$v.form.$anyDirty;
-      this.errors = this.$v.form.$anyError;
-      this.uiState = 'submit clicked';
-      if (this.errors === false && this.formTouched === false) {
-        console.log(this.form);
+      this.mainForm.touched = !this.$v.mainForm.$anyDirty;
+      this.mainForm.errors = this.$v.mainForm.$anyError;
+      this.mainForm.uiState = 'submit clicked';
+      if (this.mainForm.errors === false && this.mainForm.touched === false) {
+        console.log(this.mainForm);
         //this is where you send the responses
         /* const key = db
           .ref()
