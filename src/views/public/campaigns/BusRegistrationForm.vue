@@ -349,6 +349,136 @@
                 >Camp obligatori</div>
               </div>
 
+              <!-- PARTICIPANTS -->
+              <div class="form-group mt-2">
+                <label
+                  for="participants"
+                  class="control-label"
+                  :class="
+                  $v.mainForm.participants.$error
+                    ? 'text-danger'
+                    : $v.mainForm.participants.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Participants: *</label>
+
+                <ol class="form-group">
+                  <!-- style="padding-inline-start:1rem" -->
+                  <li v-for="(item, index) in mainForm.participants" :key="index">
+                    <span>{{ item.name }} {{ item.surname }}</span>
+                    <span class="ml-2">({{ item.birthdate | formatDate }})</span>
+                    <font-awesome-icon
+                      @click="deleteParticipant(index)"
+                      class="text-danger ml-2"
+                      :icon="['far', 'times-circle']"
+                    />
+                  </li>
+                </ol>
+
+                <!-- PARTICIPANTS LIST -->
+                <div>
+                  <div>
+                    <label
+                      for="participantName"
+                      class="control-label"
+                      :class="
+                    $v.participantForm.name.$error
+                      ? 'text-danger'
+                      : $v.participantForm.name.$dirty
+                      ? 'text-success'
+                      : ''
+                  "
+                    >Nom: *</label>
+                    <input
+                      v-model.lazy.trim="$v.participantForm.name.$model"
+                      class="form-control"
+                      :class="
+                      $v.participantForm.name.$error
+                        ? 'is-invalid '
+                        : $v.participantForm.name.$dirty
+                        ? 'is-valid'
+                        : ''
+                    "
+                      type="text"
+                      id="participantName"
+                    />
+                    <div
+                      class="help-block error mt-1"
+                      v-if="!$v.participantForm.name.required && $v.participantForm.name.$error"
+                    >Camp obligatori</div>
+                  </div>
+                  <div class="mt-2">
+                    <label
+                      for="participantSurname"
+                      class="control-label"
+                      :class="
+                    $v.participantForm.surname.$error
+                      ? 'text-danger'
+                      : $v.participantForm.surname.$dirty
+                      ? 'text-success'
+                      : ''
+                  "
+                    >Cognoms: *</label>
+                    <input
+                      v-model.lazy.trim="$v.participantForm.surname.$model"
+                      class="form-control"
+                      :class="
+                      $v.participantForm.surname.$error
+                        ? 'is-invalid '
+                        : $v.participantForm.surname.$dirty
+                        ? 'is-valid'
+                        : ''
+                    "
+                      type="text"
+                      id="participantSurname"
+                    />
+                    <div
+                      class="help-block error mt-1"
+                      v-if="!$v.participantForm.surname.required && $v.participantForm.surname.$error"
+                    >Camp obligatori</div>
+                  </div>
+                  <div class="mt-2">
+                    <label
+                      for="participantBirthdate"
+                      class="control-label"
+                      :class="
+                    $v.participantForm.birthdate.$error
+                      ? 'text-danger'
+                      : $v.participantForm.birthdate.$dirty
+                      ? 'text-success'
+                      : ''
+                  "
+                    >Data de naixement: *</label>
+                    <v-date-picker
+                      v-model="participantForm.birthdate"
+                      :class="
+                      $v.participantForm.birthdate.$error
+                        ? 'is-invalid '
+                        : $v.participantForm.birthdate.$dirty
+                        ? 'is-valid'
+                        : ''
+                    "
+                      ref="participantBirthdate"
+                      type="date"
+                      id="participantBirthdate"
+                    ></v-date-picker>
+
+                    <div
+                      class="help-block error mt-1"
+                      v-if="!$v.participantForm.birthdate.required && $v.participantForm.birthdate.$error"
+                    >Camp obligatori</div>
+                  </div>
+                </div>
+
+                <div class="mt-3 mb-3 text-center">
+                  <b-button @click="addParticipant" class="p-2 default-button">
+                    <span>Afegir participant</span>
+                    <font-awesome-icon class="ml-2" :icon="['fa', 'user-plus']" />
+                  </b-button>
+                </div>
+              </div>
+
               <div class="form-group mt-2">
                 <label
                   for="remarks"
@@ -374,125 +504,6 @@
                   type="text"
                   id="remarks"
                 />
-              </div>
-
-              <!-- PARTICIPANTS -->
-              <div class="form-group mt-2">
-                <label
-                  for="participants"
-                  class="control-label"
-                  :class="
-                  $v.mainForm.participants.$error
-                    ? 'text-danger'
-                    : $v.mainForm.participants.$dirty
-                    ? 'text-success'
-                    : ''
-                "
-                >Participants: *</label>
-                <div v-for="(item, index) in mainForm.participants" :key="index" class="form-group">
-                  <ul>
-                    <li>
-                      {{ item.name}} {{ item.surname }}
-                      <button
-                        @click="deleteParticipant(index)"
-                      >delete</button>
-                    </li>
-                  </ul>
-                </div>
-                <!-- PARTICIPANTS LIST -->
-                <div>
-                  <label
-                    for="participantName"
-                    class="control-label"
-                    :class="
-                  $v.participantForm.name.$error
-                    ? 'text-danger'
-                    : $v.participantForm.name.$dirty
-                    ? 'text-success'
-                    : ''
-                "
-                  >Nom: *</label>
-                  <input
-                    v-model.lazy.trim="$v.participantForm.name.$model"
-                    class="form-control"
-                    :class="
-                    $v.participantForm.name.$error
-                      ? 'is-invalid '
-                      : $v.participantForm.name.$dirty
-                      ? 'is-valid'
-                      : ''
-                  "
-                    type="text"
-                    id="participantName"
-                  />
-                  <div
-                    class="help-block error mt-1"
-                    v-if="!$v.participantForm.name.required && $v.participantForm.name.$error"
-                  >Camp obligatori</div>
-                  <label
-                    for="participantSurname"
-                    class="control-label"
-                    :class="
-                  $v.participantForm.surname.$error
-                    ? 'text-danger'
-                    : $v.participantForm.surname.$dirty
-                    ? 'text-success'
-                    : ''
-                "
-                  >Cognoms: *</label>
-                  <input
-                    v-model.lazy.trim="$v.participantForm.surname.$model"
-                    class="form-control"
-                    :class="
-                    $v.participantForm.surname.$error
-                      ? 'is-invalid '
-                      : $v.participantForm.surname.$dirty
-                      ? 'is-valid'
-                      : ''
-                  "
-                    type="text"
-                    id="participantSurname"
-                  />
-                  <div
-                    class="help-block error mt-1"
-                    v-if="!$v.participantForm.surname.required && $v.participantForm.surname.$error"
-                  >Camp obligatori</div>
-                  <label
-                    for="participantBirthdate"
-                    class="control-label"
-                    :class="
-                  $v.participantForm.birthdate.$error
-                    ? 'text-danger'
-                    : $v.participantForm.birthdate.$dirty
-                    ? 'text-success'
-                    : ''
-                "
-                  >Data de naixement: *</label>
-                  <v-date-picker
-                    v-model.lazy.trim="$v.participantForm.birthdate.$model"
-                    :class="
-                    $v.participantForm.birthdate.$error
-                      ? 'is-invalid '
-                      : $v.participantForm.birthdate.$dirty
-                      ? 'is-valid'
-                      : ''
-                  "
-                    type="date"
-                    id="participantBirthdate"
-                  ></v-date-picker>
-
-                  <div
-                    class="help-block error mt-1"
-                    v-if="!$v.participantForm.birthdate.required && $v.participantForm.birthdate.$error"
-                  >Camp obligatori</div>
-                </div>
-
-                <div class="mt-3 mb-3 text-center">
-                  <b-button @click="addParticipant" class="p-2 default-button">
-                    <span>Afegir participant</span>
-                    <font-awesome-icon class="ml-2" :icon="['fa', 'user-plus']" />
-                  </b-button>
-                </div>
               </div>
 
               <b-button class="submit" id="back-color" @click.prevent="submit">
@@ -572,7 +583,7 @@ export default {
         // Form fields
         name: '',
         surname: '',
-        birthdate: ''
+        birthdate: null
       },
       attributes: [
         {
@@ -665,14 +676,15 @@ export default {
         console.log(this.participantForm);
         this.mainForm.participants.push({
           name: this.participantForm.name,
-          surname: this.participantForm.surname
+          surname: this.participantForm.surname,
+          birthdate: this.participantForm.birthdate
         });
         console.log('participants ', this.mainForm.participants);
         const self = this;
         Object.keys(this.participantForm).forEach(function(key) {
           self.participantForm[key] = '';
         });
-        // this.$v.participantForm.$reset();
+        this.$v.participantForm.$reset();
       }
     },
     deleteParticipant: function(index) {

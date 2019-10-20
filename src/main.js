@@ -29,7 +29,11 @@ import {
   faAngleDoubleDown,
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
-import { faClock, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
+import {
+  faClock,
+  faCalendarAlt,
+  faTimesCircle
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faInstagram,
   faFacebookSquare,
@@ -60,7 +64,8 @@ library.add(
   faCalendarAlt,
   faLocationArrow,
   faAngleDoubleDown,
-  faUserPlus
+  faUserPlus,
+  faTimesCircle
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
