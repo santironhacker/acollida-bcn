@@ -181,8 +181,10 @@
                     : ''
                 "
                 />
-                <!-- class="form-control"
-                -->
+                <div
+                  class="help-block error mt-1"
+                  v-if="!$v.form.birthdate.required && $v.form.birthdate.$error"
+                >Camp obligatori</div>
               </div>
 
               <div class="form-group mt-2">
@@ -241,6 +243,154 @@
                   type="text"
                   id="cellphone"
                 />
+                <div
+                  class="help-block error mt-1"
+                  v-if="!$v.form.email.required && $v.form.email.$error"
+                >Camp obligatori</div>
+              </div>
+
+              <div class="form-group mt-2">
+                <label
+                  for="taizeRegistrationCode"
+                  class="control-label"
+                  :class="
+                  $v.form.taizeRegistrationCode.$error
+                    ? 'text-danger'
+                    : $v.form.taizeRegistrationCode.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Codi d'inscripció a Taizé: *</label>
+                <input
+                  class="form-control"
+                  :class="
+                  $v.form.taizeRegistrationCode.$error
+                    ? 'is-invalid '
+                    : $v.form.taizeRegistrationCode.$dirty
+                    ? 'is-valid'
+                    : ''
+                "
+                  v-model.lazy.trim="$v.form.taizeRegistrationCode.$model"
+                  type="text"
+                  id="taizeRegistrationCode"
+                />
+                <div
+                  class="help-block error mt-1"
+                  v-if="!$v.form.taizeRegistrationCode.required && $v.form.taizeRegistrationCode.$error"
+                >Camp obligatori</div>
+              </div>
+
+              <div class="form-group mt-2">
+                <label
+                  for="selectedDepartureDate"
+                  class="control-label"
+                  :class="
+                  $v.form.selectedDepartureDate.$error
+                    ? 'text-danger'
+                    : $v.form.selectedDepartureDate.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Trajecte d'anada:</label>
+                <v-date-picker
+                  v-model.lazy.trim="$v.form.selectedDepartureDate.$model"
+                  :available-dates="departureAvailableDates"
+                  :class="
+                    $v.form.selectedDepartureDate.$error
+                      ? 'is-invalid '
+                      : $v.form.selectedDepartureDate.$dirty
+                      ? 'is-valid'
+                      : ''
+                  "
+                  type="text"
+                  id="selectedDepartureDate"
+                ></v-date-picker>
+
+                <div
+                  class="help-block error mt-1"
+                  v-if="!$v.form.selectedDepartureDate.required && $v.form.selectedDepartureDate.$error"
+                >Camp obligatori</div>
+              </div>
+
+              <div class="form-group mt-2">
+                <label
+                  for="selectedReturnDate"
+                  class="control-label"
+                  :class="
+                  $v.form.selectedReturnDate.$error
+                    ? 'text-danger'
+                    : $v.form.selectedReturnDate.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Trajecte de tornada:</label>
+                <v-date-picker
+                  :class="
+                  $v.form.selectedReturnDate.$error
+                    ? 'is-invalid '
+                    : $v.form.selectedReturnDate.$dirty
+                    ? 'is-valid'
+                    : ''
+                "
+                  :available-dates="returnAvailableDates"
+                  v-model.lazy.trim="$v.form.selectedReturnDate.$model"
+                  type="text"
+                  id="selectedReturnDate"
+                />
+
+                <div
+                  class="help-block error mt-1"
+                  v-if="!$v.form.selectedReturnDate.required && $v.form.selectedReturnDate.$error"
+                >Camp obligatori</div>
+              </div>
+
+              <div class="form-group mt-2">
+                <label
+                  for="remarks"
+                  class="control-label"
+                  :class="
+                  $v.form.remarks.$error
+                    ? 'text-danger'
+                    : $v.form.remarks.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+                >Observacions:</label>
+                <input
+                  class="form-control"
+                  :class="
+                  $v.form.remarks.$error
+                    ? 'is-invalid '
+                    : $v.form.remarks.$dirty
+                    ? 'is-valid'
+                    : ''
+                "
+                  v-model.lazy.trim="$v.form.remarks.$model"
+                  type="text"
+                  id="remarks"
+                />
+              </div>
+
+              <b-button class="submit" id="back-color" @click.prevent="submit">
+                <span>Envia</span>
+              </b-button>
+              <div class="mt-2">
+                <p v-if="errors" class="error">
+                  El formulari conté errors,
+                  <br />siusplau dona-li un cop d'ull.
+                </p>
+                <p v-else-if="formTouched && uiState === 'submit clicked'" class="text-warning">
+                  El formulari és buit,
+                  <br />siusplau omple el formulari per suscriure't!
+                </p>
+                <p
+                  v-else-if="uiState === 'form submitted'"
+                  class="text-success"
+                >Formulari enviat correctament!</p>
+                <p
+                  v-else-if="uiState === 'form returns error'"
+                  class="text-warning"
+                >Error en processar la petició. Provi més tard.</p>
               </div>
             </form>
           </div>
@@ -265,6 +415,10 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
+      uiState: 'submit not clicked',
+      errors: false,
+      empty: true,
+      formTouched: null,
       busRegistrationForm: {
         campaignTitle: 'Setmana Santa 2020'
       },
@@ -277,33 +431,109 @@ export default {
         email: '',
         cellphone: ''
       },
-      contactLanguageOptions: ['Català', 'Castellà', 'Anglès']
+      contactLanguageOptions: ['Català', 'Castellà', 'Anglès'],
+      attributes: [
+        {
+          /* key: 'today',
+          highlight: true,
+          dates: {
+            start: new Date(2020, 3, 16), // Jan 1st, 2018
+            end: new Date(202, 3, 20), // Jan 1st, 2019
+            weekdays: [1, 7] // ...on Sundays and Saturdays
+          } */
+          key: 'today',
+          highlight: true,
+          dates: new Date()
+        }
+      ],
+      departureAvailableDates: {
+        // start: new Date(),
+        start: new Date(
+          'Mon Oct 22 2019 00:00:00 GMT+0200 (Central European Summer Time)'
+        ),
+        end: new Date(
+          'Sat Oct 25 2019 00:00:00 GMT+0200 (Central European Summer Time)'
+        )
+        //end: null
+      },
+      returnAvailableDates: {
+        start: new Date(
+          'Mon Oct 22 2019 00:00:00 GMT+0200 (Central European Summer Time)'
+        ),
+        end: new Date(
+          'Sat Oct 25 2019 00:00:00 GMT+0200 (Central European Summer Time)'
+        )
+      }
     };
   },
   validations: {
     form: {
       name: {
-        required,
-        minLength: minLength(2)
+        /* required,
+        minLength: minLength(2) */
       },
       surname: {
-        required,
-        minLength: minLength(2)
+        /* required,
+        minLength: minLength(2) */
       },
       dni: {
-        required,
+        /* required,
         mustBeNineLength,
-        mustContainAtLeastOneLetter
+        mustContainAtLeastOneLetter */
       },
       birthdate: {
-        required
+        // required
       },
       email: {
-        required,
-        email
+        /* required,
+        email */
       },
       cellphone: {
-        isCellphone
+        // isCellphone
+      },
+      taizeRegistrationCode: {
+        // required
+      },
+      selectedDepartureDate: {},
+      selectedReturnDate: {},
+      remarks: {}
+    }
+  },
+  methods: {
+    submit: function() {
+      this.formTouched = !this.$v.form.$anyDirty;
+      this.errors = this.$v.form.$anyError;
+      this.uiState = 'submit clicked';
+      if (this.errors === false && this.formTouched === false) {
+        console.log(this.form);
+        //this is where you send the responses
+        /* const key = db
+          .ref()
+          .child('newsletter')
+          .push().key;
+        db.ref()
+          .child('newsletter')
+          .child(key)
+          .set({
+            name: this.form.name,
+            surname: this.form.surname,
+            email: this.form.email,
+            hearFromUs: this.form.hearFromUs,
+            accept: this.form.accept
+          })
+          .then(
+            () => {
+              this.uiState = 'form submitted';
+              this.$v.form.$reset();
+              const self = this;
+              Object.keys(this.form).forEach(function(key) {
+                self.form[key] = '';
+              });
+            },
+            () => {
+              this.uiState = 'form returns error';
+            }
+          ); */
       }
     }
   }
