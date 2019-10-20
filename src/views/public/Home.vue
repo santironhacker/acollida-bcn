@@ -172,7 +172,7 @@
               <select class="form-control" id="hearFromUs" v-model="form.hearFromUs">
                 <option
                   v-for="option in hearFromUsOptions"
-                  v-bind:value="option"
+                  :key="option"
                   style="font-family: Ubuntu, font-size: 10px, overflow: none"
                 >{{ option }}</option>
               </select>
