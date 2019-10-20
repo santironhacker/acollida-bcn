@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header class="sticky-top">
+    <header class="sticky">
       <AppHeader></AppHeader>
     </header>
     <router-view></router-view>
