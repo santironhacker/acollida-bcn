@@ -31,9 +31,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(
-          /* webpackChunkName: "about" */ './views/public/campaigns/Campaigns.vue'
-        )
+        import(/* webpackChunkName: "about" */ './views/public/campaigns/Campaigns.vue')
     },
     {
       path: '/campaigns/:campaignId',
@@ -42,9 +40,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(
-          /* webpackChunkName: "about" */ './views/public/campaigns/Campaign.vue'
-        )
+        import(/* webpackChunkName: "about" */ './views/public/campaigns/Campaign.vue')
     },
     {
       path: '/campaign/buses/:busId/bus-registration-form',
@@ -53,9 +49,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(
-          /* webpackChunkName: "about" */ './views/public/campaigns/BusRegistrationForm.vue'
-        )
+        import(/* webpackChunkName: "about" */ './views/public/campaigns/BusRegistrationForm.vue')
     },
     {
       path: '/prayers',

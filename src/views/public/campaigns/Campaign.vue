@@ -14,7 +14,12 @@
       </b-row>
       <b-row>
         <b-col>
-          <bus-details class="mb-3" v-for="(item, index) in buses" :key="index" :bus="item"></bus-details>
+          <bus-details
+            class="mb-3"
+            v-for="(item, index) in buses"
+            :key="index"
+            :bus="item"
+          ></bus-details>
           <!-- :v-on:show="item.showCollapse = $event" -->
         </b-col>
       </b-row>
@@ -23,11 +28,9 @@
           <p>
             <strong>El preu d’anada i tornada és de 100 €.</strong> Si només
             desitgeu realitzar un dels trajectes (anada o tornada), el preu serà
-            de
-            <strong>60€</strong>. Però no us encanteu! Per aquells que
+            de <strong>60€</strong>. Però no us encanteu! Per aquells que
             s’inscriguin dins dels 15 dies previs a la sortida del bus el preu
-            serà de
-            <strong>110€ per anada i tornada</strong> i de
+            serà de <strong>110€ per anada i tornada</strong> i de
             <strong>65€ per un sol trajecte</strong>.
           </p>
           <p>
@@ -38,13 +41,14 @@
                 id="orange-text-color"
                 target="_blank"
                 href="http://www.taize.fr/es_article5484.html"
-              >a la web</a>.**
+                >a la web</a
+              >.**
             </strong>
           </p>
           <p>
             <strong>
-              **IMPORTANT: els adults (majors de 29 anys), us heu d’inscriure
-              el més aviat possible, és a dir, ja!**
+              **IMPORTANT: els adults (majors de 29 anys), us heu d’inscriure el
+              més aviat possible, és a dir, ja!**
             </strong>
           </p>
           <p>

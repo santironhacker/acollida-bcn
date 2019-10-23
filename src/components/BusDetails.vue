@@ -12,7 +12,11 @@
           class="mr-1"
           :icon="['fa', 'angle-double-down']"
         />
-        <font-awesome-icon v-else class="mr-1" :icon="['fa', 'location-arrow']" />
+        <font-awesome-icon
+          v-else
+          class="mr-1"
+          :icon="['fa', 'location-arrow']"
+        />
         <span id="orange-text-color">
           <strong>
             Del {{ bus.oneWayDepartureDate | formatDate }} al
@@ -25,7 +29,10 @@
       <b-card>
         <div>
           <font-awesome-icon class="mr-2" :icon="['fa', 'bus']" />
-          <font-awesome-icon class="mr-2" :icon="['fa', 'long-arrow-alt-right']" />
+          <font-awesome-icon
+            class="mr-2"
+            :icon="['fa', 'long-arrow-alt-right']"
+          />
           <span>Anada</span>
         </div>
         <div>
@@ -38,14 +45,20 @@
             <span>{{ bus.oneWayDepartureTime }}</span>
           </div>
           <div>
-            <font-awesome-icon class="mr-2 ml-1" :icon="['fa', 'map-marker-alt']" />
+            <font-awesome-icon
+              class="mr-2 ml-1"
+              :icon="['fa', 'map-marker-alt']"
+            />
             <span>{{ bus.oneWayDeparturePlace }}</span>
           </div>
         </div>
       </b-card>
       <b-card>
         <div>
-          <font-awesome-icon class="mr-2" :icon="['fa', 'long-arrow-alt-left']" />
+          <font-awesome-icon
+            class="mr-2"
+            :icon="['fa', 'long-arrow-alt-left']"
+          />
           <font-awesome-icon class="mr-2" :icon="['fa', 'bus']" />
           <span>Tornada</span>
         </div>
@@ -58,13 +71,18 @@
           <span>{{ bus.returnArrivalTime }}</span>
         </div>
         <div>
-          <font-awesome-icon class="mr-2 ml-1" :icon="['fa', 'map-marker-alt']" />
+          <font-awesome-icon
+            class="mr-2 ml-1"
+            :icon="['fa', 'map-marker-alt']"
+          />
           <span>{{ bus.returnArrivalPlace }}</span>
         </div>
       </b-card>
       <div class="mt-3 mb-3 text-center">
         <b-button class="p-2 default-button">
-          <router-link :to="{ name: 'bus-registration-form', params: { busId: bus.id } }">
+          <router-link
+            :to="{ name: 'bus-registration-form', params: { busId: bus.id } }"
+          >
             <span>Inscriure'm al bus</span>
             <font-awesome-icon class="ml-2" :icon="['fa', 'user-plus']" />
           </router-link>
@@ -84,5 +102,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

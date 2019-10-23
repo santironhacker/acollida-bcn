@@ -113,7 +113,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-// export const firebaseApp = firebase.initializeApp(firebaseConfig);
+export const firebaseApp = firebase.initializeApp(firebaseConfig);
 // export const db = firebaseApp.database();
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
