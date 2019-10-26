@@ -95,9 +95,9 @@ Vue.filter('formatDate', function(timestamp) {
 /* FIREBASE */
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
-import * as firebase from 'firebase/app';
+// import 'firebase/database';
 // Add the Firebase services that you want to use
-import 'firebase/database';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
@@ -114,13 +114,16 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
+export const auth = firebaseApp.auth();
+export const db = firebaseApp.firestore();
 // export const db = firebaseApp.database();
-const admin = require('firebase-admin');
+
+/* ADMIN SETTINGS ?? */
+/* const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-
-admin.initializeApp(functions.config().firebase);
-
+admin.initializeApp(functions.config().firebase); 
 export const db = admin.firestore();
+*/
 
 /* OTHERS */
 dom.watch();

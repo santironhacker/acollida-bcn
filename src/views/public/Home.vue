@@ -319,13 +319,41 @@ export default {
         this.form.accept === true
       ) {
         //this is where you send the responses
-        const key = db
+        /* const key = db
           .ref()
           .child('newsletter')
           .push().key;
         db.ref()
           .child('newsletter')
           .child(key)
+          .set({
+            name: this.form.name,
+            surname: this.form.surname,
+            email: this.form.email,
+            hearFromUs: this.form.hearFromUs,
+            accept: this.form.accept
+          })
+          .then(
+            () => {
+              this.uiState = 'form submitted';
+              this.$v.form.$reset();
+              const self = this;
+              Object.keys(this.form).forEach(function(key) {
+                self.form[key] = '';
+              });
+            },
+            () => {
+              this.uiState = 'form returns error';
+            }
+          ); */
+        const key = db
+          .collection('newsletter')
+          .doc(this.form.email)
+          
+          /* .push().key;
+        db.ref()
+          .child('newsletter')
+          .child(key) */
           .set({
             name: this.form.name,
             surname: this.form.surname,
