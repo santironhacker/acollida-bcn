@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <header class="sticky">
+    <!-- <header class="sticky">
       <AppHeader></AppHeader>
-    </header>
+    </header> -->
     <router-view></router-view>
     <!-- <pre>{{ $data }}</pre> -->
     <!-- class="fixed-bottom" -->
-    <footer>
+    <!-- <footer>
       <AppFooter></AppFooter>
-    </footer>
+    </footer> -->
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader.vue';
-import AppFooter from '@/components/AppFooter.vue';
+/* import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue'; */
 
 export default {
-  components: {
+  /* components: {
     AppHeader,
     AppFooter
   },
@@ -25,7 +25,7 @@ export default {
     return {
       ex: 'youpi'
     };
-  }
+  } */
 };
 </script>
 

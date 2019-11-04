@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/public/Home.vue';
+import Layout from './views/public/Layout.vue';
+import { auth } from './main';
 
 Vue.use(Router);
 
@@ -8,21 +10,24 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/public/About.vue')
+      component: Layout,
+      redirect: '/home',
+      children: [
+        {
+          path: '/home',
+          name: 'home',
+          component: Home
+        },
+        {
+          path: '/about',
+          name: 'about',
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () =>
+            import(/* webpackChunkName: "about" */ './views/public/About.vue')
+        }
+      ]
     },
     {
       path: '/campaigns',
@@ -81,6 +86,11 @@ export default new Router({
     {
       path: '/homeBO',
       name: 'homeBO',
+      beforeEnter: (to, from, next) => {
+        console.log('user', auth.currentUser);
+        if (!auth.currentUser) next('/loginBO');
+        else next();
+      },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.

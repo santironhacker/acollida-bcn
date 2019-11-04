@@ -15,11 +15,7 @@
     <b-row>
       <b-col>
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar
-            class="nav-dropdown-items float-right"
-            toggleable="lg"
-            type="light"
-          >
+          <b-navbar class="nav-dropdown-items float-right" toggleable="lg" type="light">
             <b-img
               class="m-2"
               :src="require('../assets/img/logo-acollida.png')"
@@ -27,7 +23,7 @@
               alt="Logo acollida Barcelona"
               style="height: 6rem"
             ></b-img>
-            <b-navbar-nav>
+            <b-navbar-nav v-if="isAuth">
               <b-dropdown-item>
                 <router-link to="/home">Inici</router-link>
               </b-dropdown-item>
@@ -41,6 +37,20 @@
                 <router-link to="/prayers">Pregàries</router-link>
               </b-dropdown-item>
             </b-navbar-nav>
+            <!-- <b-navbar-nav :v-if="!isAuth">
+              <b-dropdown-item>
+                <router-link to="/home">Inici</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link to="/about">Qui som</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link to="/campaigns">Campanyes</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link to="/prayers">Pregàries</router-link>
+              </b-dropdown-item>
+            </b-navbar-nav>-->
           </b-navbar>
         </b-collapse>
       </b-col>
@@ -49,14 +59,25 @@
 </template>
 
 <script>
+import { auth } from '../main';
 export default {
   name: 'AppHeader',
-  props: {},
+  props: {
+    isAuth: false
+  },
   data: function() {
     return {
       ex: 'This message',
       isTod: true
     };
+  },
+  mounted: function() {
+    console.log('mounted isAuth ', this.isAuth);
+    console.log('mounted current ', auth.currentUser);
+  },
+  updated: function() {
+    console.log('updated isAuth ', this.isAuth);
+    console.log('updated current ', auth.currentUser);
   }
 };
 </script>
