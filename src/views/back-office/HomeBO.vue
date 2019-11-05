@@ -2,7 +2,7 @@
   <b-container fluid style="max-width: 100%">
     <b-row>
       <b-col>
-        <div class="pt-2 pb-2 title">Tauler de control de l'acollida</div>
+        <div class="pt-2 pb-2 title">Taulell de control de l'acollida</div>
         <div class="mb-3">Benvingut {{ userEmail }}</div>        
       </b-col>
     </b-row>

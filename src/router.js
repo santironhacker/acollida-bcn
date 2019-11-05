@@ -15,12 +15,12 @@ export default new Router({
       redirect: '/home',
       children: [
         {
-          path: '/home',
+          path: 'home',
           name: 'home',
           component: Home
         },
         {
-          path: '/about',
+          path: 'about',
           name: 'about',
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
@@ -29,7 +29,7 @@ export default new Router({
             import(/* webpackChunkName: "about" */ './views/public/About.vue')
         },
         {
-          path: '/campaigns',
+          path: 'campaigns',
           name: 'campaigns',
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
@@ -40,7 +40,7 @@ export default new Router({
             )
         },
         {
-          path: '/campaigns/:campaignId',
+          path: 'campaigns/:campaignId',
           name: 'campaign',
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
@@ -51,7 +51,7 @@ export default new Router({
             )
         },
         {
-          path: '/campaign/buses/:busId/bus-registration-form',
+          path: 'campaign/buses/:busId/bus-registration-form',
           name: 'bus-registration-form',
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
@@ -62,7 +62,7 @@ export default new Router({
             )
         },
         {
-          path: '/prayers',
+          path: 'prayers',
           name: 'prayers',
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
@@ -72,7 +72,7 @@ export default new Router({
         },
         /* BACK OFFICE LINK */
         {
-          path: '/loginBO',
+          path: 'loginBO',
           name: 'loginBO',
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
@@ -117,6 +117,15 @@ export default new Router({
           // which is lazy-loaded when the route is visited.
           component: () =>
             import(/* webpackChunkName: "about" */ './views/back-office/CampaignsBO.vue')
+        },
+        {
+          path: 'new-campaignBO',
+          name: 'newCampaignBO',
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () =>
+            import(/* webpackChunkName: "about" */ './views/back-office/NewCampaignBO.vue')
         }
       ]
     }
