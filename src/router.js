@@ -94,9 +94,15 @@ export default new Router({
           path: 'homeBO',
           name: 'homeBO',
           beforeEnter: (to, from, next) => {
-            console.log('user', auth.currentUser);
-            if (!auth.currentUser) next('/loginBO');
-            else next();
+            auth.onAuthStateChanged(function(user) {
+              if(user) {
+                console.log('Valid user on router');
+                next();
+              } else {
+                next('/loginBO');
+              }
+            })
+            // if (!auth.currentUser) 
           },
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
