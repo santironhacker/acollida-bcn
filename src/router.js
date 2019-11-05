@@ -89,20 +89,20 @@ export default new Router({
       path: '/bo',
       component: LayoutBO,
       redirect: '/homeBO',
+      beforeEnter: (to, from, next) => {
+        auth.onAuthStateChanged(function(user) {
+          if(user) {
+            console.log('Valid user on router');
+            next();
+          } else {
+            next('/loginBO');
+          }
+        })
+      },
       children: [
         {
           path: 'homeBO',
           name: 'homeBO',
-          beforeEnter: (to, from, next) => {
-            auth.onAuthStateChanged(function(user) {
-              if(user) {
-                console.log('Valid user on router');
-                next();
-              } else {
-                next('/loginBO');
-              }
-            })
-          },
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
@@ -112,16 +112,6 @@ export default new Router({
         {
           path: 'campaignsBO',
           name: 'campaignsBO',
-          beforeEnter: (to, from, next) => {
-            auth.onAuthStateChanged(function(user) {
-              if(user) {
-                console.log('Valid user on router');
-                next();
-              } else {
-                next('/loginBO');
-              }
-            })
-          },
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
