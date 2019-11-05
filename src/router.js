@@ -102,13 +102,31 @@ export default new Router({
                 next('/loginBO');
               }
             })
-            // if (!auth.currentUser) 
           },
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
           component: () =>
             import(/* webpackChunkName: "about" */ './views/back-office/HomeBO.vue')
+        },
+        {
+          path: 'campaignsBO',
+          name: 'campaignsBO',
+          beforeEnter: (to, from, next) => {
+            auth.onAuthStateChanged(function(user) {
+              if(user) {
+                console.log('Valid user on router');
+                next();
+              } else {
+                next('/loginBO');
+              }
+            })
+          },
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () =>
+            import(/* webpackChunkName: "about" */ './views/back-office/CampaignsBO.vue')
         }
       ]
     }
