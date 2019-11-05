@@ -23,7 +23,7 @@
               alt="Logo acollida Barcelona"
               style="height: 6rem"
             ></b-img>
-            <b-navbar-nav v-if="isAuth">
+            <b-navbar-nav v-if="!isAuth">
               <b-dropdown-item>
                 <router-link to="/home">Inici</router-link>
               </b-dropdown-item>
@@ -37,20 +37,14 @@
                 <router-link to="/prayers">Pregàries</router-link>
               </b-dropdown-item>
             </b-navbar-nav>
-            <!-- <b-navbar-nav :v-if="!isAuth">
+            <b-navbar-nav v-if="isAuth">
               <b-dropdown-item>
-                <router-link to="/home">Inici</router-link>
-              </b-dropdown-item>
+                <router-link to="/bo/homeBO">Inici</router-link>
+              </b-dropdown-item>            
               <b-dropdown-item>
-                <router-link to="/about">Qui som</router-link>
+                <span @click="logout">Desconexió</span>                
               </b-dropdown-item>
-              <b-dropdown-item>
-                <router-link to="/campaigns">Campanyes</router-link>
-              </b-dropdown-item>
-              <b-dropdown-item>
-                <router-link to="/prayers">Pregàries</router-link>
-              </b-dropdown-item>
-            </b-navbar-nav>-->
+            </b-navbar-nav>
           </b-navbar>
         </b-collapse>
       </b-col>
@@ -60,24 +54,35 @@
 
 <script>
 import { auth } from '../main';
+import router from '../router';
 export default {
   name: 'AppHeader',
   props: {
-    isAuth: false
-  },
+    isAuth: Boolean  
+  }
+  ,
   data: function() {
-    return {
-      ex: 'This message',
-      isTod: true
-    };
+    return {};
   },
   mounted: function() {
     console.log('mounted isAuth ', this.isAuth);
     console.log('mounted current ', auth.currentUser);
+    this.$forceUpdate();
   },
   updated: function() {
     console.log('updated isAuth ', this.isAuth);
     console.log('updated current ', auth.currentUser);
+  }, 
+  methods: {
+    logout: function() {      
+      auth.signOut()
+      .then(function() {      
+        router.push('/home')
+      })
+      .catch(function(error) {
+        console.error('Could not log out because of ', error)
+      });
+    }
   }
 };
 </script>

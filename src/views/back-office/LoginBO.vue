@@ -157,14 +157,12 @@ export default {
             Object.keys(this.form).forEach(function(key) {
               self.form[key] = '';
             });
-            router.push('homeBO');
+            router.push('bo/homeBO');
           })
           .catch(function(error) {
             // Handle errors here
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
             if (
               errorCode === 'auth/invalid-email' ||
               errorCode === 'auth/user-not-found' ||

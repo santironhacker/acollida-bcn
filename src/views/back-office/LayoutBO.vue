@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="sticky">
-      <AppHeader :is-auth="false"></AppHeader>
+      <AppHeader :is-auth="true"></AppHeader>
     </header>
     <router-view></router-view>
     <!-- <pre>{{ $data }}</pre> -->
@@ -17,7 +17,7 @@ import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 
 export default {
-  name: 'layout',
+  name: 'layoutBO',
   components: {
     AppHeader,
     AppFooter
