@@ -64,15 +64,6 @@ export default {
   data: function() {
     return {};
   },
-  mounted: function() {
-    console.log('mounted isAuth ', this.isAuth);
-    console.log('mounted current ', auth.currentUser);
-    this.$forceUpdate();
-  },
-  updated: function() {
-    console.log('updated isAuth ', this.isAuth);
-    console.log('updated current ', auth.currentUser);
-  }, 
   methods: {
     logout: function() {      
       auth.signOut()
