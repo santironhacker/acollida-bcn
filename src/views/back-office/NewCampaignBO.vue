@@ -133,6 +133,30 @@
                 Detall per setmanes
             </div>   
 
+            <v-calendar 
+                :rows="form.calendar.rows"
+            />
+            <div class="d-flex align-items-center p-4">
+                <span class="rounder">
+                    <font-awesome-icon
+                        @click="removeRow()"
+                        class="m-2"
+                        :icon="['fa', 'calendar-minus']"
+                    />
+                </span>
+                <span class="ml-2 mr-2">
+                    Nombre de calendaris: {{ form.calendar.rows }}
+                </span>
+                <span class="rounder">
+                    <font-awesome-icon
+                        @click="addRow()"
+                        class="m-2"
+                        :icon="['fa', 'calendar-plus']"
+                    />
+                </span>
+            </div>
+            
+
             <!-- <div class="form-group mt-2">
               <label
                 for="email"
@@ -164,7 +188,7 @@
               >Camp obligatori</div>
             </div> -->
 
-            <b-button class="submit" id="back-color" @click.prevent="submit">
+            <b-button class="submit mt-3" id="back-color" @click.prevent="submit">
               <span>Crear campanya</span>
             </b-button>
             <div class="mt-2">
@@ -204,10 +228,13 @@
 import { required } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
 import { db } from '../../main';
+import CampaignCalendar from '@/components/Calendars/CampaignCalendar.vue';
 
 export default {
   name: 'newCampaignBO',
-  components: {},
+  components: {
+      CampaignCalendar
+  },
   props: {},
   mixins: [validationMixin],
   data() {
@@ -220,14 +247,16 @@ export default {
         title: null,
         campaignRangeDates: null,
         subscriptionsStatus: null,
+        calendar: {
+            rows: 1
+        }
       },
       subscriptionsStatusOptions: [
         'Pre-campanya (reserves)',
         'Inscripcions obertes',
         'Llista en espera',
         'Inscripcions tancades'
-      ],
-      calendarRows: 1
+      ]
     };
   },
   validations: {
@@ -240,12 +269,26 @@ export default {
       },
       subscriptionsStatus: {
         required
+      },
+      calendar: {
+          required
       }
     }
   },
   methods: {
     addRow: function() {
-        this.calendarRows += 1;
+        if(this.form.calendar.rows <= 12) {
+            if(this.form.calendar.rows || this.form.calendar.rows === 0) {
+                this.form.calendar.rows += 1;            
+            }
+        }
+    },
+    removeRow: function() {
+        if(this.form.calendar.rows > 1) {
+            if(this.form.calendar.rows || this.form.calendar.rows === 0) {
+                this.form.calendar.rows -= 1;
+            }
+        }
     },
     submit: function() {
       this.formTouched = !this.$v.form.$anyDirty;
@@ -284,4 +327,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+    .rounder {
+        border: 0.1rem solid black;
+        border-radius: 2rem;
+        padding: 0.5rem
+    }
+</style>
