@@ -201,14 +201,35 @@
 
             <div
                 v-if="!displayWeeksDatePicker" 
-                class="mt-2"
+                class="mt-2 d-flex justify-content-center"
             >
-                <b-button 
-                    class="default-button"
+                <b-button
+                    class="default-button mr-3 d-flex align-items-center"
                     type="button"
                     :pressed.sync="displayWeeksDatePicker"
                 >
-                    Afegir data de viatge
+                    <span>
+                        Afegir data de viatge
+                    </span>
+                    <font-awesome-icon                        
+                        class="m-2"
+                        :icon="['fa', 'calendar-plus']"
+                    />
+                </b-button>
+                <b-button 
+                    v-if="campaignForm.weeks.length > 0"
+                    id="back-color"
+                    class="d-flex align-items-center"
+                    type="button"
+                    :pressed.sync="displayBusesSection"
+                >
+                    <span>
+                        Ja he acabat amb les dates, vull afegir busos.
+                    </span>
+                    <font-awesome-icon                        
+                        class="m-2"
+                        :icon="['fa', 'bus']"
+                    />
                 </b-button>
             </div>
 
@@ -274,6 +295,184 @@
                     </b-button>
                 </div>
             </div>
+
+            <!-- Adding buses section -->
+              <!-- v-if="displayBusesSection" -->
+            <section
+            >
+                <div class="pt-4 pb-2 title">
+                    Detall dels busos
+                </div>   
+                <div>
+                    És moment de triar el nombre de busos i les seves dates de viatge.
+                </div>
+
+                <ol 
+                  v-if="campaignForm.buses.length > 0"
+                  class="form-group mt-3" 
+                  style="padding-inline-start:1rem"
+                >
+                  <div>Busos afegits:</div>
+                  <li
+                      v-for="(item, index) in campaignForm.buses"
+                      :key="index"
+                      class="ml-3"
+                  >
+                    <div class="d-flex align-items-center">
+                        <div>
+                          <div>
+                            <font-awesome-icon                            
+                              :icon="['fa', 'bus']"
+                            />
+                            <span>
+                              {{ item.busName }}
+                            </span>                        
+                          </div>
+                          <div>
+                            Marxa el {{ item.startDate | formatDate }}
+                          </div>
+                          <div>
+                            Torna el {{ item.endDate | formatDate }}
+                          </div>
+                        </div>
+                          <font-awesome-icon
+                              @click="deleteBus(index)"
+                              class="text-danger ml-2"
+                              :icon="['far', 'times-circle']"
+                          />
+                    </div>
+                  </li>
+                </ol>
+
+                <div
+                  v-if="!displayBusDatePicker" 
+                  class="mt-2 d-flex justify-content-center"
+                >
+                <b-button                    
+                    class="default-button mr-3 d-flex align-items-center"
+                    type="button"
+                    :pressed.sync="displayBusDatePicker"
+                >
+                    <span>
+                        Afegir bus
+                    </span>
+                    <font-awesome-icon                        
+                        class="m-2"
+                        :icon="['fa', 'bus']"
+                    />
+                </b-button>
+                <!-- <b-button                
+                    id="back-color"
+                    class="d-flex align-items-center"
+                    type="button"
+                    :pressed.sync="displayBusesSection"
+                    @click="loadBusesAvailableDates"
+                >
+                    <span>
+                        Ja he acabat amb les dates, vull afegir busos.
+                    </span>
+                    <font-awesome-icon                        
+                        class="m-2"
+                        :icon="['fa', 'bus']"
+                    />
+                </b-button> -->
+            </div>
+
+            <!-- Buses Form -->
+            <div v-else>
+              <div class="form-group">
+              <label
+                for="busName"
+                class="control-label"
+                :class="
+                  $v.busesForm.busName.$error
+                    ? 'text-danger'
+                    : $v.busesForm.busName.$dirty
+                    ? 'text-success'
+                    : ''
+                "
+              >Nom del bus: *</label>
+              <input
+                class="form-control"
+                :class="
+                  $v.busesForm.busName.$error
+                    ? 'is-invalid '
+                    : $v.busesForm.busName.$dirty
+                    ? 'is-valid'
+                    : ''
+                "
+                v-model.lazy.trim="$v.busesForm.busName.$model"
+                type="text"
+                id="busName"
+                placeholder="ex: setmana del 4 al 11 de juliol"
+              />
+              <div
+                class="help-block error mt-1"
+                v-if="!$v.busesForm.busName.required && $v.busesForm.busName.$error"
+              >Camp obligatori</div>
+            </div>
+
+              <div class="form-group mt-2">
+                  <label
+                      for="busRangeDates"
+                      class="control-label"
+                      :class="
+                      $v.busesForm.busRangeDates.$error
+                          ? 'text-danger'
+                          : $v.busesForm.busRangeDates.$dirty
+                          ? 'text-success'
+                          : ''
+                      "
+                      >                      
+                          <div>Dates del bus: *</div>
+                          <div>
+                              <em>
+                                  (Prendre com a referència el dia en que surt el bus i el dia en que arriba de tornada).
+                              </em>
+                          </div>
+                      </label
+                  >
+                  <v-date-picker
+                      v-model.lazy="$v.busesForm.busRangeDates.$model"
+                      mode="range"
+                      id="busRangeDates"
+                      :class="
+                      $v.busesForm.busRangeDates.$error
+                          ? 'is-invalid '
+                          : $v.busesForm.busRangeDates.$dirty
+                          ? 'is-valid'
+                          : ''
+                      "
+                      type="date"
+                  />
+                  <div
+                      class="help-block error mt-1"
+                      v-if="
+                      !$v.busesForm.busRangeDates.required &&
+                          $v.busesForm.busRangeDates.$error
+                      "
+                  >
+                      Camp obligatori
+                  </div>
+                  <div class="submit mt-3 d-flex justify-content-center">
+                      <b-button
+                          class="cancel-button mr-3"
+                          :pressed.sync="displayBusDatePicker"
+                      >
+                          <span>Cancelar</span>
+                      </b-button>
+                      <b-button 
+                          class="validate-button"
+                          @click.prevent="addBus"
+                          :pressed.sync="displayBusDatePicker"
+                      >
+                          <span>Valida les dates</span>
+                      </b-button>
+                  </div>
+              </div>
+
+            </div>
+            </section>
 
             <div class="mt-2">
               <p v-if="campaignForm.errors" class="error">
@@ -406,10 +605,8 @@ export default {
             title: null,
             campaignRangeDates: null,
             subscriptionsStatus: null,
-            calendar: {
-                rows: 1
-            },
             weeks: [],
+            buses: [],
             // Form options
             subscriptionsStatusOptions: [
                 'Pre-campanya (reserves)',
@@ -432,7 +629,19 @@ export default {
           }
           // Form options
       },
-      displayWeeksDatePicker: false
+      displayWeeksDatePicker: false,
+      displayBusesSection: false,
+      busesForm: {
+            // Submit controls
+            uiState: 'submit not clicked',
+            errors: false,
+            empty: true,
+            formTouched: null,
+            // Form fields
+            busName: null,
+            busRangeDates: []
+      },
+      displayBusDatePicker: false
     };
   },
   validations: {
@@ -454,6 +663,15 @@ export default {
         weekRangeDates: {
             start: {required},
             end: {required}
+        }
+    },
+    busesForm: {
+        busName: {
+            required
+        },
+        busRangeDates: {
+          start: {required},
+          end: {required}
         }
     }
   },
@@ -500,6 +718,29 @@ export default {
     },
     deleteWeek: function(index) {
       this.campaignForm.weeks.splice(index, 1);
+    },
+    addBus: function() {
+      this.busesForm.touched = !this.$v.busesForm.$anyDirty;
+      this.busesForm.errors = this.$v.busesForm.$anyError;
+      this.busesForm.uiState = 'submit clicked';
+      if (
+        this.busesForm.errors === false &&
+        this.busesForm.touched === false
+      ) {
+        this.campaignForm.buses.push({
+          busName: this.$v.busesForm.busName.$model,
+          startDate: this.$v.busesForm.busRangeDates.start.$model,
+          endDate: this.$v.busesForm.busRangeDates.end.$model
+        });
+        const self = this;
+        Object.keys(this.busesForm).forEach(function(key) {
+          self.busesForm[key] = null;
+        });
+        this.$v.busesForm.$reset();
+      }
+    },
+    deleteBus: function(index) {
+      this.campaignForm.buses.splice(index, 1);
     },
     submit: function() {
       this.campaignForm.formTouched = !this.$v.campaignForm.$anyDirty;
