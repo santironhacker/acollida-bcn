@@ -247,6 +247,21 @@
                           <span>Valida les dates</span>
                       </b-button>
                   </div>
+
+                  <div class="mt-2">
+                    <p v-if="weeksForm.errors" class="error">
+                      La setmana conté errors,
+                      <br />siusplau dona-li un cop d'ull.
+                    </p>
+                    <p v-else-if="weeksForm.touched && weeksForm.uiState === 'submit clicked'" class="text-warning">
+                      No hi ha dates seleccionades,
+                      <br />siusplau omple el formulari!
+                    </p>
+                    <p
+                      v-else-if="weeksForm.uiState === 'form returns error'"
+                      class="text-warning"
+                    >Error en processar la petició. Prova més tard.</p>
+                  </div>
               </div>
             </section>
 
@@ -432,6 +447,21 @@
                     </b-button>
                 </div>
 
+                <div class="mt-2">
+                  <p v-if="busesForm.errors" class="error">
+                    El bus conté errors,
+                    <br />siusplau dona-li un cop d'ull.
+                  </p>
+                  <p v-else-if="busesForm.touched && busesForm.uiState === 'submit clicked'" class="text-warning">
+                    El bus no conté dades,
+                    <br />siusplau omple el formulari!
+                  </p>
+                  <p
+                    v-else-if="busesForm.uiState === 'form returns error'"
+                    class="text-warning"
+                  >Error en processar la petició. Prova més tard.</p>
+                </div>
+
               </div>
             </section>
 
@@ -445,13 +475,9 @@
                 <br />siusplau omple el formulari per suscriure't!
               </p>
               <p
-                v-else-if="campaignForm.uiState === 'form submitted'"
-                class="text-success"
-              >Formulari enviat correctament!</p>
-              <p
                 v-else-if="campaignForm.uiState === 'form returns error'"
                 class="text-warning"
-              >Error en processar la petició. Provi més tard.</p>
+              >Error en processar la petició. Prova més tard.</p>
             </div>
 
             <b-button class="submit mt-3" id="back-color" @click.prevent="submit">
@@ -466,14 +492,14 @@
                 El formulari és buit,
                 <br />siusplau omple el formulari per suscriure't!
               </p>
-              <p
+              <!-- <p
                 v-else-if="campaignForm.uiState === 'form submitted'"
                 class="text-success"
-              >Formulari enviat correctament!</p>
+              >Formulari enviat correctament!</p> -->
               <p
                 v-else-if="campaignForm.uiState === 'form returns error'"
                 class="text-warning"
-              >Error en processar la petició. Provi més tard.</p>
+              >Error en processar la petició. Prova més tard.</p>
             </div>
           </form>
         </b-col>
