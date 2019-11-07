@@ -16,228 +16,182 @@
       <b-row>
         <b-col>
           <form class="mt-2">
-          <div class="pt-2 pb-2 title">
-            Dades Generals            
-          </div>
-            <div class="form-group">
-              <label
-                for="title"
-                class="control-label"
-                :class="
-                  $v.campaignForm.title.$error
-                    ? 'text-danger'
-                    : $v.campaignForm.title.$dirty
-                    ? 'text-success'
-                    : ''
-                "
-              >Títol: *</label>
-              <input
-                class="form-control"
-                :class="
-                  $v.campaignForm.title.$error
-                    ? 'is-invalid '
-                    : $v.campaignForm.title.$dirty
-                    ? 'is-valid'
-                    : ''
-                "
-                v-model.lazy.trim="$v.campaignForm.title.$model"
-                type="text"
-                id="title"
-                placeholder="ex: Setmana Santa 2020"
-              />
-              <div
-                class="help-block error mt-1"
-                v-if="!$v.campaignForm.title.required && $v.campaignForm.title.$error"
-              >Camp obligatori</div>
-            </div>
-
-            <div class="form-group mt-2">
-                <label
-                  for="campaignRangeDates"
-                  class="control-label"
-                  :class="
-                    $v.campaignForm.campaignRangeDates.$error
-                      ? 'text-danger'
-                      : $v.campaignForm.campaignRangeDates.$dirty
-                      ? 'text-success'
-                      : ''
-                  "
-                  >
-                    <div>Dates de la campanya: *</div>
-                    <div>
-                        <em>
-                            (Prendre com a referència el dia que marxa que marxa el primer bus y el dia en que retorna l'últim bus).
-                        </em>
-                    </div>
-                </label>
-                <v-date-picker
-                  v-model.lazy="$v.campaignForm.campaignRangeDates.$model"
-                  mode="range"
-                  id="campaignRangeDates"
-                  :class="
-                    $v.campaignForm.campaignRangeDates.$error
-                      ? 'is-invalid '
-                      : $v.campaignForm.campaignRangeDates.$dirty
-                      ? 'is-valid'
-                      : ''
-                  "
-                  type="date"
-                />
-                <div
-                  class="help-block error mt-1"
-                  v-if="
-                    !$v.campaignForm.campaignRangeDates.required &&
-                      $v.campaignForm.campaignRangeDates.$error
-                  "
-                >
-                  Camp obligatori
+            <!-- GENERAL DETAILS SECTION -->
+            <section>
+                <div class="pt-2 pb-2 title">
+                  Dades Generals            
                 </div>
-              </div>
-
-            <div class="form-group mt-3">
-              <label class="control-label" for="subscriptionsStatus">Estat de les inscripcions *</label>
-              <select class="form-control" id="subscriptionsStatus" v-model="campaignForm.subscriptionsStatus">
-                <option
-                  v-for="option in campaignForm.subscriptionsStatusOptions"
-                  :key="option"
-                  style="font-family: Ubuntu, font-size: 10px, overflow: none"
-                >{{ option }}</option>
-              </select>
-              <div
-                  class="help-block error mt-1"
-                  v-if="
-                    !$v.campaignForm.subscriptionsStatus.required &&
-                      $v.campaignForm.subscriptionsStatus.$error
-                  "
-                >
-                  Camp obligatori
-                </div>
-            </div>
-
-            <!-- <div class="form-group mt-3" align-h="end">
-              <label
-                class="control-label mr-2"
-                for="accept"
-                :class="
-                  $v.form.accept.$dirty
-                    ? $v.form.accept.$model
-                      ? 'text-success'
-                      : 'text-danger'
-                    : ''
-                "
-              >Accepto les condicions</label>
-              <input type="checkbox" id="accept" v-model="$v.form.accept.$model" />
-            </div> -->
-
-            <div class="pt-2 pb-2 title">
-                Detall per setmanes
-            </div>   
-
-            <div>
-                Ara anirem afegint progresivament les diferents dates disponibles per viatjar.
-            </div>
-
-            <ol 
-                v-if="campaignForm.weeks.length > 0"
-                class="form-group mt-3" 
-                style="padding-inline-start:1rem"
-            >                
-                <div>Dates seleccionades:</div>
-                <li
-                    v-for="(item, index) in campaignForm.weeks"
-                    :key="index"
-                    class="ml-3"
-                >
-                <div class="d-flex align-items-center">
-                    <span>Del {{ item.startDate | formatDate }}</span>
-                    <span class="ml-1">al {{ item.endDate | formatDate }}</span
-                    >
-                    <font-awesome-icon
-                        @click="deleteWeek(index)"
-                        class="text-danger ml-2"
-                        :icon="['far', 'times-circle']"
-                    />
-                </div>
-                </li>
-            </ol>
-
-            <!-- <div class="mt-2">
-                <label
-                    for="participantBirthdate"
+                <div class="form-group">
+                  <label
+                    for="title"
                     class="control-label"
                     :class="
-                    $v.weeksForm.weekRangeDates.$error
+                      $v.campaignForm.title.$error
                         ? 'text-danger'
-                        : $v.weeksForm.weekRangeDates.$dirty
+                        : $v.campaignForm.title.$dirty
                         ? 'text-success'
                         : ''
                     "
-                    >Data de naixement: *</label
-                >
-                <v-date-picker
-                    v-model="weeksForm.weekRangeDates"
+                  >Títol: *</label>
+                  <input
+                    class="form-control"
                     :class="
-                    $v.weeksForm.weekRangeDates.$error
+                      $v.campaignForm.title.$error
                         ? 'is-invalid '
-                        : $v.weeksForm.weekRangeDates.$dirty
+                        : $v.campaignForm.title.$dirty
                         ? 'is-valid'
                         : ''
                     "
-                    ref="participantBirthdate"
-                    type="date"
-                    id="participantBirthdate"
-                ></v-date-picker>
-
-                <div
+                    v-model.lazy.trim="$v.campaignForm.title.$model"
+                    type="text"
+                    id="title"
+                    placeholder="ex: Setmana Santa 2020"
+                  />
+                  <div
                     class="help-block error mt-1"
-                    v-if="
-                    !$v.weeksForm.weekRangeDates.required &&
-                        $v.weeksForm.weekRangeDates.$error
-                    "
-                >
-                    Camp obligatori
+                    v-if="!$v.campaignForm.title.required && $v.campaignForm.title.$error"
+                  >Camp obligatori</div>
                 </div>
-            </div> -->
 
-            <div
-                v-if="!displayWeeksDatePicker" 
-                class="mt-2 d-flex justify-content-center"
-            >
-                <b-button
-                    class="default-button mr-3 d-flex align-items-center"
-                    type="button"
-                    :pressed.sync="displayWeeksDatePicker"
-                >
-                    <span>
-                        Afegir data de viatge
-                    </span>
-                    <font-awesome-icon                        
-                        class="m-2"
-                        :icon="['fa', 'calendar-plus']"
+                <div class="form-group mt-2">
+                    <label
+                      for="campaignRangeDates"
+                      class="control-label"
+                      :class="
+                        $v.campaignForm.campaignRangeDates.$error
+                          ? 'text-danger'
+                          : $v.campaignForm.campaignRangeDates.$dirty
+                          ? 'text-success'
+                          : ''
+                      "
+                      >
+                        <div>Dates de la campanya: *</div>
+                        <div>
+                            <em>
+                                (Prendre com a referència el dia que marxa que marxa el primer bus y el dia en que retorna l'últim bus).
+                            </em>
+                        </div>
+                    </label>
+                    <v-date-picker
+                      v-model.lazy="$v.campaignForm.campaignRangeDates.$model"
+                      mode="range"
+                      id="campaignRangeDates"
+                      :class="
+                        $v.campaignForm.campaignRangeDates.$error
+                          ? 'is-invalid '
+                          : $v.campaignForm.campaignRangeDates.$dirty
+                          ? 'is-valid'
+                          : ''
+                      "
+                      type="date"
                     />
-                </b-button>
-                <b-button 
-                    v-if="campaignForm.weeks.length > 0"
-                    id="back-color"
-                    class="d-flex align-items-center"
-                    type="button"
-                    :pressed.sync="displayBusesSection"
-                >
-                    <span>
-                        Ja he acabat amb les dates, vull afegir busos.
-                    </span>
-                    <font-awesome-icon                        
-                        class="m-2"
-                        :icon="['fa', 'bus']"
-                    />
-                </b-button>
-            </div>
+                    <div
+                      class="help-block error mt-1"
+                      v-if="
+                        !$v.campaignForm.campaignRangeDates.required &&
+                          $v.campaignForm.campaignRangeDates.$error
+                      "
+                    >
+                      Camp obligatori
+                    </div>
+                </div>
 
-            <div 
-                v-else
-                class="form-group mt-2"
-            >
-                <label
+                <div class="form-group mt-3">
+                  <label class="control-label" for="subscriptionsStatus">Estat de les inscripcions *</label>
+                  <select class="form-control" id="subscriptionsStatus" v-model="campaignForm.subscriptionsStatus">
+                    <option
+                      v-for="option in campaignForm.subscriptionsStatusOptions"
+                      :key="option"
+                      style="font-family: Ubuntu, font-size: 10px, overflow: none"
+                    >{{ option }}</option>
+                  </select>
+                  <div
+                      class="help-block error mt-1"
+                      v-if="
+                        !$v.campaignForm.subscriptionsStatus.required &&
+                          $v.campaignForm.subscriptionsStatus.$error
+                      "
+                    >
+                      Camp obligatori
+                    </div>
+                </div>
+            </section>
+
+            <!-- WEEK DETAILS SECTION -->
+            <section>
+              <div class="pt-2 pb-2 title">
+                  Detall per setmanes
+              </div>
+              <div>
+                  Ara anirem afegint progresivament les diferents dates disponibles per viatjar.
+              </div>
+
+              <!-- Weeks list -->
+              <ol 
+                  v-if="campaignForm.weeks.length > 0"
+                  class="form-group mt-3" 
+                  style="padding-inline-start:1rem"
+              >                
+                  <div>Dates seleccionades:</div>
+                  <li
+                      v-for="(item, index) in campaignForm.weeks"
+                      :key="index"
+                      class="ml-3"
+                  >
+                  <div class="d-flex align-items-center">
+                      <span>Del {{ item.startDate | formatDate }}</span>
+                      <span class="ml-1">al {{ item.endDate | formatDate }}</span
+                      >
+                      <font-awesome-icon
+                          @click="deleteWeek(index)"
+                          class="text-danger ml-2"
+                          :icon="['far', 'times-circle']"
+                      />
+                  </div>
+                  </li>
+              </ol>
+              
+              <!-- Adding weeks or switching to buses section -->
+              <div
+                  v-if="!displayWeeksDatePicker" 
+                  class="mt-2 d-flex justify-content-center"
+              >
+                  <b-button
+                      class="default-button mr-3 d-flex align-items-center"
+                      type="button"
+                      :pressed.sync="displayWeeksDatePicker"
+                  >
+                      <span>
+                          Afegir data de viatge
+                      </span>
+                      <font-awesome-icon                        
+                          class="m-2"
+                          :icon="['fa', 'calendar-plus']"
+                      />
+                  </b-button>
+                  <b-button 
+                      v-if="campaignForm.weeks.length > 0"
+                      id="back-color"
+                      class="d-flex align-items-center"
+                      type="button"
+                      :pressed.sync="displayBusesSection"
+                  >
+                      <span>
+                          Ja he acabat amb les dates, vull afegir busos.
+                      </span>
+                      <font-awesome-icon                        
+                          class="m-2"
+                          :icon="['fa', 'bus']"
+                      />
+                  </b-button>
+              </div>
+
+              <!-- Adding weeks form -->
+              <div 
+                  v-else
+                  class="form-group mt-2"
+              >
+                  <label
                     for="weekRangeDates"
                     class="control-label"
                     :class="
@@ -248,55 +202,55 @@
                         : ''
                     "
                     >
-                        <div v-if="campaignForm.weeks.length === 0">Dates de la primera setmana: *</div>
-                        <div v-else>Dates de la setmana: *</div>
-                        <div>
-                            <em>
-                                (Prendre com a referència el dia en que surt el bus i el dia en que arriba de tornada).
-                            </em>
-                        </div>
-                    </label
-                >
-                <v-date-picker
-                    v-model.lazy="$v.weeksForm.weekRangeDates.$model"
-                    mode="range"
-                    id="weekRangeDates"
-                    :class="
-                    $v.weeksForm.weekRangeDates.$error
-                        ? 'is-invalid '
-                        : $v.weeksForm.weekRangeDates.$dirty
-                        ? 'is-valid'
-                        : ''
-                    "
-                    type="date"
-                />
-                <div
-                    class="help-block error mt-1"
-                    v-if="
-                    !$v.weeksForm.weekRangeDates.required &&
-                        $v.weeksForm.weekRangeDates.$error
-                    "
-                >
-                    Camp obligatori
-                </div>
-                <div class="submit mt-3 d-flex justify-content-center">
-                    <b-button
-                        class="cancel-button mr-3"
-                        :pressed.sync="displayWeeksDatePicker"
-                    >
-                        <span>Cancelar</span>
-                    </b-button>
-                    <b-button 
-                        class="validate-button"
-                        @click.prevent="addWeek"
-                        :pressed.sync="displayWeeksDatePicker"
-                    >
-                        <span>Valida les dates</span>
-                    </b-button>
-                </div>
-            </div>
+                    <div v-if="campaignForm.weeks.length === 0">Dates de la primera setmana: *</div>
+                    <div v-else>Dates de la setmana: *</div>
+                    <div>
+                        <em>
+                            (Prendre com a referència el dia en que surt el bus i el dia en que arriba de tornada).
+                        </em>
+                    </div>
+                  </label>
+                  <v-date-picker
+                      v-model.lazy="$v.weeksForm.weekRangeDates.$model"
+                      mode="range"
+                      id="weekRangeDates"
+                      :class="
+                      $v.weeksForm.weekRangeDates.$error
+                          ? 'is-invalid '
+                          : $v.weeksForm.weekRangeDates.$dirty
+                          ? 'is-valid'
+                          : ''
+                      "
+                      type="date"
+                  />
+                  <div
+                      class="help-block error mt-1"
+                      v-if="
+                      !$v.weeksForm.weekRangeDates.required &&
+                          $v.weeksForm.weekRangeDates.$error
+                      "
+                  >
+                      Camp obligatori
+                  </div>
+                  <div class="submit mt-3 d-flex justify-content-center">
+                      <b-button
+                          class="cancel-button mr-3"
+                          :pressed.sync="displayWeeksDatePicker"
+                      >
+                          <span>Cancelar</span>
+                      </b-button>
+                      <b-button 
+                          class="validate-button"
+                          @click.prevent="addWeek"
+                          :pressed.sync="displayWeeksDatePicker"
+                      >
+                          <span>Valida les dates</span>
+                      </b-button>
+                  </div>
+              </div>
+            </section>
 
-            <!-- Adding buses section -->
+            <!-- BUSES DETAILS SECTION -->
               <!-- v-if="displayBusesSection" -->
             <section
             >
@@ -307,6 +261,7 @@
                     És moment de triar el nombre de busos i les seves dates de viatge.
                 </div>
 
+                <!-- Buses list -->
                 <ol 
                   v-if="campaignForm.buses.length > 0"
                   class="form-group mt-3" 
@@ -344,134 +299,135 @@
                   </li>
                 </ol>
 
+                <!-- Adding more buses button -->
                 <div
                   v-if="!displayBusDatePicker" 
                   class="mt-2 d-flex justify-content-center"
                 >
-                <b-button                    
-                    class="default-button mr-3 d-flex align-items-center"
-                    type="button"
-                    :pressed.sync="displayBusDatePicker"
-                >
-                    <span>
-                        Afegir bus
-                    </span>
-                    <font-awesome-icon                        
-                        class="m-2"
-                        :icon="['fa', 'bus']"
-                    />
-                </b-button>
-                <!-- <b-button                
-                    id="back-color"
-                    class="d-flex align-items-center"
-                    type="button"
-                    :pressed.sync="displayBusesSection"
-                    @click="loadBusesAvailableDates"
-                >
-                    <span>
-                        Ja he acabat amb les dates, vull afegir busos.
-                    </span>
-                    <font-awesome-icon                        
-                        class="m-2"
-                        :icon="['fa', 'bus']"
-                    />
-                </b-button> -->
-            </div>
-
-            <!-- Buses Form -->
-            <div v-else>
-              <div class="form-group">
-              <label
-                for="busName"
-                class="control-label"
-                :class="
-                  $v.busesForm.busName.$error
-                    ? 'text-danger'
-                    : $v.busesForm.busName.$dirty
-                    ? 'text-success'
-                    : ''
-                "
-              >Nom del bus: *</label>
-              <input
-                class="form-control"
-                :class="
-                  $v.busesForm.busName.$error
-                    ? 'is-invalid '
-                    : $v.busesForm.busName.$dirty
-                    ? 'is-valid'
-                    : ''
-                "
-                v-model.lazy.trim="$v.busesForm.busName.$model"
-                type="text"
-                id="busName"
-                placeholder="ex: setmana del 4 al 11 de juliol"
-              />
-              <div
-                class="help-block error mt-1"
-                v-if="!$v.busesForm.busName.required && $v.busesForm.busName.$error"
-              >Camp obligatori</div>
-            </div>
-
-              <div class="form-group mt-2">
-                  <label
-                      for="busRangeDates"
-                      class="control-label"
-                      :class="
-                      $v.busesForm.busRangeDates.$error
-                          ? 'text-danger'
-                          : $v.busesForm.busRangeDates.$dirty
-                          ? 'text-success'
-                          : ''
-                      "
-                      >                      
-                          <div>Dates del bus: *</div>
-                          <div>
-                              <em>
-                                  (Prendre com a referència el dia en que surt el bus i el dia en que arriba de tornada).
-                              </em>
-                          </div>
-                      </label
+                  <b-button                    
+                      class="default-button mr-3 d-flex align-items-center"
+                      type="button"
+                      :pressed.sync="displayBusDatePicker"
                   >
-                  <v-date-picker
-                      v-model.lazy="$v.busesForm.busRangeDates.$model"
-                      mode="range"
-                      id="busRangeDates"
-                      :class="
-                      $v.busesForm.busRangeDates.$error
-                          ? 'is-invalid '
-                          : $v.busesForm.busRangeDates.$dirty
-                          ? 'is-valid'
-                          : ''
-                      "
-                      type="date"
-                  />
-                  <div
-                      class="help-block error mt-1"
-                      v-if="
-                      !$v.busesForm.busRangeDates.required &&
-                          $v.busesForm.busRangeDates.$error
-                      "
-                  >
-                      Camp obligatori
-                  </div>
-                  <div class="submit mt-3 d-flex justify-content-center">
-                      <b-button
-                          class="cancel-button mr-3"
-                          :pressed.sync="displayBusDatePicker"
-                      >
-                          <span>Cancelar</span>
-                      </b-button>
-                      <b-button 
-                          class="validate-button"
-                          @click.prevent="addBus"
-                          :pressed.sync="displayBusDatePicker"
-                      >
-                          <span>Valida les dates</span>
-                      </b-button>
-                  </div>
+                      <span>
+                          Afegir bus
+                      </span>
+                      <font-awesome-icon                        
+                          class="m-2"
+                          :icon="['fa', 'bus']"
+                      />
+                  </b-button>
               </div>
 
-            </div>
+              <!-- Buses Form -->
+              <div v-else>
+                <div class="form-group">
+                  <label
+                    for="busName"
+                    class="control-label"
+                    :class="
+                      $v.busesForm.busName.$error
+                        ? 'text-danger'
+                        : $v.busesForm.busName.$dirty
+                        ? 'text-success'
+                        : ''
+                    "
+                  >Nom del bus: *</label>
+                  <input
+                    class="form-control"
+                    :class="
+                      $v.busesForm.busName.$error
+                        ? 'is-invalid '
+                        : $v.busesForm.busName.$dirty
+                        ? 'is-valid'
+                        : ''
+                    "
+                    v-model.lazy.trim="$v.busesForm.busName.$model"
+                    type="text"
+                    id="busName"
+                    placeholder="ex: setmana del 4 al 11 de juliol"
+                  />
+                  <div
+                    class="help-block error mt-1"
+                    v-if="!$v.busesForm.busName.required && $v.busesForm.busName.$error"
+                  >Camp obligatori</div>
+                </div>
+
+                <div class="form-group mt-2">
+                    <label
+                        for="busRangeDates"
+                        class="control-label"
+                        :class="
+                        $v.busesForm.busRangeDates.$error
+                            ? 'text-danger'
+                            : $v.busesForm.busRangeDates.$dirty
+                            ? 'text-success'
+                            : ''
+                        "
+                        >                      
+                            <div>Dates del bus: *</div>
+                            <div>
+                                <em>
+                                    (Prendre com a referència el dia en que surt el bus i el dia en que arriba de tornada).
+                                </em>
+                            </div>
+                        </label
+                    >
+                    <v-date-picker
+                        v-model.lazy="$v.busesForm.busRangeDates.$model"
+                        mode="range"
+                        id="busRangeDates"
+                        :class="
+                        $v.busesForm.busRangeDates.$error
+                            ? 'is-invalid '
+                            : $v.busesForm.busRangeDates.$dirty
+                            ? 'is-valid'
+                            : ''
+                        "
+                        type="date"
+                    />
+                    <div
+                        class="help-block error mt-1"
+                        v-if="
+                        !$v.busesForm.busRangeDates.required &&
+                            $v.busesForm.busRangeDates.$error
+                        "
+                    >
+                        Camp obligatori
+                    </div>
+                    <div class="submit mt-3 d-flex justify-content-center">
+                        <b-button
+                            class="cancel-button mr-3"
+                            :pressed.sync="displayBusDatePicker"
+                        >
+                            <span>Cancelar</span>
+                        </b-button>
+                        <b-button 
+                            class="validate-button"
+                            @click.prevent="addBus"
+                            :pressed.sync="displayBusDatePicker"
+                        >
+                            <span>Valida el bus</span>
+                        </b-button>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group mt-3" align-h="end">
+                  <label
+                    class="control-label mr-2"
+                    for="accept"
+                    :class="
+                      $v.form.accept.$dirty
+                        ? $v.form.accept.$model
+                          ? 'text-success'
+                          : 'text-danger'
+                        : ''
+                    "
+                  >Accepto les condicions</label>
+                  <input type="checkbox" id="accept" v-model="$v.form.accept.$model" />
+                </div> -->
+
+              </div>
             </section>
 
             <div class="mt-2">
@@ -492,61 +448,6 @@
                 class="text-warning"
               >Error en processar la petició. Provi més tard.</p>
             </div>
-
-            <!-- <v-calendar 
-                :rows="form.calendar.rows"
-            />
-            <div class="d-flex align-items-center p-4">
-                <span class="rounder">
-                    <font-awesome-icon
-                        @click="removeRow()"
-                        class="m-2"
-                        :icon="['fa', 'calendar-minus']"
-                    />
-                </span>
-                <span class="ml-2 mr-2">
-                    Nombre de calendaris: {{ form.calendar.rows }}
-                </span>
-                <span class="rounder">
-                    <font-awesome-icon
-                        @click="addRow()"
-                        class="m-2"
-                        :icon="['fa', 'calendar-plus']"
-                    />
-                </span>
-            </div> -->
-            
-
-            <!-- <div class="form-group mt-2">
-              <label
-                for="email"
-                class="control-label"
-                :class="
-                  $v.form.email.$error
-                    ? 'text-danger'
-                    : $v.form.email.$dirty
-                    ? 'text-success'
-                    : ''
-                "
-              >Correu electrònic: *</label>
-              <input
-                class="form-control"
-                :class="
-                  $v.form.email.$error
-                    ? 'is-invalid '
-                    : $v.form.email.$dirty
-                    ? 'is-valid'
-                    : ''
-                "
-                v-model.lazy.trim="$v.form.email.$model"
-                type="email"
-                id="email"
-              />
-              <div
-                class="help-block error mt-1"
-                v-if="!$v.form.email.required && $v.form.email.$error"
-              >Camp obligatori</div>
-            </div> -->
 
             <b-button class="submit mt-3" id="back-color" @click.prevent="submit">
               <span>Crear campanya</span>
@@ -702,17 +603,10 @@ export default {
           startDate: this.$v.weeksForm.weekRangeDates.start.$model,
           endDate: this.$v.weeksForm.weekRangeDates.end.$model
         });
-        // FINDING A WAY TO RESET THE VALUE
-        /* this.weeksForm.weekRangeDates = null;
         const self = this;
-        Object.keys(this.weeksForm.weekRangeDates).forEach(function(key) {
-            self.weeksForm.weekRangeDates[key] = null;
-        }); */
-        /* this.weeksForm.weekRangeDates.start = null;
-        this.weeksForm.weekRangeDates.end = null;
-        this.weeksForm.weekRangeDates = null; */
-        /* console.log(this.weeksForm);
-        console.log('weeks ', this.campaignForm.weeks); */
+        Object.keys(this.weeksForm).forEach(function(key) {
+          self.weeksForm[key] = null;
+        });
         this.$v.weeksForm.$reset();
       }
     },
