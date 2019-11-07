@@ -299,16 +299,39 @@
                             </span>                        
                           </div>
                           <div>
-                            Marxa el {{ item.startDate | formatDate }}
+                            <span>
+                              Marxa el {{ item.startDate | formatDate }}
+                            </span>
+                            <font-awesome-icon
+                                class="ml-2"
+                                :class="
+                                  item.oneWayAcceptsPassengers
+                                  ? 'text-success'
+                                  : 'text-danger'
+                                "
+                                :icon="['fa', 'users']"
+                            />
                           </div>
                           <div>
-                            Torna el {{ item.endDate | formatDate }}
+                            <span>
+                              Torna el {{ item.endDate | formatDate }}
+                            </span>
+                            <font-awesome-icon
+                                class="ml-2"
+                                :class="
+                                  item.returnAcceptsPassengers
+                                  ? 'text-success'
+                                  : 'text-danger'
+                                "
+                                :icon="['fa', 'users']"
+                            />
                           </div>
                         </div>
                           <font-awesome-icon
                               @click="deleteBus(index)"
                               class="text-danger ml-2"
                               :icon="['far', 'times-circle']"
+                              size="lg"
                           />
                     </div>
                   </li>
