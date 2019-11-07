@@ -395,37 +395,42 @@
                     >
                         Camp obligatori
                     </div>
-                    <div class="submit mt-3 d-flex justify-content-center">
-                        <b-button
-                            class="cancel-button mr-3"
-                            :pressed.sync="displayBusDatePicker"
-                        >
-                            <span>Cancelar</span>
-                        </b-button>
-                        <b-button 
-                            class="validate-button"
-                            @click.prevent="addBus"
-                            :pressed.sync="displayBusDatePicker"
-                        >
-                            <span>Valida el bus</span>
-                        </b-button>
-                    </div>
                 </div>
 
-                <!-- <div class="form-group mt-3" align-h="end">
+                <div class="form-group m-0">
                   <label
                     class="control-label mr-2"
-                    for="accept"
-                    :class="
-                      $v.form.accept.$dirty
-                        ? $v.form.accept.$model
-                          ? 'text-success'
-                          : 'text-danger'
-                        : ''
-                    "
-                  >Accepto les condicions</label>
-                  <input type="checkbox" id="accept" v-model="$v.form.accept.$model" />
-                </div> -->
+                    for="oneWayAcceptsPassengers"
+                  >
+                    Accepta passatgers d'anada?
+                  </label>
+                  <input type="checkbox" id="oneWayAcceptsPassengers" v-model="$v.busesForm.oneWayAcceptsPassengers.$model" />
+                </div>
+
+                <div class="form-group mt-0" align-h="end">
+                  <label
+                    class="control-label mr-2"
+                    for="returnAcceptsPassengers"              
+                  >
+                    Accepta passatgers de tornada?
+                  </label>
+                  <input type="checkbox" id="returnAcceptsPassengers" v-model="$v.busesForm.returnAcceptsPassengers.$model" />
+                </div>
+
+                <div class="submit mt-3 d-flex justify-content-center">
+                    <b-button
+                        class="cancel-button mr-3"
+                        :pressed.sync="displayBusDatePicker"
+                    >
+                        <span>Cancelar</span>
+                    </b-button>
+                    <b-button 
+                        class="validate-button"
+                        @click.prevent="addBus"
+                    >
+                        <span>Valida el bus</span>
+                    </b-button>
+                </div>
 
               </div>
             </section>
@@ -457,7 +462,7 @@
                 El formulari conté errors,
                 <br />siusplau dona-li un cop d'ull.
               </p>
-              <p v-else-if="campaignForm.formTouched && campaignForm.uiState === 'submit clicked'" class="text-warning">
+              <p v-else-if="campaignForm.touched && campaignForm.uiState === 'submit clicked'" class="text-warning">
                 El formulari és buit,
                 <br />siusplau omple el formulari per suscriure't!
               </p>
@@ -540,7 +545,9 @@ export default {
             formTouched: null,
             // Form fields
             busName: null,
-            busRangeDates: []
+            busRangeDates: [],
+            oneWayAcceptsPassengers: true,
+            returnAcceptsPassengers: true
       },
       displayBusDatePicker: false
     };
@@ -573,7 +580,9 @@ export default {
         busRangeDates: {
           start: {required},
           end: {required}
-        }
+        },
+        oneWayAcceptsPassengers: {},
+        returnAcceptsPassengers: {}
     }
   },
   methods: {
@@ -624,13 +633,16 @@ export default {
         this.campaignForm.buses.push({
           busName: this.$v.busesForm.busName.$model,
           startDate: this.$v.busesForm.busRangeDates.start.$model,
-          endDate: this.$v.busesForm.busRangeDates.end.$model
+          endDate: this.$v.busesForm.busRangeDates.end.$model,
+          oneWayAcceptsPassengers: this.$v.busesForm.oneWayAcceptsPassengers.$model,
+          returnAcceptsPassengers: this.$v.busesForm.returnAcceptsPassengers.$model
         });
         const self = this;
         Object.keys(this.busesForm).forEach(function(key) {
           self.busesForm[key] = null;
         });
         this.$v.busesForm.$reset();
+        this.displayBusDatePicker = !this.displayBusDatePicker;
       }
     },
     deleteBus: function(index) {
