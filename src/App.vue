@@ -52,6 +52,20 @@ export default {
   font-weight: 600;
 }
 
+.validate-button {
+  color: #c0470b !important;
+  border-color: green !important;
+  background: white !important;
+  font-weight: 600;
+}
+
+.cancel-button {
+  color: #c0470b !important;
+  border-color: red !important;
+  background: white !important;
+  font-weight: 600;
+}
+
 .title {
   font-weight: 750;
 }
