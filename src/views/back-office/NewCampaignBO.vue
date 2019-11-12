@@ -222,6 +222,7 @@
                           : ''
                       "
                       type="date"
+                      @input="storeDate"
                   />
                   <div
                       class="help-block error mt-1"
@@ -488,6 +489,45 @@
               </div>
             </section>
 
+                <!-- :pressed.sync="showCampaignResume" -->
+            <b-button 
+                class="validate-button mt-4"
+                @click="loadCalendarResume"
+            >
+                <span>Mostra resum</span>
+            </b-button>
+
+
+            <section v-if="showCampaignResume">
+              <!-- <div>
+                Standard <strong>{{ campaignForm.weeks[0].startDate || "No date" }}</strong>
+              </div>
+              <div>
+                JSON <strong>{{ campaignForm.weeks[0].startDate.toJSON() || "No date" }}</strong>
+              </div> -->
+              <!-- <div>
+                attributes <strong>{{ attributes[0].dates[0].start || "No date" }}</strong>
+              </div> -->
+              <!-- <div>
+                toISOstring from GMT <strong>{{ attributes[0].dates[0].start.toISOString() || "No date" }}</strong>
+              </div> -->
+              <!-- <div>
+                toISOstring from JSON <strong>{{ campaignForm.weeks[0].startDate.toISOString() || "No date" }}</strong>
+              </div> -->
+              <div class="pt-4 pb-2 title">
+                    Resum de la campanya
+                </div>   
+                <div>
+                    Verifica que la informació és correcte. En cas contrari, torna enrere per rectificar el contingut.
+                </div>
+
+                <v-calendar
+                  is-expanded
+                  :attributes="attributes"
+                  :from-date="calendarFistDate ? calendarFistDate : new Date()"
+                />
+            </section>
+
             <div class="mt-2">
               <p v-if="campaignForm.errors" class="error">
                 El formulari conté errors,
@@ -550,6 +590,7 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
+        time: new Date().toJSON(),
         campaignForm: {
             // Submit controls
             uiState: 'submit not clicked',
@@ -598,7 +639,34 @@ export default {
             oneWayAcceptsPassengers: true,
             returnAcceptsPassengers: true
       },
-      displayBusDatePicker: false
+      displayBusDatePicker: false,
+      attributes: [
+        {
+          // key: 'today',
+          highlight: true,
+          dates: new Date()
+        },
+        {
+          bar: 'orange',
+          dates: [
+            { start: new Date(2019, 10, 1), end: new Date(2019, 10, 8)}
+          ]
+        },
+        {
+          bar: 'red',
+          dates: [
+            { start: new Date(2019, 10, 15), span: 5 } // # of days
+          ]
+        },
+        {
+          bar: 'green',
+          dates: [
+            { start: new Date(2019, 10, 7), end: new Date(2019, 10, 9)}
+          ]
+        }
+      ],
+      showCampaignResume: false,
+      calendarFistDate: new Date(2019, 10, 1)
     };
   },
   validations: {
@@ -696,6 +764,88 @@ export default {
     },
     deleteBus: function(index) {
       this.campaignForm.buses.splice(index, 1);
+    },
+    loadCalendarResume: function() {
+      this.attributes = [];
+      let colors = ['green', 'red', 'blue', 'yellow', 'teal', 'orange', 'gray', 'purple', 'pink', 'indigo' ];
+      let index = 0;
+      let dates = [];
+      // Load weeks
+      if(this.campaignForm.weeks) {
+        console.log('weeks', this.campaignForm.weeks);
+        this.campaignForm.weeks.forEach(
+          week => {
+            // Push week
+            this.attributes.push(
+              {
+                bar: colors[index],
+                dates: [
+                  { 
+                    start: new Date(week.startDate.getFullYear(), week.startDate.getMonth(), week.startDate.getDate()),
+                    end: new Date(week.endDate.getFullYear(), week.endDate.getMonth(), week.endDate.getDate())
+                  }
+                ]
+              }
+            );
+            dates.push(new Date(week.startDate.getFullYear(), week.startDate.getMonth(), week.startDate.getDate()));
+            dates.push(new Date(week.endDate.getFullYear(), week.endDate.getMonth(), week.endDate.getDate()));
+            // Update colors index
+            if(index === 9) {
+              index = 0;
+            } else {
+                index ++;
+            };
+          }
+        )
+      }
+      // Load buses
+      if(this.campaignForm.buses) {
+        console.log('buses', this.campaignForm.buses);
+        this.campaignForm.buses.forEach(
+          bus => {
+            // Push bus
+            this.attributes.push(
+              {
+                highlight: colors[index],
+                dates: [
+                  {
+                    start: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
+                    end: new Date(bus.endDate.getFullYear(), bus.endDate.getMonth(), bus.endDate.getDate())
+                  }
+                ]
+              }
+            );
+            dates.push(new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()));
+            dates.push(new Date(bus.endDate.getFullYear(), bus.endDate.getMonth(), bus.endDate.getDate()));
+            // Update colors index
+            /* if(index === 9) {
+              index = 0;
+            } else {
+                index ++;
+            }; */
+          }
+        );
+      }
+      // Organise items
+      dates.sort(function(a, b){
+        if(a < b) return -1;
+        if(a > b) return 1;
+        return 0; 
+      });
+      console.log('dates ', dates);
+      this.calendarFistDate = null;
+      console.log('attributes', this.attributes);
+      // Toggle campaign resume
+      this.showCampaignResume = !this.showCampaignResume;
+    },
+    storeDate(value) {
+      console.log('value ', value);
+      console.log('value start', value.start.toISOString());
+      console.log('value end', value.end.toJSON());
+      /* if (typeof date === 'string')
+        date = moment(date).toDate();
+      this.isActive = false;
+      this.theDate = date; */
     },
     submit: function() {
       this.campaignForm.formTouched = !this.$v.campaignForm.$anyDirty;
