@@ -139,6 +139,11 @@
                       class="ml-3"
                   >
                   <div class="d-flex align-items-center">
+                      <font-awesome-icon
+                          class="mr-1"
+                          :class="showCampaignResume ? calendar.colors[index] : ''"
+                          :icon="['fa', 'calendar']"
+                      />
                       <span>Del {{ item.startDate | formatDate }}</span>
                       <span class="ml-1">al {{ item.endDate | formatDate }}</span
                       >
@@ -164,7 +169,7 @@
                       <span>
                           Afegir data de viatge
                       </span>
-                      <font-awesome-icon                        
+                      <font-awesome-icon
                           class="m-2"
                           :icon="['fa', 'calendar-plus']"
                       />
@@ -179,7 +184,7 @@
                       <span>
                           Ja he acabat amb les dates, vull afegir busos.
                       </span>
-                      <font-awesome-icon                        
+                      <font-awesome-icon
                           class="m-2"
                           :icon="['fa', 'bus']"
                       />
@@ -291,12 +296,13 @@
                     <div class="d-flex align-items-center">
                         <div>
                           <div>
-                            <font-awesome-icon                            
+                            <font-awesome-icon
                               :icon="['fa', 'bus']"
+                              :class="showCampaignResume ? calendar.colors[index] : ''"
                             />
                             <span>
                               {{ item.busName }}
-                            </span>                        
+                            </span>
                           </div>
                           <div>
                             <span>
@@ -610,7 +616,7 @@ export default {
             subscriptionsStatusOptions: [
                 'Pre-campanya (reserves)',
                 'Inscripcions obertes',
-                'Llista en espera',
+                'Llista en esp era',
                 'Inscripcions tancades'
             ],
       },
@@ -871,4 +877,45 @@ export default {
         border-radius: 2rem;
         padding: 0.5rem
     }
+
+    .green {
+      color: green;
+    }
+
+    .red {
+      color: red;
+    }
+
+    .blue {
+      color: blue;
+    }
+
+    .yellow {
+      color: yellow;
+    }
+
+    .teal {
+      color: teal;
+    }
+
+    .orange {
+      color: orange;
+    }
+
+    .gray {
+      color: gray;
+    }
+
+    .purple {
+      color: purple;
+    }
+
+    .pink {
+      color: pink;
+    }
+
+    .indigo {
+      color: indigo;
+    }
 </style>
+
