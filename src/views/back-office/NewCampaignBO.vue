@@ -525,6 +525,7 @@
                   is-expanded
                   :attributes="attributes"
                   :from-date="calendarFistDate ? calendarFistDate : new Date()"
+                  :rows="rows"
                 />
             </section>
 
@@ -666,7 +667,8 @@ export default {
         }
       ],
       showCampaignResume: false,
-      calendarFistDate: new Date(2019, 10, 1)
+      calendarFistDate: new Date(2019, 10, 1),
+      rows: 1
     };
   },
   validations: {
@@ -832,8 +834,18 @@ export default {
         if(a > b) return 1;
         return 0; 
       });
+      // Calculate rows to display on calendar
+      let monthsCollection = [];
+      dates.forEach(
+        date => {
+          if((monthsCollection.indexOf(date.getMonth() + '-' + date.getFullYear())) === -1) {
+            monthsCollection.push(date.getMonth() + '-' + date.getFullYear());
+          }
+        }
+      );
+      this.rows = monthsCollection.length;
       console.log('dates ', dates);
-      this.calendarFistDate = null;
+      this.calendarFistDate = dates[0];
       console.log('attributes', this.attributes);
       // Toggle campaign resume
       this.showCampaignResume = !this.showCampaignResume;
@@ -842,6 +854,8 @@ export default {
       console.log('value ', value);
       console.log('value start', value.start.toISOString());
       console.log('value end', value.end.toJSON());
+      console.log('moment', this.moment(value.start));
+      console.log('moment format', this.moment(value.start).format('YYYY-MM-DD'));
       /* if (typeof date === 'string')
         date = moment(date).toDate();
       this.isActive = false;
