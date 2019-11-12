@@ -222,7 +222,6 @@
                           : ''
                       "
                       type="date"
-                      @input="storeDate"
                   />
                   <div
                       class="help-block error mt-1"
@@ -489,14 +488,13 @@
               </div>
             </section>
 
-                <!-- :pressed.sync="showCampaignResume" -->
             <b-button 
                 class="validate-button mt-4"
                 @click="loadCalendarResume"
             >
-                <span>Mostra resum</span>
+                <span v-show="!this.showCampaignResume">Mostra resum</span>
+                <span v-show="this.showCampaignResume">Modificar dates</span>
             </b-button>
-
 
             <section v-if="showCampaignResume">
               <!-- <div>
@@ -524,8 +522,8 @@
                 <v-calendar
                   is-expanded
                   :attributes="attributes"
-                  :from-date="calendarFistDate ? calendarFistDate : new Date()"
-                  :rows="rows"
+                  :from-date="calendar.firstDate ? calendar.calendarFistDate : new Date()"
+                  :rows="calendar.rows"
                 />
             </section>
 
@@ -591,7 +589,11 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
-        time: new Date().toJSON(),
+        // Section displayers
+        displayWeeksDatePicker: false,
+        displayBusesSection: false,
+        displayBusDatePicker: false,
+        showCampaignResume: false,
         campaignForm: {
             // Submit controls
             uiState: 'submit not clicked',
@@ -618,16 +620,12 @@ export default {
             errors: false,
             empty: true,
             formTouched: null,
-        
         // Form fields
           weekRangeDates: {
               start: null,
               end: null
           }
-          // Form options
       },
-      displayWeeksDatePicker: false,
-      displayBusesSection: false,
       busesForm: {
             // Submit controls
             uiState: 'submit not clicked',
@@ -640,35 +638,12 @@ export default {
             oneWayAcceptsPassengers: true,
             returnAcceptsPassengers: true
       },
-      displayBusDatePicker: false,
-      attributes: [
-        {
-          // key: 'today',
-          highlight: true,
-          dates: new Date()
-        },
-        {
-          bar: 'orange',
-          dates: [
-            { start: new Date(2019, 10, 1), end: new Date(2019, 10, 8)}
-          ]
-        },
-        {
-          bar: 'red',
-          dates: [
-            { start: new Date(2019, 10, 15), span: 5 } // # of days
-          ]
-        },
-        {
-          bar: 'green',
-          dates: [
-            { start: new Date(2019, 10, 7), end: new Date(2019, 10, 9)}
-          ]
-        }
-      ],
-      showCampaignResume: false,
-      calendarFistDate: new Date(2019, 10, 1),
-      rows: 1
+      calendar: {
+        attributes: [],
+        colors: ['green', 'red', 'blue', 'yellow', 'teal', 'orange', 'gray', 'purple', 'pink', 'indigo' ],
+        firstDate: null,
+        rows: 1,
+      }
     };
   },
   validations: {
@@ -705,7 +680,7 @@ export default {
     }
   },
   methods: {
-    addRow: function() {
+    /* addRow: function() {
         if(this.campaignForm.calendar.rows <= 12) {
             if(this.campaignForm.calendar.rows || this.campaignForm.calendar.rows === 0) {
                 this.campaignForm.calendar.rows += 1;            
@@ -718,7 +693,7 @@ export default {
                 this.campaignForm.calendar.rows -= 1;
             }
         }
-    },
+    }, */
     addWeek: function() {
       this.weeksForm.touched = !this.$v.weeksForm.$anyDirty;
       this.weeksForm.errors = this.$v.weeksForm.$anyError;
@@ -769,18 +744,17 @@ export default {
     },
     loadCalendarResume: function() {
       this.attributes = [];
-      let colors = ['green', 'red', 'blue', 'yellow', 'teal', 'orange', 'gray', 'purple', 'pink', 'indigo' ];
-      let index = 0;
       let dates = [];
       // Load weeks
       if(this.campaignForm.weeks) {
+        let weekColorsIndex = 0;
         console.log('weeks', this.campaignForm.weeks);
         this.campaignForm.weeks.forEach(
           week => {
             // Push week
             this.attributes.push(
               {
-                bar: colors[index],
+                bar: this.calendar.colors[weekColorsIndex],
                 dates: [
                   { 
                     start: new Date(week.startDate.getFullYear(), week.startDate.getMonth(), week.startDate.getDate()),
@@ -789,26 +763,28 @@ export default {
                 ]
               }
             );
+            // Push dates to general dates container variable
             dates.push(new Date(week.startDate.getFullYear(), week.startDate.getMonth(), week.startDate.getDate()));
             dates.push(new Date(week.endDate.getFullYear(), week.endDate.getMonth(), week.endDate.getDate()));
-            // Update colors index
-            if(index === 9) {
-              index = 0;
+            // Update colors weekColorsIndex
+            if(weekColorsIndex === 9) {
+              weekColorsIndex = 0;
             } else {
-                index ++;
+                weekColorsIndex ++;
             };
           }
         )
       }
       // Load buses
       if(this.campaignForm.buses) {
+        let busesColorsIndex = 0;
         console.log('buses', this.campaignForm.buses);
         this.campaignForm.buses.forEach(
           bus => {
             // Push bus
             this.attributes.push(
               {
-                highlight: colors[index],
+                highlight: this.calendar.colors[busesColorsIndex],
                 dates: [
                   {
                     start: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
@@ -817,18 +793,19 @@ export default {
                 ]
               }
             );
+            // Push dates to general dates container variable
             dates.push(new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()));
             dates.push(new Date(bus.endDate.getFullYear(), bus.endDate.getMonth(), bus.endDate.getDate()));
-            // Update colors index
-            /* if(index === 9) {
-              index = 0;
+            // Update colors busesColorsIndex
+            if(busesColorsIndex === 9) {
+              busesColorsIndex = 0;
             } else {
-                index ++;
-            }; */
+                busesColorsIndex ++;
+            };
           }
         );
       }
-      // Organise items
+      // Organise dates cronologically
       dates.sort(function(a, b){
         if(a < b) return -1;
         if(a > b) return 1;
@@ -843,23 +820,13 @@ export default {
           }
         }
       );
-      this.rows = monthsCollection.length;
+      this.calendar.rows = monthsCollection.length;
       console.log('dates ', dates);
-      this.calendarFistDate = dates[0];
       console.log('attributes', this.attributes);
+      // Calendar first date
+      this.calendar.firstDate = dates[0];
       // Toggle campaign resume
       this.showCampaignResume = !this.showCampaignResume;
-    },
-    storeDate(value) {
-      console.log('value ', value);
-      console.log('value start', value.start.toISOString());
-      console.log('value end', value.end.toJSON());
-      console.log('moment', this.moment(value.start));
-      console.log('moment format', this.moment(value.start).format('YYYY-MM-DD'));
-      /* if (typeof date === 'string')
-        date = moment(date).toDate();
-      this.isActive = false;
-      this.theDate = date; */
     },
     submit: function() {
       this.campaignForm.formTouched = !this.$v.campaignForm.$anyDirty;
