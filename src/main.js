@@ -15,6 +15,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import VCalendar from 'v-calendar';
 Vue.use(VCalendar, {});
 
+/* MOMENT */
+import moment from 'moment';
+Vue.prototype.moment = moment;
+
 /* ICONS */
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
 import {
