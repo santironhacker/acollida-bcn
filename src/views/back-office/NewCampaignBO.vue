@@ -15,11 +15,12 @@
       </b-row>
       <b-row>
         <b-col>
+          <hr>
           <form class="mt-2">
             <!-- GENERAL DETAILS SECTION -->
             <section>
                 <div class="pt-2 pb-2 title">
-                  Dades Generals            
+                  Dades Generals (Bloc 1)
                 </div>
                 <div class="form-group">
                   <label
@@ -97,8 +98,29 @@
                 </div>
 
                 <div class="form-group mt-3">
-                  <label class="control-label" for="subscriptionsStatus">Estat de les inscripcions *</label>
-                  <select class="form-control" id="subscriptionsStatus" v-model="campaignForm.subscriptionsStatus">
+                  <label 
+                    for="subscriptionsStatus"
+                    class="control-label"
+                    :class="
+                      $v.campaignForm.subscriptionsStatus.$error
+                        ? 'text-danger'
+                        : $v.campaignForm.subscriptionsStatus.$dirty
+                        ? 'text-success'
+                        : ''
+                    "
+                  >Estat de les inscripcions *</label>
+                  <select 
+                    id="subscriptionsStatus"
+                    class="form-control"
+                    :class="
+                      $v.campaignForm.subscriptionsStatus.$error
+                        ? 'is-invalid '
+                        : $v.campaignForm.subscriptionsStatus.$dirty
+                        ? 'is-valid'
+                        : ''
+                    "
+                    v-model="campaignForm.subscriptionsStatus"
+                  >
                     <option
                       v-for="option in campaignForm.subscriptionsStatusOptions"
                       :key="option"
@@ -117,10 +139,22 @@
                 </div>
             </section>
 
+            <div class="d-flex justify-content-center">
+              <b-button
+                  v-show="!displayWeeksSection"
+                  class="default-button"
+                  type="button"
+                  :pressed.sync="displayWeeksSection"
+              >
+                Triar setmanes de viatge
+              </b-button>
+            </div>
+
             <!-- WEEK DETAILS SECTION -->
-            <section>
+            <section v-show="displayWeeksSection">
+              <hr>
               <div class="pt-2 pb-2 title">
-                  Detall per setmanes
+                  Detall per setmanes (Bloc 2)
               </div>
               <div>
                   Ara anirem afegint progresivament les diferents dates disponibles per viatjar.
@@ -131,7 +165,7 @@
                   v-if="campaignForm.weeks.length > 0"
                   class="form-group mt-3" 
                   style="padding-inline-start:1rem"
-              >                
+              >
                   <div>Dates seleccionades:</div>
                   <li
                       v-for="(item, index) in campaignForm.weeks"
@@ -141,7 +175,7 @@
                   <div class="d-flex align-items-center">
                       <font-awesome-icon
                           class="mr-1"
-                          :class="showCampaignResume ? calendar.colors[index] : ''"
+                          :class="displayCampaignResume ? calendar.colors[index] : ''"
                           :icon="['fa', 'calendar']"
                       />
                       <span>Del {{ item.startDate | formatDate }}</span>
@@ -157,39 +191,42 @@
               </ol>
               
               <!-- Adding weeks or switching to buses section -->
-              <div
-                  v-if="!displayWeeksDatePicker" 
-                  class="mt-2 d-flex justify-content-center"
+              <section
+                v-if="!displayWeeksDatePicker"
               >
-                  <b-button
-                      class="default-button mr-3 d-flex align-items-center"
-                      type="button"
-                      :pressed.sync="displayWeeksDatePicker"
-                  >
-                      <span>
-                          Afegir data de viatge
-                      </span>
-                      <font-awesome-icon
-                          class="m-2"
-                          :icon="['fa', 'calendar-plus']"
-                      />
-                  </b-button>
-                  <b-button 
-                      v-if="campaignForm.weeks.length > 0"
-                      id="back-color"
-                      class="d-flex align-items-center"
-                      type="button"
-                      :pressed.sync="displayBusesSection"
-                  >
-                      <span>
-                          Ja he acabat amb les dates, vull afegir busos.
-                      </span>
-                      <font-awesome-icon
-                          class="m-2"
-                          :icon="['fa', 'bus']"
-                      />
-                  </b-button>
-              </div>
+                <div
+                  class="mt-2 d-flex justify-content-center"
+                >
+                    <b-button
+                        class="default-button mr-3 d-flex align-items-center"
+                        type="button"
+                        :pressed.sync="displayWeeksDatePicker"
+                    >
+                        <span>
+                            Afegir data de viatge
+                        </span>
+                        <font-awesome-icon
+                            class="m-2"
+                            :icon="['fa', 'calendar-plus']"
+                        />
+                    </b-button>
+                    <b-button 
+                        v-if="campaignForm.weeks.length > 0 && !displayBusesSection"
+                        id="back-color"
+                        class="d-flex align-items-center"
+                        type="button"
+                        :pressed.sync="displayBusesSection"
+                    >
+                        <span>
+                            Ja he acabat amb les dates, vull afegir busos.
+                        </span>
+                        <font-awesome-icon
+                            class="m-2"
+                            :icon="['fa', 'bus']"
+                        />
+                    </b-button>
+                </div>
+              </section>
 
               <!-- Adding weeks form -->
               <div 
@@ -270,13 +307,15 @@
               </div>
             </section>
 
+
             <!-- BUSES DETAILS SECTION -->
-              <!-- v-if="displayBusesSection" -->
             <section
+              v-if="displayBusesSection"
             >
-                <div class="pt-4 pb-2 title">
-                    Detall dels busos
-                </div>   
+                <hr>
+                <div class="pt-2 pb-2 title">
+                    Detall dels busos (Bloc 3)
+                </div>
                 <div>
                     És moment de triar el nombre de busos i les seves dates de viatge.
                 </div>
@@ -298,7 +337,7 @@
                           <div>
                             <font-awesome-icon
                               :icon="['fa', 'bus']"
-                              :class="showCampaignResume ? calendar.colors[index] : ''"
+                              :class="displayCampaignResume ? calendar.colors[index] : ''"
                             />
                             <span>
                               {{ item.busName }}
@@ -343,12 +382,12 @@
                   </li>
                 </ol>
 
-                <!-- Adding more buses button -->
+                <!-- Adding more buses button or switching to resumé section -->
                 <div
                   v-if="!displayBusDatePicker" 
                   class="mt-2 d-flex justify-content-center"
                 >
-                  <b-button                    
+                  <b-button
                       class="default-button mr-3 d-flex align-items-center"
                       type="button"
                       :pressed.sync="displayBusDatePicker"
@@ -356,16 +395,27 @@
                       <span>
                           Afegir bus
                       </span>
-                      <font-awesome-icon                        
-                          class="m-2"
+                      <font-awesome-icon
+                          class="ml-2"
                           :icon="['fa', 'bus']"
                       />
+                      <font-awesome-icon
+                          class="ml-1"
+                          :icon="['fa', 'plus']"
+                      />
+                  </b-button>
+                  <b-button 
+                      v-if="campaignForm.buses.length > 0 && !displayCampaignResume"
+                      id="back-color"
+                      @click="loadCalendarResume"
+                  >
+                      Llestos, mostra'm el resum final!
                   </b-button>
               </div>
 
               <!-- Buses Form -->
               <div v-else>
-                <div class="form-group">
+                <div class="form-group mt-3">
                   <label
                     for="busName"
                     class="control-label"
@@ -408,7 +458,7 @@
                             ? 'text-success'
                             : ''
                         "
-                        >                      
+                        >
                             <div>Dates del bus: *</div>
                             <div>
                                 <em>
@@ -494,15 +544,7 @@
               </div>
             </section>
 
-            <b-button 
-                class="validate-button mt-4"
-                @click="loadCalendarResume"
-            >
-                <span v-show="!this.showCampaignResume">Mostra resum</span>
-                <span v-show="this.showCampaignResume">Modificar dates</span>
-            </b-button>
-
-            <section v-if="showCampaignResume">
+            <section v-if="displayCampaignResume">
               <!-- <div>
                 Standard <strong>{{ campaignForm.weeks[0].startDate || "No date" }}</strong>
               </div>
@@ -519,8 +561,8 @@
                 toISOstring from JSON <strong>{{ campaignForm.weeks[0].startDate.toISOString() || "No date" }}</strong>
               </div> -->
               <div class="pt-4 pb-2 title">
-                    Resum de la campanya
-                </div>   
+                    Resum de la campanya (Bloc 4)
+                </div>
                 <div>
                     Verifica que la informació és correcte. En cas contrari, torna enrere per rectificar el contingut.
                 </div>
@@ -533,7 +575,7 @@
                 />
             </section>
 
-            <div class="mt-2">
+            <!-- <div class="mt-2">
               <p v-if="campaignForm.errors" class="error">
                 El formulari conté errors,
                 <br />siusplau dona-li un cop d'ull.
@@ -546,11 +588,33 @@
                 v-else-if="campaignForm.uiState === 'form returns error'"
                 class="text-warning"
               >Error en processar la petició. Prova més tard.</p>
-            </div>
+            </div> -->
 
-            <b-button class="submit mt-3" id="back-color" @click.prevent="submit">
-              <span>Crear campanya</span>
-            </b-button>
+            <b-form-row v-show="displayCampaignResume">
+              <b-col>
+                <b-button
+                    class="mt-2 default-button d-flex align-items-center"
+                    type="button"
+                    @click="loadCalendarResume"
+                >
+                    <span>
+                        Refrescar resum de campanya
+                    </span>
+                    <font-awesome-icon
+                        class="ml-2"
+                        :icon="['fa', 'redo']"
+                    />
+                    <!-- <font-awesome-icon
+                        class="ml-1"
+                        :icon="['fa', 'plus']"
+                    /> -->
+                </b-button>
+                <b-button v-if="displayCampaignResume" class="submit mt-2" id="back-color" @click.prevent="submit">
+                  <span>Crear campanya</span>
+                </b-button>
+              </b-col>
+            </b-form-row>
+
             <div class="mt-2">
               <p v-if="campaignForm.errors" class="error">
                 El formulari conté errors,
@@ -574,7 +638,6 @@
       </b-row>
     </b-container>
 
-    <hr />
     <!-- <div class="alert alert-success alert-dismissible fade show" role="alert">
       With Bootstrap!
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -596,10 +659,11 @@ export default {
   data() {
     return {
         // Section displayers
+        displayWeeksSection: false,
         displayWeeksDatePicker: false,
         displayBusesSection: false,
         displayBusDatePicker: false,
-        showCampaignResume: false,
+        displayCampaignResume: false,
         campaignForm: {
             // Submit controls
             uiState: 'submit not clicked',
@@ -616,7 +680,7 @@ export default {
             subscriptionsStatusOptions: [
                 'Pre-campanya (reserves)',
                 'Inscripcions obertes',
-                'Llista en esp era',
+                'Llista d\'espera',
                 'Inscripcions tancades'
             ],
       },
@@ -662,9 +726,6 @@ export default {
       },
       subscriptionsStatus: {
         required
-      },
-      calendar: {
-          required
       }
     },
     weeksForm: {
@@ -749,6 +810,7 @@ export default {
       this.campaignForm.buses.splice(index, 1);
     },
     loadCalendarResume: function() {
+      this.displayCampaignResume = false;
       this.attributes = [];
       let dates = [];
       // Load weeks
@@ -832,7 +894,7 @@ export default {
       // Calendar first date
       this.calendar.firstDate = dates[0];
       // Toggle campaign resume
-      this.showCampaignResume = !this.showCampaignResume;
+      this.displayCampaignResume = !this.displayCampaignResume;
     },
     submit: function() {
       this.campaignForm.formTouched = !this.$v.campaignForm.$anyDirty;

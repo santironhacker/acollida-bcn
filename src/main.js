@@ -36,7 +36,9 @@ import {
   faCalendarPlus,
   faCalendarMinus,
   faUsers,
-  faCircle
+  faPlus,
+  faSpinner,
+  faRedo
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faClock,
@@ -77,7 +79,8 @@ library.add(
   faCalendarPlus,
   faCalendarMinus,
   faUsers,
-  faCircle
+  faPlus,
+  faRedo
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
