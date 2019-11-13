@@ -14,6 +14,15 @@
         </b-col>
       </b-row>
       <b-row>
+        <b-col cols="12">
+          <b-button
+            @click="navigate"
+          >
+            NAVEGA!!
+          </b-button>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col>
           <hr>
           <form class="mt-2">
@@ -897,18 +906,22 @@ export default {
                 }
               });
               // Reset campaignForm
-              this.campaignForm.uiState = 'form submitted';
-              this.$v.campaignForm.$reset();
-              const self = this;
+              /* self.campaignForm.uiState = 'form submitted';
+              self.$v.campaignForm.$reset();
               Object.keys(this.campaignForm).forEach(function(key) {
                 self.campaignForm[key] = '';
-              });
+              }); */
+              this.$router.push({ path: 'campaignBO', params: {campaignId: ref.id} });
+              // this.$router.push({ path: 'campaignBO/:campaignId', params: {campaignId: 'xtjiDwrvjE98EvxEURFQ'}});
             },
             () => {
               this.campaignForm.uiState = 'form returns error';
             }
           );
       }
+    },
+    navigate: function() {
+      this.$router.push({ name: 'campaignBO', params: {campaignId: 'xtjiDwrvjE98EvxEURFQ'}});
     }
   }
 };
