@@ -161,35 +161,14 @@
               </div>
 
               <!-- Weeks list -->
-              <ol 
-                  v-if="campaignForm.weeks.length > 0"
-                  class="form-group mt-3" 
-                  style="padding-inline-start:1rem"
-              >
-                  <div>Dates seleccionades:</div>
-                  <li
-                      v-for="(item, index) in campaignForm.weeks"
-                      :key="index"
-                      class="ml-3"
-                  >
-                  <div class="d-flex align-items-center">
-                      <font-awesome-icon
-                          class="mr-1"
-                          :class="displayCampaignResume ? calendar.colors[index] : ''"
-                          :icon="['fa', 'calendar']"
-                      />
-                      <span>Del {{ item.startDate | formatDate }}</span>
-                      <span class="ml-1">al {{ item.endDate | formatDate }}</span
-                      >
-                      <font-awesome-icon
-                          @click="deleteWeek(index)"
-                          class="text-danger ml-2"
-                          :icon="['far', 'times-circle']"
-                      />
-                  </div>
-                  </li>
-              </ol>
-              
+              <list-component 
+                :show="campaignForm.weeks.length > 0"
+                :list="campaignForm.weeks"
+                :colorize-icon="displayCampaignResume"
+                :colors="calendar.colors"
+                @delete-week="deleteWeek"
+              ></list-component>
+
               <!-- Adding weeks or switching to buses section -->
               <section
                 v-if="!displayWeeksDatePicker"
@@ -633,10 +612,12 @@
 import { required } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
 import { db } from '../../main';
+import ListComponent from '@/components/ListComponent';
 
 export default {
   name: 'newCampaignBO',
   props: {},
+  components: {ListComponent},
   mixins: [validationMixin],
   data() {
     return {
