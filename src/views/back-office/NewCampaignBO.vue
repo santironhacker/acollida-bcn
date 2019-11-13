@@ -163,6 +163,7 @@
               <!-- Weeks list -->
               <list-component 
                 :show="campaignForm.weeks.length > 0"
+                listTitle="weeks"
                 :list="campaignForm.weeks"
                 :colorize-icon="displayCampaignResume"
                 :colors="calendar.colors"
@@ -300,66 +301,14 @@
                 </div>
 
                 <!-- Buses list -->
-                <ol 
-                  v-if="campaignForm.buses.length > 0"
-                  class="form-group mt-3" 
-                  style="padding-inline-start:1rem"
-                >
-                  <div>Busos afegits:</div>
-                  <li
-                      v-for="(item, index) in campaignForm.buses"
-                      :key="index"
-                      class="ml-3"
-                  >
-                    <div class="d-flex align-items-center">
-                        <div>
-                          <div>
-                            <font-awesome-icon
-                              :icon="['fa', 'bus']"
-                              :class="displayCampaignResume ? calendar.colors[index] : ''"
-                            />
-                            <span>
-                              {{ item.busName }}
-                            </span>
-                          </div>
-                          <div>
-                            <span>
-                              Marxa el {{ item.startDate | formatDate }}
-                            </span>
-                            <font-awesome-icon
-                                class="ml-2"
-                                :class="
-                                  item.oneWayAcceptsPassengers
-                                  ? 'text-success'
-                                  : 'text-danger'
-                                "
-                                :icon="['fa', 'users']"
-                            />
-                          </div>
-                          <div>
-                            <span>
-                              Torna el {{ item.endDate | formatDate }}
-                            </span>
-                            <font-awesome-icon
-                                class="ml-2"
-                                :class="
-                                  item.returnAcceptsPassengers
-                                  ? 'text-success'
-                                  : 'text-danger'
-                                "
-                                :icon="['fa', 'users']"
-                            />
-                          </div>
-                        </div>
-                          <font-awesome-icon
-                              @click="deleteBus(index)"
-                              class="text-danger ml-2"
-                              :icon="['far', 'times-circle']"
-                              size="lg"
-                          />
-                    </div>
-                  </li>
-                </ol>
+                <list-component 
+                  :show="campaignForm.buses.length > 0"
+                  listTitle="buses"
+                  :list="campaignForm.buses"
+                  :colorize-icon="displayCampaignResume"
+                  :colors="calendar.colors"
+                  @delete-bus="deleteBus"
+                ></list-component>
 
                 <!-- Adding more buses button or switching to resumé section -->
                 <div
