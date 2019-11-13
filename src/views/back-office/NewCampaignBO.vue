@@ -828,7 +828,8 @@ export default {
         console.log('campaign created');
         console.log('rangeDates ', this.campaignForm.campaignRangeDates)
         const self = this;
-        const key = db
+        // Save campaign
+          db
           .collection('campaigns')
           .add({
             title: this.campaignForm.title,
@@ -843,14 +844,65 @@ export default {
             ref => {
               console.log(ref);
               console.log('Added campaign with id ', ref.id);
-              self.campaignForm.weeks
+              /* COMPOSE BUSES */
+              // Get a new write batch
+              let batch = db.batch();
+              self.campaignForm.buses.forEach(
+                bus => {
+                  // Writing one way bus
+                  const busRef1 = db.collection('campaigns').doc(ref.id).collection('buses').doc();
+                  batch.set(busRef1, {
+                    campaignId: ref.id,
+                    subscriptionsStatus: self.campaignForm.subscriptionsStatus,
+                    showCollapse: false,
+                    oneWayDepartureDate: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
+                    oneWayDepartureTime: bus.startDate.getHours() + ':' + bus.startDate.getMinutes(),
+                    oneWayDeparturePlace: '',
+                    oneWayArrivalDate: null,
+                    oneWayArrivalTime: null,
+
+                    busLabel: bus.busName,
+                    availablePassengerSeats: null,
+                    driversNames: null,
+                    busBrand: null,
+                    busRegistrationForms: [],
+                    busRegistrationFormModel: null
+                  });
+                  // Writing return bus
+                  const busRef2 = db.collection('campaigns').doc(ref.id).collection('buses').doc();
+                  batch.set(busRef2, {
+                    campaignId: ref.id,
+                    subscriptionsStatus: self.campaignForm.subscriptionsStatus,
+                    showCollapse: false,
+
+                    returnDepartureDate: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
+                    returnDepartureTime: bus.startDate.getHours() + ':' + bus.startDate.getMinutes(),
+                    returnArrivalDate: null,
+                    returnArrivalTime: null,
+                    returnArrivalPlace: '',
+
+                    busLabel: bus.busName,
+                    availablePassengerSeats: null,
+                    driversNames: null,
+                    busBrand: null,
+                    busRegistrationForms: [],
+                    busRegistrationFormModel: null
+                  });
+                }
+              );
+              // Commit the batch
+              return batch.commit().then(function () {
+                res => {
+                  console.log(res);
+                }
+              });
               // Reset campaignForm
-              /* this.campaignForm.uiState = 'form submitted';
+              this.campaignForm.uiState = 'form submitted';
               this.$v.campaignForm.$reset();
               const self = this;
               Object.keys(this.campaignForm).forEach(function(key) {
                 self.campaignForm[key] = '';
-              }); */
+              });
             },
             () => {
               this.campaignForm.uiState = 'form returns error';
