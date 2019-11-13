@@ -575,21 +575,6 @@
                 />
             </section>
 
-            <!-- <div class="mt-2">
-              <p v-if="campaignForm.errors" class="error">
-                El formulari conté errors,
-                <br />siusplau dona-li un cop d'ull.
-              </p>
-              <p v-else-if="campaignForm.formTouched && campaignForm.uiState === 'addWeek clicked'" class="text-warning">
-                El formulari és buit,
-                <br />siusplau omple el formulari per suscriure't!
-              </p>
-              <p
-                v-else-if="campaignForm.uiState === 'form returns error'"
-                class="text-warning"
-              >Error en processar la petició. Prova més tard.</p>
-            </div> -->
-
             <b-form-row v-show="displayCampaignResume">
               <b-col>
                 <b-button
@@ -604,10 +589,6 @@
                         class="ml-2"
                         :icon="['fa', 'redo']"
                     />
-                    <!-- <font-awesome-icon
-                        class="ml-1"
-                        :icon="['fa', 'plus']"
-                    /> -->
                 </b-button>
                 <b-button v-if="displayCampaignResume" class="submit mt-2" id="back-color" @click.prevent="submit">
                   <span>Crear campanya</span>
@@ -633,6 +614,7 @@
                 class="text-warning"
               >Error en processar la petició. Prova més tard.</p>
             </div>
+
           </form>
         </b-col>
       </b-row>
@@ -669,7 +651,7 @@ export default {
             uiState: 'submit not clicked',
             errors: false,
             empty: true,
-            formTouched: null,
+            touched: null,
             // Form fields
             title: null,
             campaignRangeDates: null,
@@ -689,7 +671,7 @@ export default {
             uiState: 'submit not clicked',
             errors: false,
             empty: true,
-            formTouched: null,
+            touched: null,
         // Form fields
           weekRangeDates: {
               start: null,
@@ -701,7 +683,7 @@ export default {
             uiState: 'submit not clicked',
             errors: false,
             empty: true,
-            formTouched: null,
+            touched: null,
             // Form fields
             busName: null,
             busRangeDates: [],
@@ -816,7 +798,6 @@ export default {
       // Load weeks
       if(this.campaignForm.weeks) {
         let weekColorsIndex = 0;
-        console.log('weeks', this.campaignForm.weeks);
         this.campaignForm.weeks.forEach(
           week => {
             // Push week
@@ -846,7 +827,6 @@ export default {
       // Load buses
       if(this.campaignForm.buses) {
         let busesColorsIndex = 0;
-        console.log('buses', this.campaignForm.buses);
         this.campaignForm.buses.forEach(
           bus => {
             // Push bus
@@ -889,39 +869,45 @@ export default {
         }
       );
       this.calendar.rows = monthsCollection.length;
-      console.log('dates ', dates);
-      console.log('attributes', this.attributes);
       // Calendar first date
       this.calendar.firstDate = dates[0];
       // Toggle campaign resume
       this.displayCampaignResume = !this.displayCampaignResume;
     },
     submit: function() {
-      this.campaignForm.formTouched = !this.$v.campaignForm.$anyDirty;
+      this.campaignForm.touched = !this.$v.campaignForm.$anyDirty;
       this.campaignForm.errors = this.$v.campaignForm.$anyError;
       this.campaignForm.uiState = 'submit clicked';
       if (
         this.campaignForm.errors === false &&
-        this.campaignForm.formTouched === false
+        this.campaignForm.touched === false
       ) {
+        console.log('campaign created');
+        console.log('rangeDates ', this.campaignForm.campaignRangeDates)
+        const self = this;
         const key = db
           .collection('campaigns')
-          .doc()
-          .set({
+          .add({
             title: this.campaignForm.title,
-            surname: this.campaignForm.surname,
-            email: this.campaignForm.email,
+            startDate: this.campaignForm.campaignRangeDates.start,
+            endDate: this.campaignForm.campaignRangeDates.end,
             subscriptionsStatus: this.campaignForm.subscriptionsStatus,
+            weeks: [],
+            buses: [],
             createdBy: null
           })
           .then(
-            () => {
-              this.campaignForm.uiState = 'form submitted';
+            ref => {
+              console.log(ref);
+              console.log('Added campaign with id ', ref.id);
+              self.campaignForm.weeks
+              // Reset campaignForm
+              /* this.campaignForm.uiState = 'form submitted';
               this.$v.campaignForm.$reset();
               const self = this;
               Object.keys(this.campaignForm).forEach(function(key) {
                 self.campaignForm[key] = '';
-              });
+              }); */
             },
             () => {
               this.campaignForm.uiState = 'form returns error';
