@@ -287,7 +287,6 @@
               </div>
             </section>
 
-
             <!-- BUSES DETAILS SECTION -->
             <section
               v-if="displayBusesSection"
@@ -468,9 +467,23 @@
                     class="text-warning"
                   >Error en processar la petició. Prova més tard.</p>
                 </div>
-
               </div>
             </section>
+
+            <!-- <section>
+              <div class="pt-4 pb-2 title">
+                  Relació de busos amb les setmanes (Bloc 4)
+              </div>
+              Weeks list
+              <list-component 
+                :show="campaignForm.weeks.length > 0"
+                listTitle="weeks"
+                :list="campaignForm.weeks"
+                :colorize-icon="displayCampaignResume"
+                :colors="calendar.colors"
+                @delete-week="deleteWeek"
+              ></list-component>
+            </section> -->
 
             <section v-if="displayCampaignResume">
               <!-- <div>
@@ -489,7 +502,7 @@
                 toISOstring from JSON <strong>{{ campaignForm.weeks[0].startDate.toISOString() || "No date" }}</strong>
               </div> -->
               <div class="pt-4 pb-2 title">
-                    Resum de la campanya (Bloc 4)
+                    Resum de la campanya (Bloc 5)
                 </div>
                 <div>
                     Verifica que la informació és correcte. En cas contrari, torna enrere per rectificar el contingut.
