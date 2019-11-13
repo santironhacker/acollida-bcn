@@ -35,6 +35,9 @@
                   <div>
                     {{ campaign.title }}
                   </div>
+                  <div>
+                    to formatDate: {{ campaign.startDate.toDate() | formatDate }}
+                  </div>
                 </div>
               </div>
               <div v-else>
@@ -63,7 +66,6 @@ export default {
   data() {
     return {
       campaigns: [],
-      campaignsIds: [],
       loading: true,
       errored: false
     };
@@ -77,7 +79,7 @@ export default {
     const self = this;
     // DB Call
     // .orderBy('uid')
-    db.collection('campaigns').limit(2).get()
+    /* db.collection('campaigns').limit(1).get()
       .then(snapshot => {
         console.log('snapshot', snapshot)
         if(snapshot.empty) {
@@ -97,10 +99,10 @@ export default {
         console.log('Error getting documents', err);
         this.errored = true;
       })
-      .finally(() => this.loading = false)
+      .finally(() => this.loading = false) */
 
       // MOCK Call
-      /* const mockCampaignsArray = [
+      const mockCampaignsArray = [
         {
           id: HftFwqBPbLmG70A1fjDf,
           buses: [],
@@ -132,7 +134,7 @@ export default {
         item => {
           self.campaigns.push(item);
         }
-      ); */
+      );
   }
 };
 </script>
