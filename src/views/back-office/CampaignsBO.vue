@@ -29,6 +29,7 @@
                   v-for="(campaign, index) in campaigns"
                   :key="index"
                   :item="campaign"
+                  :isBO="true"
                 >
                 </campaign-list-item>
               </div>

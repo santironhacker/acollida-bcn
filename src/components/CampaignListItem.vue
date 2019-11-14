@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-2">
     <router-link
-      :to="{ name: 'campaign', params: { campaignId: item.id } }"
+      :to="isBO ? { name: 'campaignBO', params: { campaignId: item.id } } : { name: 'campaign', params: { campaignId: item.id } }"
       class="card-title pt-2 pl-2 mb-0"
       >{{ item.title }}</router-link
     >
@@ -22,7 +22,7 @@ import { useMockData } from '../main';
 export default {
   name: 'campaign-list-item',
   components: { CampaignStatus },
-  props: ['item'],
+  props: ['item', 'isBO'],
   data() {
     return {
       useMockData
