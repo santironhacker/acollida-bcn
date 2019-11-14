@@ -42,6 +42,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faClock,
+  faCalendarAlt,
   faTimesCircle
 } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -70,6 +71,7 @@ library.add(
   faLongArrowAltLeft,
   faBus,
   faClock,
+  faCalendarAlt,
   faMapMarkerAlt,
   faLocationArrow,
   faAngleDoubleDown,
@@ -141,6 +143,7 @@ export const db = admin.firestore();
 */
 
 /* OTHERS */
+export const useMockData = true;
 dom.watch();
 Vue.config.productionTip = false;
 

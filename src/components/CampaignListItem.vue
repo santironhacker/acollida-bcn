@@ -5,7 +5,10 @@
       class="card-title pt-2 pl-2 mb-0"
       >{{ item.title }}</router-link
     >
-    <div class="pt-1 pl-2">
+    <div v-if="useMockData" class="pt-1 pl-2">
+      Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}
+    </div>
+    <div v-else class="pt-1 pl-2">
       Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}
     </div>
     <campaign-status :status="item.status"></campaign-status>
@@ -14,12 +17,16 @@
 
 <script>
 import CampaignStatus from '@/components/CampaignStatus.vue';
+import { useMockData } from '../main';
+
 export default {
   name: 'campaign-list-item',
   components: { CampaignStatus },
   props: ['item'],
   data() {
-    return {};
+    return {
+      useMockData
+    };
   }
 };
 </script>

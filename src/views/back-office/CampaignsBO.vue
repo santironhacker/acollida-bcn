@@ -25,20 +25,12 @@
             <div v-if="loading">Carregant ...</div>
             <div v-else>
               <div v-if="campaigns.length > 0">
-                <div
+                <campaign-list-item
                   v-for="(campaign, index) in campaigns"
                   :key="index"
+                  :item="campaign"
                 >
-                  <div>
-                    {{ campaign.id }}
-                  </div>
-                  <div>
-                    {{ campaign.title }}
-                  </div>
-                  <div>
-                    to formatDate: {{ campaign.startDate.toDate() | formatDate }}
-                  </div>
-                </div>
+                </campaign-list-item>
               </div>
               <div v-else>
                 No hi ha campanyes. Per començar, crea una nova campanya.
@@ -60,9 +52,14 @@
 <script>
 import { db } from '../../main';
 import router from '../../router';
+import CampaignListItem from '@/components/CampaignListItem';
+import { useMockData } from '../../main';
 
 export default {
   name: 'campaignsBO',
+  components: {
+    CampaignListItem
+  },
   data() {
     return {
       campaigns: [],
@@ -78,53 +75,48 @@ export default {
   mounted() {
     const self = this;
     // DB Call
-    // .orderBy('uid')
-    /* db.collection('campaigns').limit(1).get()
-      .then(snapshot => {
-        console.log('snapshot', snapshot)
-        if(snapshot.empty) {
-          console.log('No matching campaigns');
-          return;
-        } else {
-          snapshot.docs.forEach(doc => {
-            console.log(doc.id, '=>', doc.data());
-            const idObject = { id: doc.id }
-            const dataObject = doc.data();
-            const toPushObject = Object.assign(dataObject, idObject);
-            self.campaigns.push(toPushObject);
-          });
-        }
-      })
-      .catch(err => {
-        console.log('Error getting documents', err);
-        this.errored = true;
-      })
-      .finally(() => this.loading = false) */
-
+    if(!useMockData) {
+      // .orderBy('uid')
+      db.collection('campaigns').limit(1).get()
+        .then(snapshot => {
+          console.log('snapshot', snapshot)
+          if(snapshot.empty) {
+            console.log('No matching campaigns');
+            return;
+          } else {
+            snapshot.docs.forEach(doc => {
+              console.log(doc.id, '=>', doc.data());
+              const idObject = { id: doc.id }
+              const dataObject = doc.data();
+              const toPushObject = Object.assign(dataObject, idObject);
+              self.campaigns.push(toPushObject);
+            });
+          }
+        })
+        .catch(err => {
+          console.log('Error getting documents', err);
+          this.errored = true;
+        })
+        .finally(() => this.loading = false)
+    } else {
       // MOCK Call
       const mockCampaignsArray = [
         {
-          id: HftFwqBPbLmG70A1fjDf,
+          id: 'HftFwqBPbLmG70A1fjDf',
           buses: [],
           createdBy: null,
-          endDate: {
-            nanoseconds: 0,
-            seconds: 1574290800
-          },
-          startDate: {
-            nanoseconds: 0,
-            seconds: 1573686000
-          },
+          endDate: new Date('2020-09-06T00:00:00'),
+          startDate: new Date('2020-07-27T00:00:00'),
           subscriptionsStatus: 'Inscripcions obertes',
-          title: 'Estiu 2019',
+          title: 'Estiu 2020',
           weeks: []
         },
         {
-          id: HvkCw71omWM52eHXPVIV,
+          id: 'HvkCw71omWM52eHXPVIV',
           buses: [],
           createdBy: null,
-          endDate: null,
-          startDate: null,
+          endDate: new Date('2020-04-12T00:00:00'),
+          startDate: new Date('2020-04-08T00:00:00'),
           subscriptionsStatus: 'Llista d\'espera',
           title: 'Setmana Santa 2020',
           weeks: []
@@ -135,6 +127,8 @@ export default {
           self.campaigns.push(item);
         }
       );
+      this.loading = false;
+    }
   }
 };
 </script>
