@@ -94,6 +94,7 @@
                           : ''
                       "
                       type="date"
+                      :locale="{ id: 'cat', firstDayOfWeek: 2 }"
                     />
                     <div
                       class="help-block error mt-1"
@@ -253,6 +254,7 @@
                           : ''
                       "
                       type="date"
+                      :locale="{ id: 'cat', firstDayOfWeek: 2 }"
                   />
                   <div
                       class="help-block error mt-1"
@@ -415,6 +417,7 @@
                             : ''
                         "
                         type="date"
+                        :locale="{ id: 'cat', firstDayOfWeek: 2 }"
                     />
                     <div
                         class="help-block error mt-1"
@@ -522,6 +525,7 @@
                   :attributes="attributes"
                   :from-date="calendar.firstDate ? calendar.calendarFistDate : new Date()"
                   :rows="calendar.rows"
+                  :locale="{ id: 'cat', firstDayOfWeek: 2 }"
                 />
             </section>
 
