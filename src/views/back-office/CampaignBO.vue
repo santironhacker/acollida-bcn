@@ -5,6 +5,11 @@
         <b-col cols="8">
           <h2 class="title pt-3 pb-2">Campanya BO</h2>
         </b-col>
+        <b-col cols="4" class="d-flex justify-content-center">
+          <publish-campaign-badge-and-modal
+            :isPublished="campaign.isPublished"
+          ></publish-campaign-badge-and-modal>
+        </b-col>
       </b-row>
 
       <b-row>
@@ -41,12 +46,14 @@
 
 <script>
 // import { auth } from '../../main';
+/* import router from '../../router'; */
 import { db } from '../../main';
-import router from '../../router';
 import { useMockData } from '../../main';
+import PublishCampaignBadgeAndModal from '@/components/PublishCampaignBadgeAndModal';
 
 export default {
   name: 'campaignBO',
+  components: { PublishCampaignBadgeAndModal },
   data() {
     return {
         campaign: {}

@@ -19,22 +19,9 @@
         </div>
       </b-col>
       <b-col cols="4" class="d-flex justify-content-center">
-          <b-badge
-            v-if="item.isPublished"
-            class="badge align-self-center"
-            variant="success"
-            pill
-          >
-            Campanya publicada
-          </b-badge>
-          <b-badge 
-            v-else
-            class="badge align-self-center"
-            variant="danger"
-            pill
-          >
-            Campanya sense publicar
-          </b-badge>
+          <publish-campaign-badge-and-modal
+            :isPublished="item.isPublished"
+          ></publish-campaign-badge-and-modal>
       </b-col>
     </b-row>
 
@@ -43,11 +30,12 @@
 
 <script>
 import CampaignStatus from '@/components/CampaignStatus.vue';
+import PublishCampaignBadgeAndModal from '@/components/PublishCampaignBadgeAndModal';
 import { useMockData } from '../main';
 
 export default {
   name: 'campaign-list-item',
-  components: { CampaignStatus },
+  components: { CampaignStatus, PublishCampaignBadgeAndModal },
   props: ['item', 'isBO'],
   data() {
     return {
@@ -69,12 +57,5 @@ export default {
 
 router-link :hover {
   cursor: pointer;
-}
-
-.badge {
-    white-space: normal;
-    /* word-break: break-word; */
-    width: 80%;
-    padding: 0.5rem;
 }
 </style>
