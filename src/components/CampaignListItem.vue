@@ -2,7 +2,7 @@
   <div class="card mb-2">
 
     <b-row no-gutters>
-      <b-col cols="8">
+      <b-col :cols="isBO ? 8 : 12">
         <div>
           <router-link
             :to="isBO ? { name: 'campaignBO', params: { campaignId: item.id } } : { name: 'campaign', params: { campaignId: item.id } }"
@@ -15,12 +15,13 @@
           <div v-else class="pt-1 pl-2">
             Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}
           </div>
-          <campaign-status :status="item.status"></campaign-status>
+          <campaign-status :v-if="!isBO" :status="item.status"></campaign-status>
         </div>
       </b-col>
-      <b-col cols="4" class="d-flex justify-content-center">
+      <b-col v-if="isBO" cols="4" class="d-flex justify-content-center">
           <publish-campaign-badge-and-modal
-            :isPublished="item.isPublished"
+            :campaign="item"
+            @toggleIsPublished="$emit('toggleIsPublished')"
           ></publish-campaign-badge-and-modal>
       </b-col>
     </b-row>

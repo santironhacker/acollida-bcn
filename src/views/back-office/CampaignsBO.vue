@@ -30,6 +30,7 @@
                   :key="index"
                   :item="campaign"
                   :isBO="true"
+                  @toggleIsPublished="campaign.isPublished = !campaign.isPublished"
                 >
                 </campaign-list-item>
               </div>
@@ -111,7 +112,7 @@ export default {
           subscriptionsStatus: 'Inscripcions obertes',
           title: 'Estiu 2020',
           weeks: [],
-          isPublished: false
+          isPublished: true
         },
         {
           id: 'HvkCw71omWM52eHXPVIV',
@@ -122,7 +123,7 @@ export default {
           subscriptionsStatus: 'Llista d\'espera',
           title: 'Setmana Santa 2020',
           weeks: [],
-          isPublished: true
+          isPublished: false
         }
       ];
       mockCampaignsArray.forEach(
