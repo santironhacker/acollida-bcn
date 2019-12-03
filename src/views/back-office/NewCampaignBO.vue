@@ -838,86 +838,76 @@ export default {
         console.log('rangeDates ', this.campaignForm.campaignRangeDates)
         const self = this;
         // Save campaign
-          db
-          .collection('campaigns')
-          .add({
-            title: this.campaignForm.title,
-            startDate: this.campaignForm.campaignRangeDates.start,
-            endDate: this.campaignForm.campaignRangeDates.end,
-            subscriptionsStatus: this.campaignForm.subscriptionsStatus,
-            weeks: [],
-            buses: [],
-            createdBy: null
-          })
-          .then(
-            ref => {
-              console.log(ref);
-              console.log('Added campaign with id ', ref.id);
-              /* COMPOSE BUSES */
-              // Get a new write batch
-              let batch = db.batch();
-              self.campaignForm.buses.forEach(
-                bus => {
-                  // Writing one way bus
-                  const busRef1 = db.collection('campaigns').doc(ref.id).collection('buses').doc();
-                  batch.set(busRef1, {
-                    campaignId: ref.id,
-                    subscriptionsStatus: self.campaignForm.subscriptionsStatus,
-                    showCollapse: false,
-                    oneWayDepartureDate: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
-                    oneWayDepartureTime: bus.startDate.getHours() + ':' + bus.startDate.getMinutes(),
-                    oneWayDeparturePlace: '',
-                    oneWayArrivalDate: null,
-                    oneWayArrivalTime: null,
+        db
+        .collection('campaigns')
+        .add({
+          title: this.campaignForm.title,
+          startDate: this.campaignForm.campaignRangeDates.start,
+          endDate: this.campaignForm.campaignRangeDates.end,
+          subscriptionsStatus: this.campaignForm.subscriptionsStatus,
+          weeks: [],
+          buses: [],
+          createdBy: null
+        })
+        .then(
+          ref => {
+            console.log(ref);
+            console.log('Added campaign with id ', ref.id);
+            /* COMPOSE BUSES */
+            // Get a new write batch
+            let batch = db.batch();
+            self.campaignForm.buses.forEach(
+              bus => {
+                const busRef = db.collection('campaigns').doc(ref.id).collection('buses').doc();
+                batch.set(busRef, {
+                  campaignId: ref.id,
+                  subscriptionsStatus: self.campaignForm.subscriptionsStatus,
+                  showCollapse: false,
 
-                    busLabel: bus.busName,
-                    availablePassengerSeats: null,
-                    driversNames: null,
-                    busBrand: null,
-                    busRegistrationForms: [],
-                    busRegistrationFormModel: null
-                  });
-                  // Writing return bus
-                  const busRef2 = db.collection('campaigns').doc(ref.id).collection('buses').doc();
-                  batch.set(busRef2, {
-                    campaignId: ref.id,
-                    subscriptionsStatus: self.campaignForm.subscriptionsStatus,
-                    showCollapse: false,
+                  oneWayDepartureDate: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
+                  oneWayDepartureTime: bus.startDate.getHours() + ':' + bus.startDate.getMinutes(),
+                  oneWayDeparturePlace: '',
+                  oneWayArrivalDate: null,
+                  oneWayArrivalTime: null,
 
-                    returnDepartureDate: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
-                    returnDepartureTime: bus.startDate.getHours() + ':' + bus.startDate.getMinutes(),
-                    returnArrivalDate: null,
-                    returnArrivalTime: null,
-                    returnArrivalPlace: '',
+                  returnDepartureDate: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
+                  returnDepartureTime: bus.startDate.getHours() + ':' + bus.startDate.getMinutes(),
+                  returnArrivalDate: null,
+                  returnArrivalTime: null,
+                  returnArrivalPlace: '',
 
-                    busLabel: bus.busName,
-                    availablePassengerSeats: null,
-                    driversNames: null,
-                    busBrand: null,
-                    busRegistrationForms: [],
-                    busRegistrationFormModel: null
-                  });
-                }
-              );
+                  busLabel: bus.busName,
+                  availablePassengerSeats: null,
+                  driversNames: null,
+                  busBrand: null,
+                  busRegistrationForms: [],
+                  busRegistrationFormModel: null,
+                  isPublished: false
+                }); 
+              });
+
               // Commit the batch
-              return batch.commit().then(function () {
+              return batch.commit()
+              .then(function () {
                 res => {
                   console.log(res);
                 }
               });
+
               // Reset campaignForm
               /* self.campaignForm.uiState = 'form submitted';
               self.$v.campaignForm.$reset();
               Object.keys(this.campaignForm).forEach(function(key) {
                 self.campaignForm[key] = '';
               }); */
+
+              // Navigate to campaign
               this.$router.push({ path: 'campaignBO', params: {campaignId: ref.id} });
               // this.$router.push({ path: 'campaignBO/:campaignId', params: {campaignId: 'xtjiDwrvjE98EvxEURFQ'}});
-            },
-            () => {
-              this.campaignForm.uiState = 'form returns error';
             }
-          );
+         );
+      } else {
+        this.campaignForm.uiState = 'form returns error';
       }
     },
     navigate: function() {

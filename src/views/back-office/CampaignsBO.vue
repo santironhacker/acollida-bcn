@@ -110,7 +110,8 @@ export default {
           startDate: new Date('2020-07-27T00:00:00'),
           subscriptionsStatus: 'Inscripcions obertes',
           title: 'Estiu 2020',
-          weeks: []
+          weeks: [],
+          isPublished: false
         },
         {
           id: 'HvkCw71omWM52eHXPVIV',
@@ -120,7 +121,8 @@ export default {
           startDate: new Date('2020-04-08T00:00:00'),
           subscriptionsStatus: 'Llista d\'espera',
           title: 'Setmana Santa 2020',
-          weeks: []
+          weeks: [],
+          isPublished: true
         }
       ];
       mockCampaignsArray.forEach(
