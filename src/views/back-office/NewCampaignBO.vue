@@ -853,9 +853,11 @@ export default {
           ref => {
             console.log(ref);
             console.log('Added campaign with id ', ref.id);
-            /* COMPOSE BUSES */
+            
             // Get a new write batch
             let batch = db.batch();
+
+            /* COMPOSE BUSES */
             self.campaignForm.buses.forEach(
               bus => {
                 const busRef = db.collection('campaigns').doc(ref.id).collection('buses').doc();
@@ -885,6 +887,20 @@ export default {
                   isPublished: false
                 }); 
               });
+
+              /* COMPOSE WEEKS */
+              self.campaignForm.weeks.forEach(
+                week => {
+                  const weekRef = db.collection('campaigns').doc(ref.id).collection('weeks').doc();
+                  batch.set(weekRef, {
+                    campaignId: ref.id,
+                    startDate: new Date(week.startDate.getFullYear(), week.startDate.getMonth(), week.startDate.getDate()),
+                    endDate: new Date(week.startDate.getFullYear(), week.startDate.getMonth(), week.startDate.getDate()),
+                    oneWayBuses: [],
+                    returnBuses: []
+                  });
+                }
+              )
 
               // Commit the batch
               return batch.commit()
