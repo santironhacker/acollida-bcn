@@ -523,7 +523,7 @@
                 <v-calendar
                   is-expanded
                   :attributes="attributes"
-                  :from-date="calendar.firstDate ? calendar.calendarFistDate : new Date()"
+                  :from-date="calendar.firstDate ? calendar.firstDate : new Date()"
                   :rows="calendar.rows"
                   :locale="{ id: 'cat', firstDayOfWeek: 2 }"
                 />
