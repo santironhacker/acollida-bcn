@@ -13,7 +13,7 @@
             Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}
           </div>
           <div v-else class="pt-1 pl-2">
-            Del {{ item.startDate | formatDate }} al {{ item.endDate | formatDate }}
+            Del {{ item.startDate.toDate() | formatDate }} al {{ item.endDate.toDate() | formatDate }}
           </div>
           <campaign-status :v-if="!isBO" :status="item.status"></campaign-status>
         </div>
@@ -35,7 +35,7 @@ import PublishCampaignBadgeAndModal from '@/components/PublishCampaignBadgeAndMo
 import { useMockData } from '../main';
 
 export default {
-  name: 'campaign-list-item',
+  name: 'campaign-list-item', 
   components: { CampaignStatus, PublishCampaignBadgeAndModal },
   props: ['item', 'isBO'],
   data() {
