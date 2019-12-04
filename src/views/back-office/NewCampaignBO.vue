@@ -851,7 +851,8 @@ export default {
           subscriptionsStatus: this.campaignForm.subscriptionsStatus,
           weeks: [],
           buses: [],
-          createdBy: null
+          createdBy: null,
+          isPublished: false
         })
         .then(
           ref => {
@@ -876,8 +877,8 @@ export default {
                   oneWayArrivalDate: null,
                   oneWayArrivalTime: null,
 
-                  returnDepartureDate: new Date(bus.startDate.getFullYear(), bus.startDate.getMonth(), bus.startDate.getDate()),
-                  returnDepartureTime: bus.startDate.getHours() + ':' + bus.startDate.getMinutes(),
+                  returnDepartureDate: new Date(bus.endDate.getFullYear(), bus.endDate.getMonth(), bus.endDate.getDate()),
+                  returnDepartureTime: bus.endDate.getHours() + ':' + bus.endDate.getMinutes(),
                   returnArrivalDate: null,
                   returnArrivalTime: null,
                   returnArrivalPlace: '',
@@ -887,8 +888,7 @@ export default {
                   driversNames: null,
                   busBrand: null,
                   busRegistrationForms: [],
-                  busRegistrationFormModel: null,
-                  isPublished: false
+                  busRegistrationFormModel: null
                 }); 
               });
 
@@ -899,7 +899,7 @@ export default {
                   batch.set(weekRef, {
                     campaignId: ref.id,
                     startDate: new Date(week.startDate.getFullYear(), week.startDate.getMonth(), week.startDate.getDate()),
-                    endDate: new Date(week.startDate.getFullYear(), week.startDate.getMonth(), week.startDate.getDate()),
+                    endDate: new Date(week.endDate.getFullYear(), week.endDate.getMonth(), week.endDate.getDate()),
                     oneWayBuses: [],
                     returnBuses: []
                   });
