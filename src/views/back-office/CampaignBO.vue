@@ -66,12 +66,13 @@
               class="mb-1"
               role="tablist"
             >
-              <!-- CARD DISPLAYING ONE WAY INFO -->
+              <!-- WEEK CARD HEADER -->
               <b-card-header header-tag="header" class="p-1" role="tab">
                 <b-button block href="#" v-b-toggle="week.id" variant="info">
                   Setmana del {{ week.startDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }} 
                 </b-button>
               </b-card-header>
+              <!-- CARD DISPLAYING ONE WAY INFO -->
               <b-collapse :id="week.id" visible accordion="my-accordion" role="tabpanel">
                 <b-card-body>
                   <b-card-text v-if="week.oneWayBuses.length > 0">
@@ -88,12 +89,12 @@
                   </b-card-text>
                   <b-card-text v-else class="d-flex">
                     <div>
-                      No existeixen busos relacionats amb aquesta setmana per al viatge d'anada.
+                      No existeixen busos relacionats amb aquesta setmana per al <strong>viatge d'anada</strong>.
                       Clica per relacionar un bus existent.
                     </div>
                     <b-button 
                       class="d-flex justify-content-center ml-2"
-                      v-b-modal="week.id"
+                      v-b-modal="week.id + 'oneWay'"
                     >
                       <font-awesome-icon
                           class=""
@@ -109,7 +110,7 @@
               </b-collapse>
 
               <!-- MODAL TO CHOOSE ONE WAY BUSES -->
-              <b-modal :id="week.id">
+              <b-modal :id="week.id + 'oneWay'">
                   <template v-slot:modal-title>
                       Tria un bus de la llista per relacionarlo amb el viatge d'anada de la setmana del {{ week.startDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }}:
                   </template>
@@ -145,7 +146,7 @@
                           <b-button
                               variant="danger"
                               class="float-right mr-2"
-                              @click="$bvModal.hide(week.id)"
+                              @click="$bvModal.hide(week.id + 'oneWay')"
                           >
                               Cancela
                           </b-button>
@@ -153,8 +154,89 @@
                   </template>
               </b-modal>
 
+              <hr>
+
               <!-- CARD DISPLAYING RETURN INFO -->
+              <b-collapse :id="week.id" visible accordion="my-accordion" role="tabpanel">
+                <b-card-body>
+                  <b-card-text v-if="week.returnBuses.length > 0">
+                    Els busos d'anada son:
+                    <ul>
+                      <li 
+                        v-for="(bus, index) in week.returnBuses"
+                        :key="index"
+                        :item="bus"
+                      >
+                        <strong>{{ bus.busLabel }}</strong> que marxa el {{ bus.returnDepartureDate.toDate() | formatDate }}
+                      </li>
+                    </ul>
+                  </b-card-text>
+                  <b-card-text v-else class="d-flex">
+                    <div>
+                      No existeixen busos relacionats amb aquesta setmana per al <strong>viatge de tornanada</strong>.
+                      Clica per relacionar un bus existent.
+                    </div>
+                    <b-button 
+                      class="d-flex justify-content-center ml-2"
+                      v-b-modal="week.id + 'return'"
+                    >
+                      <font-awesome-icon
+                          class=""
+                          :icon="['fa', 'bus']"
+                      />
+                      <font-awesome-icon
+                          class="ml-1"
+                          :icon="['fa', 'plus']"
+                      />
+                    </b-button>
+                  </b-card-text>
+                </b-card-body>
+              </b-collapse>
+
               <!-- MODAL TO CHOOSE RETURN BUSES -->
+              <b-modal :id="week.id + 'return'">
+                  <template v-slot:modal-title>
+                      Tria un bus de la llista per relacionarlo amb el viatge de tornada de la setmana del {{ week.endDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }}:
+                  </template>
+                  <div class="d-block text-center">
+                    <b-list-group>
+                      <b-list-group-item 
+                        v-for="(bus, index) in campaign.buses"
+                        :key="index"
+                        button
+                        @click="activeBus = bus"
+                        :disabled="bus.assignedReturnWeek !== null"
+                      >
+                        <div>
+                          <strong>{{ bus.busLabel }}</strong>
+                          - Surt el {{ bus.returnDepartureDate.toDate() | formatDate }}
+                        </div>
+                      </b-list-group-item>
+                      <b-list-group-item>
+                        Witness Item
+                      </b-list-group-item>
+                    </b-list-group>
+                  </div>
+                  <template v-slot:modal-footer>
+                      <div class="w-100">
+                          <b-button
+                              variant="success"
+                              class="float-right"
+                              @click="matchReturnBusWithWeek(week, activeBus)"
+                              :disabled="activeBus === null"
+                          >
+                              Confirma
+                          </b-button>
+                          <b-button
+                              variant="danger"
+                              class="float-right mr-2"
+                              @click="$bvModal.hide(week.id + 'return')"
+                          >
+                              Cancela
+                          </b-button>
+                      </div>
+                  </template>
+              </b-modal>
 
             </b-card>
             
@@ -200,7 +282,10 @@ export default {
         campaign: {
           buses: [],
           weeks: [
-            {oneWayBuses: []}
+            {
+              oneWayBuses: [],
+              returnBuses: []
+            }
           ]
         },
         loading: true,
@@ -214,7 +299,15 @@ export default {
       this.activeBus = null;
       console.log('week ', week);
       console.log('bus ', bus);
-      this.$bvModal.hide(week.id)
+      this.$bvModal.hide(week.id + 'oneWay');
+    },
+    matchReturnBusWithWeek: function(week, bus) {
+      bus.assignedReturnWeek = bus.id;
+      week.returnBuses.push(bus);
+      this.activeBus = null;
+      console.log('week ', week);
+      console.log('bus ', bus);
+      this.$bvModal.hide(week.id + 'return');
     }
   },
   mounted() {
