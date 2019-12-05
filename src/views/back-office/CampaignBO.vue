@@ -93,7 +93,7 @@
                     </div>
                     <b-button 
                       class="d-flex justify-content-center ml-2"
-                      v-b-modal="week.startDate.toDate().toString()"
+                      v-b-modal="week.id"
                     >
                       <font-awesome-icon
                           class=""
@@ -109,7 +109,7 @@
               </b-collapse>
 
               <!-- MODAL TO CHOOSE ONE WAY BUSES -->
-              <b-modal :id="week.startDate.toDate().toString()">
+              <b-modal :id="week.id">
                   <template v-slot:modal-title>
                       Tria un bus de la llista per relacionarlo amb el viatge d'anada de la setmana del {{ week.startDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }}:
                   </template>
@@ -145,7 +145,7 @@
                           <b-button
                               variant="danger"
                               class="float-right mr-2"
-                              @click="$bvModal.hide(week.startDate.toDate().toString())"
+                              @click="$bvModal.hide(week.id)"
                           >
                               Cancela
                           </b-button>
@@ -199,7 +199,9 @@ export default {
         useMockData,
         campaign: {
           buses: [],
-          weeks: []
+          weeks: [
+            {oneWayBuses: []}
+          ]
         },
         loading: true,
         activeBus: null
@@ -207,12 +209,12 @@ export default {
   },
   methods: {
     matchOneWayBusWithWeek: function(week, bus) {
-      bus.assignedToWeek = true;
-      week.oneWayBuses.push(bus.id);
+      bus.assignedOneWayWeek = bus.id;
+      week.oneWayBuses.push(bus);
       this.activeBus = null;
       console.log('week ', week);
       console.log('bus ', bus);
-      this.$bvModal.hide(week.startDate.toDate().toString())
+      this.$bvModal.hide(week.id)
     }
   },
   mounted() {
@@ -236,7 +238,7 @@ export default {
             });
 
             /* GET WEEKS COLLECTION */
-            db.collection('campaigns').doc(this.campaign.id).collection('weeks').get()
+            db.collection('campaigns').doc(this.campaign.id).collection('weeks').orderBy('startDate', 'asc').get()
               .then(snapshot => {
                   console.log('Weeks', snapshot);
                   if(snapshot.empty) {
@@ -253,7 +255,7 @@ export default {
                     });
 
                     /* GET BUSES COLLECTION */
-                    db.collection('campaigns').doc(this.campaign.id).collection('buses').get()
+                    db.collection('campaigns').doc(this.campaign.id).collection('buses').orderBy('oneWayDepartureDate', 'asc').get()
                       .then(snapshot => {
                           console.log('Buses', snapshot);
                           if(snapshot.empty) {
