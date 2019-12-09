@@ -334,21 +334,21 @@ export default {
   methods: {
     matchOneWayBusWithWeek: function(week, bus) {
       bus.assignedOneWayWeek = week.id;
-      week.oneWayBuses.push(bus);
+      week.oneWayBuses.push(bus.id);
       this.activeBus = null;
-      console.log('week ', week);
-      console.log('bus ', bus);
       this.$bvModal.hide(week.id + 'oneWay');
       this.isChangesOnBusToWeekAssign = true;
+      week.isChanges = true;
+      bus.isChanges = true;
     },
     matchReturnBusWithWeek: function(week, bus) {
       bus.assignedReturnWeek = week.id;
-      week.returnBuses.push(bus);
+      week.returnBuses.push(bus.id);
       this.activeBus = null;
-      console.log('week ', week);
-      console.log('bus ', bus);
       this.$bvModal.hide(week.id + 'return');
       this.isChangesOnBusToWeekAssign = true;
+      week.isChanges = true;
+      week.isChanges = true;
     },
     submitChangesOnBusToWeekAssign: function() {
       if(this.isChangesOnBusToWeekAssign) {
@@ -358,41 +358,43 @@ export default {
         this.campaign.weeks.forEach(
           week => {
             // Iterate over oneWay and return buses to store bus id
-            if(week && week.id) {
+            if(week && week.id && week.isChanges) {
               let weekOneWayBusesId = [];
               week.oneWayBuses.forEach(
-                bus => {if(bus && bus.id) {weekOneWayBusesId.push(bus.id)}}
+                busId => weekOneWayBusesId.push(busId)
               )
               let weekReturnBusesId = [];
               week.returnBuses.forEach(
-                bus => {if(bus && bus.id) {weekReturnBusesId.push(bus.id)}}
+                busId => weekReturnBusesId.push(busId)
               )
               const weekRef = db.collection('campaigns').doc('KEDLiUVy7sGtpYsU2yA6').collection('weeks').doc(week.id);
               batch.update(weekRef, {
                 oneWayBuses: weekOneWayBusesId,
-                returnBuses: weekReturnBusesId
+                returnBuses: weekReturnBusesId,
+                isChanges: false
               });
             }
-            // Iterate also over buses
-            week.oneWayBuses.forEach(
-              bus => {
-                if(bus && bus.id) {
-                  const busRef = db.collection('campaigns').doc('KEDLiUVy7sGtpYsU2yA6').collection('buses').doc(bus.id);
-                  if(bus.assignedOneWayWeek) {
-                    batch.update(busRef, {
-                      assignedOneWayWeek: bus.assignedOneWayWeek
-                    });
-                  }
-                  if(bus.assignedReturnWeek) {
-                    batch.update(busRef, {
-                      assignedReturnWeek: bus.assignedReturnWeek
-                    });
-                  }
+          });
+          // Iterate also over buses
+          this.campaign.buses.forEach(
+            bus => {
+              if(bus && bus.id && bus.isChanges) {
+                const busRef = db.collection('campaigns').doc('KEDLiUVy7sGtpYsU2yA6').collection('buses').doc(bus.id);
+                if(bus.assignedOneWayWeek) {
+                  batch.update(busRef, {
+                    assignedOneWayWeek: bus.assignedOneWayWeek,
+                    isChanges: false
+                  });
+                }
+                if(bus.assignedReturnWeek) {
+                  batch.update(busRef, {
+                    assignedReturnWeek: bus.assignedReturnWeek,
+                    isChanges: false
+                  });
                 }
               }
-            );
-          }
-        );
+            }
+          );
         // Commit the batch
         return batch.commit()
           .then(function () {
