@@ -37,11 +37,15 @@
             </div>
             <div v-if="useMockData">
               Dates:
-              del {{ campaign.startDate | formatDate }} al {{ campaign.endDate | formatDate }}
+              <span v-if="campaign.startDate && campaign.endDate">
+                del {{ campaign.startDate | formatDate }} al {{ campaign.endDate | formatDate }}
+              </span>
             </div>
             <div v-else>
               Dates:
-              del {{ campaign.startDate.toDate() | formatDate }} al {{ campaign.endDate.toDate() | formatDate }}
+              <span v-if="campaign.startDate && campaign.endDate">
+                del {{ campaign.startDate.toDate() | formatDate }} al {{ campaign.endDate.toDate() | formatDate }}
+              </span>
             </div>
             <div>
               Estat de les subscripcions:
@@ -69,7 +73,9 @@
               <!-- WEEK CARD HEADER -->
               <b-card-header header-tag="header" class="p-1" role="tab">
                 <b-button block href="#" v-b-toggle="week.id" variant="info">
-                  Setmana del {{ week.startDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }} 
+                  <span v-if="week.startDate && week.endDate">
+                    Setmana del {{ week.startDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }} 
+                  </span>
                 </b-button>
               </b-card-header>
               <!-- CARD DISPLAYING ONE WAY INFO -->
@@ -79,11 +85,14 @@
                     Els busos d'anada son:
                     <ul>
                       <li 
-                        v-for="(bus, index) in week.oneWayBuses"
+                        v-for="(busId, index) in week.oneWayBuses"
                         :key="index"
-                        :item="bus"
+                        :item="busId"
                       >
-                        <strong>{{ bus.busLabel }}</strong> que marxa el {{ bus.oneWayDepartureDate.toDate() | formatDate }}
+                        <span v-if="campaign.buses[[busesMap[busId]]]">
+                          <strong>{{ campaign.buses[busesMap[busId]].busLabel }}</strong>
+                          que marxa el <span>{{ campaign.buses[busesMap[busId]].oneWayDepartureDate.toDate() | formatDate }}</span>
+                        </span>
                       </li>
                     </ul>
                   </b-card-text>
@@ -112,7 +121,11 @@
               <!-- MODAL TO CHOOSE ONE WAY BUSES -->
               <b-modal :id="week.id + 'oneWay'">
                   <template v-slot:modal-title>
-                      Tria un bus de la llista per relacionarlo amb el viatge d'anada de la setmana del {{ week.startDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }}:
+                      Tria un bus de la llista per relacionarlo amb el viatge d'anada de la setmana del 
+                        <span v-if="week.startDate && week.endDate">
+                          {{ week.startDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }}
+                        </span>
+                      :
                   </template>
                   <div class="d-block text-center">
                     <b-list-group>
@@ -125,7 +138,9 @@
                       >
                         <div>
                           <strong>{{ bus.busLabel }}</strong>
-                          - Surt el {{ bus.oneWayDepartureDate.toDate() | formatDate }}
+                          <span v-if="bus.oneWayDepartureDate">
+                            - Surt el {{ bus.oneWayDepartureDate.toDate() | formatDate }}
+                          </span>
                         </div>
                       </b-list-group-item>
                       <b-list-group-item>
@@ -160,14 +175,19 @@
               <b-collapse :id="week.id" visible accordion="my-accordion" role="tabpanel">
                 <b-card-body>
                   <b-card-text v-if="week.returnBuses.length > 0">
-                    Els busos d'anada son:
+                    Els busos de tornada son:
                     <ul>
                       <li 
-                        v-for="(bus, index) in week.returnBuses"
+                        v-for="(busId, index) in week.returnBuses"
                         :key="index"
-                        :item="bus"
+                        :item="busId"
                       >
-                        <strong>{{ bus.busLabel }}</strong> que marxa el {{ bus.returnDepartureDate.toDate() | formatDate }}
+                        <span v-if="campaign.buses[busesMap[busId]]">
+                          <strong>{{ campaign.buses[busesMap[busId]].busLabel }}</strong> que marxa el 
+                          <span>
+                            {{ campaign.buses[busesMap[busId]].returnDepartureDate.toDate() | formatDate }}
+                          </span>
+                        </span>
                       </li>
                     </ul>
                   </b-card-text>
@@ -196,7 +216,11 @@
               <!-- MODAL TO CHOOSE RETURN BUSES -->
               <b-modal :id="week.id + 'return'">
                   <template v-slot:modal-title>
-                      Tria un bus de la llista per relacionarlo amb el viatge de tornada de la setmana del {{ week.endDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }}:
+                      Tria un bus de la llista per relacionarlo amb el viatge de tornada de la setmana del 
+                      <span v-if="week.endDate && week.startDate">
+                        {{ week.startDate.toDate() | formatDate }} al {{ week.endDate.toDate() | formatDate }}
+                      </span>
+                      :
                   </template>
                   <div class="d-block text-center">
                     <b-list-group>
@@ -209,7 +233,9 @@
                       >
                         <div>
                           <strong>{{ bus.busLabel }}</strong>
-                          - Surt el {{ bus.returnDepartureDate.toDate() | formatDate }}
+                          <span v-if="bus.returnDepartureDate">
+                            - Surt el {{ bus.returnDepartureDate.toDate() | formatDate }}
+                          </span>
                         </div>
                       </b-list-group-item>
                       <b-list-group-item>
@@ -260,6 +286,15 @@
         </b-row>
       </div>
 
+      <b-button
+        class="m-2" 
+        id="back-color" 
+        :disabled="!isChangesOnBusToWeekAssign"
+        @click="submitChangesOnBusToWeekAssign"
+      >
+        Desa els canvis
+      </b-button>
+
     </b-container>
   </div>
   
@@ -288,30 +323,91 @@ export default {
             }
           ]
         },
+        busesMap: {
+          // key is a busId - Value is the index in the campaign.buses array
+        },
         loading: true,
-        activeBus: null
+        activeBus: null,
+        isChangesOnBusToWeekAssign: false
     };
   },
   methods: {
     matchOneWayBusWithWeek: function(week, bus) {
-      bus.assignedOneWayWeek = bus.id;
+      bus.assignedOneWayWeek = week.id;
       week.oneWayBuses.push(bus);
       this.activeBus = null;
       console.log('week ', week);
       console.log('bus ', bus);
       this.$bvModal.hide(week.id + 'oneWay');
+      this.isChangesOnBusToWeekAssign = true;
     },
     matchReturnBusWithWeek: function(week, bus) {
-      bus.assignedReturnWeek = bus.id;
+      bus.assignedReturnWeek = week.id;
       week.returnBuses.push(bus);
       this.activeBus = null;
       console.log('week ', week);
       console.log('bus ', bus);
       this.$bvModal.hide(week.id + 'return');
+      this.isChangesOnBusToWeekAssign = true;
+    },
+    submitChangesOnBusToWeekAssign: function() {
+      if(this.isChangesOnBusToWeekAssign) {
+        // Get a new write batch
+        let batch = db.batch();
+        // Iterate over weeks
+        this.campaign.weeks.forEach(
+          week => {
+            // Iterate over oneWay and return buses to store bus id
+            if(week && week.id) {
+              let weekOneWayBusesId = [];
+              week.oneWayBuses.forEach(
+                bus => {if(bus && bus.id) {weekOneWayBusesId.push(bus.id)}}
+              )
+              let weekReturnBusesId = [];
+              week.returnBuses.forEach(
+                bus => {if(bus && bus.id) {weekReturnBusesId.push(bus.id)}}
+              )
+              const weekRef = db.collection('campaigns').doc('KEDLiUVy7sGtpYsU2yA6').collection('weeks').doc(week.id);
+              batch.update(weekRef, {
+                oneWayBuses: weekOneWayBusesId,
+                returnBuses: weekReturnBusesId
+              });
+            }
+            // Iterate also over buses
+            week.oneWayBuses.forEach(
+              bus => {
+                if(bus && bus.id) {
+                  const busRef = db.collection('campaigns').doc('KEDLiUVy7sGtpYsU2yA6').collection('buses').doc(bus.id);
+                  if(bus.assignedOneWayWeek) {
+                    batch.update(busRef, {
+                      assignedOneWayWeek: bus.assignedOneWayWeek
+                    });
+                  }
+                  if(bus.assignedReturnWeek) {
+                    batch.update(busRef, {
+                      assignedReturnWeek: bus.assignedReturnWeek
+                    });
+                  }
+                }
+              }
+            );
+          }
+        );
+        // Commit the batch
+        return batch.commit()
+          .then(function () {
+            res => {
+              console.log('Commited BATCH: ', res);
+              this.isChangesOnBusToWeekAssign = false;
+            }
+          })
+          .catch((error)=>{
+            console.log('Exception saving batch', error)
+          });
+      }
     }
   },
   mounted() {
-    const self = this;
     if(!useMockData) {
       /* GET CAMPAIGN COLLECTION */
       db.collection('campaigns').limit(1).get()
@@ -327,7 +423,6 @@ export default {
               const dataObject = doc.data();
               const toPushObject = Object.assign(dataObject, idObject);
               Object.assign(this.campaign, toPushObject);
-              // console.log('Campaign is ', this.campaign);
             });
 
             /* GET WEEKS COLLECTION */
@@ -343,7 +438,6 @@ export default {
                       const idObject = { id: doc.id }
                       const dataObject = doc.data();
                       const toPushObject = Object.assign(dataObject, idObject);
-                      // Object.assign(self.campaign, toPushObject);
                       this.campaign.weeks.push(toPushObject);
                     });
 
@@ -357,12 +451,15 @@ export default {
                           } else {
                             snapshot.forEach(doc => {
                               console.log(doc.id, '=>', doc.data());
+                              // Save busesMap to link to weeks for the display
+                              this.busesMap[doc.id] = this.campaign.buses.length;
+                              // Save campaign buses
                               const idObject = { id: doc.id }
                               const dataObject = doc.data();
                               const toPushObject = Object.assign(dataObject, idObject);
-                              // Object.assign(self.campaign, toPushObject);
                               this.campaign.buses.push(toPushObject);
                             });
+                            console.log('Buses map', this.busesMap);
                             console.log('Final object is ', this.campaign);
                           }
                       })
@@ -377,14 +474,12 @@ export default {
                 this.errored = true;
               })
             .finally(() => this.loading = false)
-
           }
         })
         .catch(err => {
           console.log('Error getting campaign', err);
           this.errored = true;
         })
-        
     } else {
       this.campaign = {
         id: 'HftFwqBPbLmG70A1fjDf',
