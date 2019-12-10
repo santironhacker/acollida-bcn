@@ -328,7 +328,8 @@ export default {
         },
         loading: true,
         activeBus: null,
-        isChangesOnBusToWeekAssign: false
+        isChangesOnBusToWeekAssign: false,
+        toastCount: 0
     };
   },
   methods: {
@@ -396,17 +397,37 @@ export default {
             }
           );
         // Commit the batch
+        const self = this;
         return batch.commit()
           .then(function () {
-            res => {
-              console.log('Commited BATCH: ', res);
+              console.log('Commited BATCH: ');
               this.isChangesOnBusToWeekAssign = false;
-            }
+              this.makeToast(
+                'Les dades s\'han desat correctament',
+                'Desant dades de campanya',
+                true,
+                'success'
+              );
           })
           .catch((error)=>{
-            console.log('Exception saving batch', error)
+            console.log('Exception saving batch', error);
+            this.makeToast(
+              'Error en la petició, prova més tard', 
+              'Desant dades de campanya',
+              true,
+              'danger'
+            );
           });
       }
+    },
+    makeToast(message, title, append = true, variant = 'info') {
+      this.toastCount++
+      this.$bvToast.toast(message + `This is toast number ${this.toastCount}`, {
+        title: 'BootstrapVue Toast',
+        appendToast: append,
+        variant: variant,
+        autoHideDelay: 3000
+      })
     }
   },
   mounted() {
