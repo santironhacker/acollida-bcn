@@ -447,7 +447,6 @@ export default {
         const self = this;
         return batch.commit()
           .then(function () {
-              console.log('Commited BATCH: ');
               this.isChangesOnBusToWeekAssign = false;
               this.makeToast(
                 'Les dades s\'han desat correctament',
@@ -457,7 +456,7 @@ export default {
               );
           })
           .catch((error)=>{
-            console.log('Exception saving batch', error);
+            console.error('Exception saving batch', error);
             this.makeToast(
               'Error en la petició, prova més tard', 
               'Desant dades de campanya',
@@ -482,13 +481,11 @@ export default {
       /* GET CAMPAIGN COLLECTION */
       db.collection('campaigns').limit(1).get()
         .then(snapshot => {
-          console.log('Campaign is', snapshot)
           if(snapshot.empty) {
-            console.log('No matching campaigns');
+            console.warning('No matching campaigns');
             return;
           } else {
             snapshot.forEach(doc => {
-              console.log(doc.id, '=>', doc.data());
               const idObject = { id: doc.id }
               const dataObject = doc.data();
               const toPushObject = Object.assign(dataObject, idObject);
@@ -498,13 +495,11 @@ export default {
             /* GET WEEKS COLLECTION */
             db.collection('campaigns').doc(this.campaign.id).collection('weeks').orderBy('startDate', 'asc').get()
               .then(snapshot => {
-                  console.log('Weeks', snapshot);
                   if(snapshot.empty) {
-                    console.log('No matching weeks');
+                    console.warning('No matching weeks');
                     return;
                   } else {
                     snapshot.forEach(doc => {
-                      console.log(doc.id, '=>', doc.data());
                       const idObject = { id: doc.id }
                       const dataObject = doc.data();
                       const toPushObject = Object.assign(dataObject, idObject);
@@ -514,13 +509,11 @@ export default {
                     /* GET BUSES COLLECTION */
                     db.collection('campaigns').doc(this.campaign.id).collection('buses').orderBy('oneWayDepartureDate', 'asc').get()
                       .then(snapshot => {
-                          console.log('Buses', snapshot);
                           if(snapshot.empty) {
-                            console.log('No matching buses');
+                            console.warning('No matching buses');
                             return;
                           } else {
                             snapshot.forEach(doc => {
-                              console.log(doc.id, '=>', doc.data());
                               // Save busesMap to link to weeks for the display
                               this.busesMap[doc.id] = this.campaign.buses.length;
                               // Save campaign buses
@@ -534,20 +527,20 @@ export default {
                           }
                       })
                       .catch(err => {
-                        console.log('Error getting buses', err);
+                        console.error('Error getting buses', err);
                         this.errored = true;
                       })
                   }
               })
               .catch(err => {
-                console.log('Error getting weeks', err);
+                console.error('Error getting weeks', err);
                 this.errored = true;
               })
             .finally(() => this.loading = false)
           }
         })
         .catch(err => {
-          console.log('Error getting campaign', err);
+          console.error('Error getting campaign', err);
           this.errored = true;
         })
     } else {
@@ -630,8 +623,4 @@ export default {
 </script>
 
 <style scoped>
-  .clickable strong:hover{
-    cursor: pointer;
-    text-decoration: underline;
-  }
 </style>
