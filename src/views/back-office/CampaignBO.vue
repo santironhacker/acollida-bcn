@@ -83,7 +83,7 @@
                 <b-card-body>
                   <b-card-text v-if="week.oneWayBuses.length > 0">
                     Els busos d'anada son:
-                    <ul>
+                    <!-- <ul>
                       <li 
                         v-for="(busId, index) in week.oneWayBuses"
                         :key="index"
@@ -94,7 +94,53 @@
                           que marxa el <span>{{ campaign.buses[busesMap[busId]].oneWayDepartureDate.toDate() | formatDate }}</span>
                         </span>
                       </li>
-                    </ul>
+                    </ul> -->
+                    <div
+                      v-for="(busId, index) in week.oneWayBuses"
+                      :key="index"
+                      :item="busId"
+                    >
+                      <div v-if="campaign.buses[[busesMap[busId]]]">
+                        <span
+                          :aria-controls="busId"
+                          :aria-expanded="campaign.buses[[busesMap[busId]]].showCollapse ? 'true' : 'false'"
+                          v-on:click="campaign.buses[[busesMap[busId]]].showCollapse = !campaign.buses[[busesMap[busId]]].showCollapse"
+                        >
+                          <font-awesome-icon
+                            v-if="campaign.buses[[busesMap[busId]]].showCollapse"
+                            class="mr-1"
+                            :icon="['fa', 'angle-double-down']"
+                          />
+                          <font-awesome-icon
+                            v-else
+                            class="mr-1"
+                            :icon="['fa', 'location-arrow']"
+                          />
+                          <span id="orange-text-color" class="clickable">
+                            <strong>
+                              {{ campaign.buses[[busesMap[busId]]].busLabel }}
+                              <!-- <span v-if="campaign.buses[[busesMap[busId]]].oneWayDepartureDate">
+                                Marxa el {{ campaign.buses[[busesMap[busId]]].oneWayDepartureDate.toDate() | formatDate }}
+                              </span> -->
+                            </strong>
+                          </span>
+                          <b-collapse :id="busId" class="mt-2" v-model="campaign.buses[[busesMap[busId]]].showCollapse">
+                            <bus-details
+                              class="mb-3"
+                              :bus="campaign.buses[[busesMap[busId]]]"
+                              :isBO="true"
+                              :display="'oneWay'"
+                              
+                            ></bus-details>
+                              <!-- v-for="(busId, index) in week.oneWayBuses"
+                              :key="index"
+                              :busId="busId"
+                              :buses="campaign.buses"
+                              :busesMap="busesMap" -->
+                          </b-collapse>
+                        </span>
+                      </div>
+                    </div>
                   </b-card-text>
                   <b-card-text v-else class="d-flex">
                     <div>
@@ -307,10 +353,11 @@ import { db } from '../../main';
 import { useMockData } from '../../main';
 import PublishCampaignBadgeAndModal from '@/components/PublishCampaignBadgeAndModal';
 import CampaignStatus from '@/components/CampaignStatus';
+import BusDetails from '@/components/BusDetails';
 
 export default {
   name: 'campaignBO',
-  components: { PublishCampaignBadgeAndModal, CampaignStatus },
+  components: { PublishCampaignBadgeAndModal, CampaignStatus, BusDetails },
   data() {
     return {
         useMockData,
@@ -583,5 +630,8 @@ export default {
 </script>
 
 <style scoped>
-  
+  .clickable strong:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
 </style>
