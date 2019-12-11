@@ -130,7 +130,7 @@
                               :bus="campaign.buses[[busesMap[busId]]]"
                               :isBO="true"
                               :display="'oneWay'"
-                              
+                              @update-trip-details="updateTripDetails"
                             ></bus-details>
                               <!-- v-for="(busId, index) in week.oneWayBuses"
                               :key="index"
@@ -474,10 +474,57 @@ export default {
         variant: variant,
         autoHideDelay: 3000
       })
+    },
+    updateTripDetails: function(bus, busForm) {
+      console.log('bus', bus);
+      console.log('busForm ', busForm);
+      let self = this;
+      // Save to DB
+      db.collection('campaigns').doc(this.campaign.id).collection('buses').doc(bus.id)
+      .update({
+        oneWayDepartureDate: busForm.oneWayDepartureDate,
+        oneWayDepartureTime: busForm.oneWayDepartureTime,
+        oneWayDeparturePlace: busForm.oneWayDeparturePlace
+      }).then(function() {
+        // Update displayed info
+        /* let busToSave = self.campaign.buses[self.busesMap[bus.id]];
+        busToSave.oneWayDepartureDate = +new Date(busForm.oneWayDepartureDate);
+        busToSave.oneWayDepartureTime = busForm.oneWayDepartureTime;
+        busToSave.oneWayDeparturePlace = busForm.oneWayDeparturePlace; */
+        // Feedback to the user
+        self.makeToast(
+          'Les dades s\'han desat correctament',
+          'Desant dades de campanya',
+          true,
+          'success'
+        );
+      });
     }
   },
   mounted() {
     if(!useMockData) {
+      let observer = db.collection('campaigns').doc('KEDLiUVy7sGtpYsU2yA6').collection('buses')
+      .onSnapshot(
+        querySnapshot => {
+          querySnapshot.docChanges().forEach(change => {
+            if (change.type === 'added') {
+              console.log('added: ', change.doc.data());
+            }
+            if (change.type === 'modified') {
+              console.log('Modified: ', change.doc.data());
+              const idObject = { id: change.doc.id }
+              const dataObject = change.doc.data();
+              const toPushObject = Object.assign(dataObject, idObject);
+              Object.assign(this.campaign.buses[this.busesMap[change.doc.id]], toPushObject);
+              console.log('Modified object is ', this.campaign.buses[this.busesMap[change.doc.id]]);
+            }
+            if (change.type === 'removed') {
+              console.log('Removed: ', change.doc.data());
+            }
+          })
+        }
+      );
+
       /* GET CAMPAIGN COLLECTION */
       db.collection('campaigns').limit(1).get()
         .then(snapshot => {
