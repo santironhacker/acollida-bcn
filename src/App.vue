@@ -77,4 +77,9 @@ export default {
 .error {
   color: red;
 }
+
+.clickable:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
 </style>
