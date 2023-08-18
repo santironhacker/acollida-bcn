@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "acollida-bcn",
+    "private_key_id": "afca3383c0f7025b7a8d8f4be2834099d6d1de03",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCrsPh0q5ph5nbB\nli7NUT6Oof/tcRAAvlPvmUhxwmaY2ZkIeYEd2l0hCtT2bKeDMz7aeSLA+mTLz6E+\nSuY6p5bT/+oo3RpUfC03USPbkgn4viAOWRXJxFlfeYikP8t6YDGpvK0wVW00ubY2\n9RNr1dutqSidf3glnFdzBGuYooyvtV9Yhnmvy8xl6LAVyWgTcwJi7x47jWgSIGi7\njhZPBqKucjRBbB0+Gmkfu7w9bxCeBcxiBl8enEN6gcb8FPHLo/3x+J7ukH0g/Qc4\nbqFZrivvAwxqbkqE1IMjLyslk7vtD7VO0VljaSvOVlYJfUGUUMJyIAb9tsP+kXHm\n15lNgGa7AgMBAAECggEAD5cz5er5S2o79CCjolr+JRdFNWC0H8/TW76zFeVzH0PP\nLOD/s7VzCdTrzsQXbVy3beuxwg1ayX59ZA81cIkXCKxErVjv6FEYYrK4YLAWaLiM\nZ6Z49If4clOHxXEnlIwXURRZiQ87f0iyk7NV2U/OXCrauHvtQ0O7AIObvlIFws9o\nKAYXw/WCEviBIKS3lMVxSE3UYZ1VTvKmcOEAZ+NyeBZDDThHTBvzhQsfi8qaDv0N\nFkrPBvdmcsvreVQMbyd3RRDm0LVxXbFXGf22Slw7PKDISbQ+p24/kxj0TwQvnUbL\nNKRelZbAS5ybeqWE+8cyLVuDiAJRTLE2H4Kffz3a4QKBgQDiN4L+UDpnS86+zukG\nEv/9A+Q52TSTF5B3dhBXwPdIFnfz+kOEjirz5R8JrB88qmG4oXpPEwkEpXit00Ph\nauALLdXEm8g5MV56F8nl6195P+qbH4wAwb3Eb+4ZWOwUHPIDDVwanqzhJjHdYFQ6\nxWYRk7GIrOWnED19GlgaLIaHmwKBgQDCS7YcaVtZn+MmM+B+uvRmF06oNpjNG+NB\no87VQ+1IlvTrEAEI27roSrkQMKzqX7kYQuR2dqd7OCFenvCTqeQdIQ8xLTmGe/s7\ni9lsOgqE9pL+aN1/dCvuMoZ1qgT7Yb7+4rtYeuAog7nM10KNLDZhflLsqO+gly7D\nCIDFvyXfYQKBgF2GY9LuqmbAcbZzZuXK/yjE7ht4kILrsB+joTgWoGWeXHNzGWz5\nNgrlxEJEdhmnu4UQxbdhgE36d30uJhdRD1Wv2nxRh6MVpSDHKwKyoCNJ6J2/mitJ\n7kIDoKW8HMZn/SqD4Htk9MaU+vKye8BckklcDX8bNEswrKtHM/uGQwxXAoGAZRYh\nBH0oIuQVuT2KUkUQfMEpkkj9jNEylmcUaE6z+G1ZtaaY8zPm9Y5S5IJ+pF3zHhVH\naf7nuisE6YbF4f2lCia2Eb7WzApbNqrXDwDPkkf7SFPk0bfuVzqATF2NxAAh79ik\n4i7jyxBlrZZdMLfM/0JLAIgQTDv7/0rAPKHroWECgYAyI2S61jlwBRnrPkmnTAdP\nFqLQyOT8rQ713gu5H2YQ88z7/VpDE7LSJG8VMBlz1i3+s0qRt15F/NEQgorFRpkn\nQxU5iX3tFKWsGIINiWXdcbzEuZJ38CV4sADjTe5UmTvPv0JhoUv+A2DbjNqiBCs7\nsdCvBcIj+t7OKOuldwlP8w==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-6vkg1@acollida-bcn.iam.gserviceaccount.com",
+    "client_id": "102062708171974824856",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-6vkg1%40acollida-bcn.iam.gserviceaccount.com"
+  }
+  
